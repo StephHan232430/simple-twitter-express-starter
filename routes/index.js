@@ -1,3 +1,4 @@
+const userController = require('../controllers/userController.js')
 module.exports = app => {
-  app.get('/', (req, res) => res.send('Hello World!'))
+  app.get('/users/:id/tweets', userController.getUser)
 }

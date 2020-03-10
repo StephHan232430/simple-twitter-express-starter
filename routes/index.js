@@ -1,3 +1,4 @@
+
 const helpers = require('../_helpers')
 const userController = require('../controllers/userController')
 const passport = require('../config/passport')
@@ -22,4 +23,7 @@ module.exports = (app, passport) => {
   // Like/Unlike
   app.post('/tweets/:id/like', authenticated, userController.addLike)
   app.post('/tweets/:id/unlike', authenticated, userController.removeLike)
+
+  app.get('/users/:id/tweets', userController.getUser)
+
 }

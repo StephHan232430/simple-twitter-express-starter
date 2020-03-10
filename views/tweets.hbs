@@ -1,7 +1,7 @@
 <div>
   <div class="row" style="margin: 40px;">
     <div class="col-md-6">
-      <form action="/tweets" method="post">
+      <form action="/tweets" method="POST">
         <div class="input-group">
           <textarea class="form-control" name="text" placeholder="what's on your mind?" required  style="border-radius: 8px; height: 150px" maxlength="140"></textarea>
         </div>
@@ -40,7 +40,15 @@
               <div class="card-body">
                 <h5 class="card-title">{{ this.name }}</h5>
                 <p class="card-text">{{ this.introduction}}.</p>
-                <button class="btn btn-primary">follow</button>
+                {{#if this.isFollowed }}
+                  <form action="/following/{{this.id}}?_method=DELETE" method="POST" style="display: contents;">
+                    <button type="submit" class="btn btn-danger">unfollow</button>
+                  </form>
+                {{else}}
+                  <form action="/following/{{this.id}}" method="POST" style="display: contents;">
+                    <button type="submit" class="btn btn-primary">follow</button>
+                  </form>
+                {{/if}}
               </div>
             </div>
           </div>

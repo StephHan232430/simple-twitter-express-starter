@@ -26,4 +26,12 @@ module.exports = (app, passport) => {
   app.get('/tweets', authenticated, tweetController.getTweets)
   // 新增 Tweet
   app.post('/tweets', authenticated, tweetController.postTweets)
+
+  // Like/Unlike
+  app.post('/tweets/:id/like', authenticated, userController.addLike)
+  app.delete('/tweets/:id/unlike', authenticated, userController.removeLike)
+
+  //Follow/Unfollow
+  app.post('/following/:id', authenticated, userController.addFollow)
+  app.delete('/following/:id', authenticated, userController.removeFollow)
 }

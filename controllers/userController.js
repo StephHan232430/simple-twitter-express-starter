@@ -1,6 +1,12 @@
 const bcrypt = require('bcryptjs')
+const helpers = require('../_helpers')
 const db = require('../models')
 const User = db.User
+const Tweet = db.Tweet
+const Reply = db.Reply
+const Like = db.Like
+const Followship = db.Followship
+
 
 const userController = {
   signUpPage: (req, res) => {
@@ -54,7 +60,71 @@ const userController = {
     req.flash('success_msg', '登出成功！')
     req.logout()
     res.redirect('/signin')
+  },
+  addLike: (req, res) => {
+    return Like.create({
+      UserId: helpers.getUser(req).id,
+      TweetId: req.params.tweetId
+    }).then(tweet => {
+      return res.redirect('back')
+    })
+  },
+  removeLike: (req, res) => {
+    Like.findOne({ where: {
+        UserId: helpers.getUser(req).id,
+        TweetId: req.params.tweetId
+      } 
+    }).then(like => {
+      like.destroy().then(tweet => {
+        return res.redirect('back')
+      })
+    })
+  },
+  addFollow: (req, res) => {
+    return Followship.create({
+      followerId: req.user.id,
+      followingId: req.params.id
+    }).then((followship) => {
+      return res.redirect('back')
+    })
+  },
+  removeFollow: (req, res) => {
+    Followship.findOne({ where: {
+        followerId: req.user.id,
+        followingId: req.params.id
+      }
+    }).then((followship) => {
+      followship.destroy().then((followship) => {
+        return res.redirect('back')
+      })
+    })
+  },
+  getUser: (req, res) => {
+    User.findByPk(req.params.id, {
+      include: [
+        { model: Tweet, include: [User, Reply, Like] },
+        { model: User, as: 'Followers' },
+        { model: User, as: 'Followings' },
+        { model: Tweet, as: 'LikedTweets' }
+      ],
+      order: [[Tweet, 'id', 'DESC']]
+    }).then(user => {
+      const tweets = user.Tweets.map(tweet => ({
+        ...tweet.dataValues,
+        isLiked: helpers
+          .getUser(req)
+          .LikedTweets.map(d => d.id)
+          .include(user.id),
+        isFollowed: helpers
+          .getUser(req)
+          .Followings.map(following => following.id)
+          .includes(user.id)
+      }))
+      res.render('profile', {
+        profile: user.get({ plain: true }),
+        tweets
+      })
+    })
   }
 }
-
 module.exports = userController

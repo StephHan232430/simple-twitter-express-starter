@@ -10,108 +10,42 @@
       </form>    
       <br>
       <br>
-      <div class="card mb-3" style="max-width: 540px;">
-        <div class="row no-gutters">
-          <div class="col-md-4">
-            <img src="..." class="card-img" alt="...">
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+      {{#each tweets}}
+        <div class="card mb-3" style="max-width: 540px;">
+          <div class="row no-gutters">
+            <div class="col-md-4">
+              <img src="this.avatar" class="card-img" alt="...">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">{{ this.User.name }}</h5>
+                <p class="card-text">{{ this.description }}</p>
+                <p class="card-text"><small class="text-muted">{{moment this.createdAt }}</small></p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="card mb-3" style="max-width: 540px;">
-        <div class="row no-gutters">
-          <div class="col-md-4">
-            <img src="..." class="card-img" alt="...">
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="card mb-3" style="max-width: 540px;">
-        <div class="row no-gutters">
-          <div class="col-md-4">
-            <img src="..." class="card-img" alt="...">
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-            </div>
-          </div>
-        </div>
-      </div>
+      {{/each}}
     </div>
     <div class="col-md-4">
       <p class="h1">popular</p>
       <br>
-      <div class="card mb-3" style="max-width: 400px;">
-        <div class="row no-gutters">
-          <div class="col-md-4">
-            <img src="..." class="card-img" alt="...">
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">This is a wider card .This is a wider card .This is a wider card .</p>
-              <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+      {{#each users}}
+        <div class="card mb-3" style="max-width: 400px;">
+          <div class="row no-gutters">
+            <div class="col-md-4">
+              <img src="..." class="card-img" alt="...">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">{{ this.name }}</h5>
+                <p class="card-text">{{ this.introduction}}.</p>
+                <p class="card-text"><small class="text-muted">{{ createdAt }}</small></p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="card mb-3" style="max-width: 400px;">
-        <div class="row no-gutters">
-          <div class="col-md-4">
-            <img src="..." class="card-img" alt="...">
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">This is a wider card .This is a wider card .This is a wider card .</p>
-              <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="card mb-3" style="max-width: 400px;">
-        <div class="row no-gutters">
-          <div class="col-md-4">
-            <img src="..." class="card-img" alt="...">
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">This is a wider card .This is a wider card .This is a wider card .</p>
-              <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="card mb-3" style="max-width: 400px;">
-        <div class="row no-gutters">
-          <div class="col-md-4">
-            <img src="..." class="card-img" alt="...">
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">This is a wider card .This is a wider card .This is a wider card .</p>
-              <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-            </div>
-          </div>
-        </div>
-      </div>
+      {{/each}}
     </div>
   </div>
 </div>

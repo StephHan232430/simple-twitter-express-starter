@@ -1,5 +1,7 @@
 const userController = require('../controllers/userController')
+const tweetController = require('../controllers/tweetController')
 const passport = require('../config/passport')
+
 
 module.exports = (app, passport) => {
   // 註冊
@@ -10,4 +12,8 @@ module.exports = (app, passport) => {
   app.post('/signin', passport.authenticate('local', { failureRedirect: '/signin', failureFlash: true }), userController.signIn)
   // 登出
   app.get('/logout', userController.logout)
+  // 導向首頁
+  app.get('/', (req, res) => res.redirect('/tweets'))
+  // 首頁
+  app.get('/tweets', tweetController.getTweets)
 }

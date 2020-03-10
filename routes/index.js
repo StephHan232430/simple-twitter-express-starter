@@ -1,9 +1,17 @@
 const userController = require('../controllers/userController')
 const tweetController = require('../controllers/tweetController')
 const passport = require('../config/passport')
+const helpers = require('../_helpers')
 
 
 module.exports = (app, passport) => {
+  const authenticated = (req, res, next) => {
+    if (helpers.ensureAuthenticated(req)) {
+      return next()
+    }
+    res.redirect('/signin')
+  }
+
   // 註冊
   app.get('/signup', userController.signUpPage)
   app.post('/signup', userController.signUp)
@@ -15,5 +23,7 @@ module.exports = (app, passport) => {
   // 導向首頁
   app.get('/', (req, res) => res.redirect('/tweets'))
   // 首頁
-  app.get('/tweets', tweetController.getTweets)
+  app.get('/tweets', authenticated, tweetController.getTweets)
+  // 新增 Tweet
+  app.post('/tweets', authenticated, tweetController.postTweets)
 }

@@ -1,18 +1,17 @@
 const db = require('../models')
-const helpers = require('../_helpers')
 const Tweet = db.Tweet
 const User = db.User
 
 const tweetController = {
   getTweets: (req, res) => {
-     Tweet.findAll({
+     return Tweet.findAll({
       limit: 10,
       order: [['createdAt', 'DESC']],
       include: [User]
     }).then(tweets => {
       const data = tweets.map(tweet => ({
         ...tweet.dataValues,
-        description: tweet.dataValues.description.substring(0, 100)
+        description: tweet.dataValues.description.substring(0, 50)
       }))
       User.findAll({
         limit: 10,
@@ -37,6 +36,19 @@ const tweetController = {
         })))
       })
     })
+  },
+  postTweets: (req, res) => {
+    if (req.body.text) {
+      return Tweet.create({
+        description: req.body.text,
+        UserId: req.user.id
+      }).then(tweet => {
+        res.redirect('/tweets')
+      })
+    } else {
+      req.flash('error_msg', '輸入不可為空白！')
+      res.redirect('/tweets')
+    }
   }
 }
 

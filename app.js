@@ -10,7 +10,15 @@ const passport = require('passport')
 const app = express()
 const port = 3000
 
-app.engine('hbs', exphbs({ extname: 'hbs', defaultLayout: 'main' }))
+
+app.engine(
+  'hbs',
+  exphbs({
+    extname: 'hbs',
+    defaultLayout: 'main',
+    helpers: require('./config/handlebars-helpers')
+  })
+)
 app.set('view engine', 'hbs')
 
 app.use(bodyParser.urlencoded({ extended: true }))

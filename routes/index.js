@@ -1,4 +1,4 @@
-const userController = require('../controllers/userController')
+const userController = require('../controllers/userController.js')
 const passport = require('../config/passport')
 
 module.exports = (app, passport) => {
@@ -10,4 +10,6 @@ module.exports = (app, passport) => {
   app.post('/signin', passport.authenticate('local', { failureRedirect: '/signin', failureFlash: true }), userController.signIn)
   // 登出
   app.get('/logout', userController.logout)
+  
+  app.get('/users/:id/tweets', userController.getUser)
 }

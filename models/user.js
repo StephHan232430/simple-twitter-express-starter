@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
     'User',
@@ -13,6 +13,24 @@ module.exports = (sequelize, DataTypes) => {
     {}
   )
   User.associate = function(models) {
-  };
-  return User;
-};
+    User.hasMany(models.Tweet)
+    User.hasMany(models.Reply)
+    User.hasMany(models.Like)
+    User.belongsToMany(models.Tweet, {
+      through: models.Like,
+      foreignKey: 'UserId',
+      as: 'LikedTweets'
+    })
+    User.belongsToMany(User, {
+      through: models.Followship,
+      foreignKey: 'followingId',
+      as: 'Followers'
+    }) //User 的追蹤者
+    User.belongsToMany(User, {
+      through: models.Followship,
+      foreignKey: 'followerId',
+      as: 'Followings'
+    }) //User 追蹤中的 User
+  }
+  return User
+}

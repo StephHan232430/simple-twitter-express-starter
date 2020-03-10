@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs')
+const helpers = require('../_helpers')
 const db = require('../models')
 const User = db.User
 const Tweet = db.Tweet
@@ -6,7 +7,6 @@ const Reply = db.Reply
 const Like = db.Like
 const Followship = db.LiFollowship
 
-const helpers = require('../_helpers')
 
 const userController = {
   signUpPage: (req, res) => {
@@ -61,6 +61,24 @@ const userController = {
     req.logout()
     res.redirect('/signin')
   },
+
+  // Like/Unlike
+  addLike: (req, res) => {
+    return Like.create({
+      UserId: helpers.getUser(req).id,
+      TweetId: req.params.tweetId
+    }).then(tweet => {
+      return res.redirect('back')
+    })
+  },
+  removeLike: (req, res) => {
+    Like.findOne({ where: {
+      UserId: helpers.getUser(req).id,
+      TweetId: req.params.tweetId
+    } }).then(like => {
+      like.destroy().then(tweet => {
+        return res.redirect('back')
+    },
   getUser: (req, res) => {
     User.findByPk(req.params.id, {
       include: [

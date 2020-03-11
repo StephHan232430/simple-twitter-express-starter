@@ -8,7 +8,7 @@ const tweetController = {
       UserId: helpers.getUser(req).id,
       TweetId: req.params.id
     }).then(like => {
-      console.log(like)
+      return res.redirect('back')
     })
   },
   removeLike: (req, res) => {

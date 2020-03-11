@@ -27,11 +27,12 @@ module.exports = (app, passport) => {
   // 新增 Tweet
   app.post('/tweets', authenticated, tweetController.postTweets)
 
-  // Like/Unlike
-  app.post('/tweets/:id/like', authenticated, userController.addLike)
-  app.delete('/tweets/:id/unlike', authenticated, userController.removeLike)
+  app.post('/tweets/:id/like', authenticated, tweetController.addLike)
+  app.post('/tweets/:id/unlike', authenticated, tweetController.removeLike)
 
-  //Follow/Unfollow
-  app.post('/following/:id', authenticated, userController.addFollow)
-  app.delete('/following/:id', authenticated, userController.removeFollow)
+  app.post('/followships', authenticated, userController.addFollowing)
+  app.delete(
+    '/followships/:follwingId',
+    authenticated, userController.removeFollowing
+  )
 }

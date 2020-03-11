@@ -4,9 +4,7 @@ const db = require('../models')
 const User = db.User
 const Tweet = db.Tweet
 const Reply = db.Reply
-const Like = db.Like
 const Followship = db.Followship
-
 
 const userController = {
   signUpPage: (req, res) => {
@@ -14,12 +12,7 @@ const userController = {
   },
   signUp: (req, res) => {
     const { name, email, password, passwordCheck } = req.body
-    if (
-      !name ||
-      !email ||
-      !password ||
-      !passwordCheck
-    ) {
+    if (!name || !email || !password || !passwordCheck) {
       req.flash('error_msg', '所有欄位皆為必填！')
       return res.redirect('/signup')
     }
@@ -36,11 +29,7 @@ const userController = {
           User.create({
             name,
             email,
-            password: bcrypt.hashSync(
-              password,
-              bcrypt.genSaltSync(10),
-              null
-            )
+            password: bcrypt.hashSync(password, bcrypt.genSaltSync(10), null)
           }).then(user => {
             req.flash('success_msg', '帳號註冊成功，請登入！')
             return res.redirect('/signin')
@@ -60,44 +49,6 @@ const userController = {
     req.flash('success_msg', '登出成功！')
     req.logout()
     res.redirect('/signin')
-  },
-  addLike: (req, res) => {
-    return Like.create({
-      UserId: helpers.getUser(req).id,
-      TweetId: req.params.tweetId
-    }).then(tweet => {
-      return res.redirect('back')
-    })
-  },
-  removeLike: (req, res) => {
-    Like.findOne({ where: {
-        UserId: helpers.getUser(req).id,
-        TweetId: req.params.tweetId
-      } 
-    }).then(like => {
-      like.destroy().then(tweet => {
-        return res.redirect('back')
-      })
-    })
-  },
-  addFollow: (req, res) => {
-    return Followship.create({
-      followerId: req.user.id,
-      followingId: req.params.id
-    }).then((followship) => {
-      return res.redirect('back')
-    })
-  },
-  removeFollow: (req, res) => {
-    Followship.findOne({ where: {
-        followerId: req.user.id,
-        followingId: req.params.id
-      }
-    }).then((followship) => {
-      followship.destroy().then((followship) => {
-        return res.redirect('back')
-      })
-    })
   },
   getUser: (req, res) => {
     User.findByPk(req.params.id, {
@@ -125,6 +76,27 @@ const userController = {
         tweets
       })
     })
+  },
+  addFollowing: (req, res) => {
+    return Followship.create({
+      followerId: helpers.getUser(req).id,
+      followingId: req.body.userId
+    }).then(followship => {
+      return res.redirect('back')
+    })
+  },
+  removeFollowing: (req, res) => {
+    return Followship.findOne({
+      where: {
+        followerId: helpers.getUser(req).id,
+        followingId: req.params.follwingId
+      }
+    }).then(followship => {
+      followship.destroy().then(followship => {
+        return res.redirect('back')
+      })
+    })
   }
 }
+
 module.exports = userController

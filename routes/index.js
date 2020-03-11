@@ -1,6 +1,7 @@
 const helpers = require('../_helpers')
 const userController = require('../controllers/userController')
 const tweetController = require('../controllers/tweetController')
+const replyController = require('../controllers/replyController')
 const passport = require('../config/passport')
 
 module.exports = (app, passport) => {
@@ -17,6 +18,7 @@ module.exports = (app, passport) => {
   app.post('/tweets', authenticated, tweetController.postTweets)
   app.post('/tweets/:id/like', authenticated, tweetController.addLike)
   app.post('/tweets/:id/unlike', authenticated, tweetController.removeLike)
+  app.get('/tweets/:tweet_id/replies', authenticated, replyController.getReplies)
 
   app.post('/followships', authenticated, userController.addFollowing)
   app.delete(
@@ -29,6 +31,7 @@ module.exports = (app, passport) => {
   app.get('/users/:id/followers', authenticated, userController.getFollower)
   app.get('/users/:id/followings', authenticated, userController.getFollowing)
   app.get('/users/:id/edit', userController.editUser)
+  app.post('/users/:id/edit', upload.single('avatar'), userController.putUser)
 
 
   app.get('/signup', userController.signUpPage)

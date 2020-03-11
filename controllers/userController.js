@@ -175,6 +175,40 @@ const userController = {
         return res.redirect('back')
       })
     })
+  },
+  getFollower: (req, res) => {
+    User.findByPk(req.params.id, {
+      include: [
+        Tweet,
+        { model: User, as: 'Followers' },
+        { model: User, as: 'Followings' },
+        { model: Tweet, as: 'LikedTweets' }
+      ]
+    }).then(user => {
+      const isFollowed = helpers
+        .getUser(req)
+        .Followings.map(d => d.id)
+        .includes(user.id)
+      user.Followers = user.Followers.map(r => ({
+        ...r.dataValues,
+        introduction: r.dataValues.introduction
+          ? r.dataValues.introduction.substring(0, 50)
+          : r.dataValues.introduction,
+        isFollowed: helpers
+          .getUser(req)
+          .Followings.map(r => r.id)
+          .includes(r.dataValues.id)
+      })).sort((a, b) => b.Followship.createdAt - a.Followship.createdAt)
+      return res.render(
+        'follower',
+        JSON.parse(
+          JSON.stringify({
+            profile: user,
+            isFollowed
+          })
+        )
+      )
+    })
   }
 }
 

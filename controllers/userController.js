@@ -1,12 +1,11 @@
 const bcrypt = require('bcryptjs')
+const helpers = require('../_helpers')
 const db = require('../models')
 const User = db.User
 const Tweet = db.Tweet
 const Reply = db.Reply
 const Like = db.Like
 const Followship = db.Followship
-
-const helpers = require('../_helpers')
 
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
@@ -139,7 +138,7 @@ const userController = {
             })
         })
       })
-    } else
+    } else {
       return User.findByPk(req.params.id).then(user => {
         user
           .update({
@@ -155,6 +154,28 @@ const userController = {
             res.redirect(`/users/${req.params.id}`)
           })
       })
+    }
+  },
+  addFollowing: (req, res) => {
+    return Followship.create({
+      followerId: helpers.getUser(req).id,
+      followingId: req.body.userId
+    }).then(followship => {
+      return res.redirect('back')
+    })
+  },
+  removeFollowing: (req, res) => {
+    return Followship.findOne({
+      where: {
+        followerId: helpers.getUser(req).id,
+        followingId: req.params.follwingId
+      }
+    }).then(followship => {
+      followship.destroy().then(followship => {
+        return res.redirect('back')
+      })
+    })
   }
 }
+
 module.exports = userController

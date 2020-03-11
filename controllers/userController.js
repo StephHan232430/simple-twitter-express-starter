@@ -4,7 +4,11 @@ const db = require('../models')
 const User = db.User
 const Tweet = db.Tweet
 const Reply = db.Reply
+const Like = db.Like
 const Followship = db.Followship
+
+const imgur = require('imgur-node-api')
+const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 
 const userController = {
   signUpPage: (req, res) => {
@@ -57,23 +61,23 @@ const userController = {
         { model: User, as: 'Followers' },
         { model: User, as: 'Followings' },
         { model: Tweet, as: 'LikedTweets' }
-      ],
-      order: [[Tweet, 'id', 'DESC']]
+      ]
     }).then(user => {
+      const isFollowed = helpers
+        .getUser(req)
+        .Followings.map(following => following.id)
+        .includes(user.id)
       const tweets = user.Tweets.map(tweet => ({
         ...tweet.dataValues,
         isLiked: helpers
           .getUser(req)
           .LikedTweets.map(d => d.id)
-          .include(user.id),
-        isFollowed: helpers
-          .getUser(req)
-          .Followings.map(following => following.id)
-          .includes(user.id)
-      }))
+          .include(user.id)
+      })).sort((a, b) => b.createdAt - a.createdAt)
       res.render('profile', {
-        profile: user.get({ plain: true }),
-        tweets
+        profile: user,
+        tweets,
+        isFollowed
       })
     })
   },
@@ -86,13 +90,134 @@ const userController = {
     })
   },
   removeFollowing: (req, res) => {
-    return Followship.findOne({ where: {
-      followerId: helpers.getUser(req).id,
-      followingId: req.params.followingId
-    } }).then(followship => {
+    return Followship.findOne({
+      where: {
+        followerId: helpers.getUser(req).id,
+        followingId: req.params.follwingId
+      }
+    }).then(followship => {
       followship.destroy().then(followship => {
         return res.redirect('back')
       })
+    })
+  },
+  editUser: (req, res) => {
+    if (Number(req.params.id) !== helpers.getUser(req).id) {
+      req.flash('error_messages', '無權編輯')
+      return res.redirect(`/users/${req.params.id}/tweets`)
+    } else {
+      return User.findByPk(req.params.id).then(user => {
+        return res.render('edit')
+      })
+    }
+  },
+  putUser: (req, res) => {
+    if (Number(req.params.id) !== Number(helpers.getUser(req).id)) {
+      req.flash('error_messages', '您無權編輯他人檔案')
+      return res.redirect(`/users/${req.params.id}/tweets`)
+    }
+    if (!req.body.name) {
+      req.flash('error_messages', "name didn't exist")
+      return res.redirect('back')
+    }
+    const { file } = req
+    if (file) {
+      imgur.setClientID(IMGUR_CLIENT_ID)
+      imgur.upload(file.path, (err, img) => {
+        return User.findByPk(req.params.id).then(user => {
+          user
+            .update({
+              name: req.body.name,
+              introduction: req.body.introduction,
+              avatar: file ? img.data.link : user.avatar
+            })
+            .then(user => {
+              req.flash('success_messages', 'user was successfully to update')
+              res.redirect(`/users/${req.params.id}/tweets`)
+            })
+        })
+      })
+    } else
+      return User.findByPk(req.params.id).then(user => {
+        user
+          .update({
+            name: req.body.name,
+            introduction: req.body.introduction,
+            avatar: user.avatar
+          })
+          .then(user => {
+            req.flash('success_messages', 'user was successfully to update')
+            res.redirect(`/users/${req.params.id}/tweets`)
+          })
+      })
+  },
+  getFollower: (req, res) => {
+    User.findByPk(req.params.id, {
+      include: [
+        Tweet,
+        { model: User, as: 'Followers' },
+        { model: User, as: 'Followings' },
+        { model: Tweet, as: 'LikedTweets' }
+      ]
+    }).then(user => {
+      const isFollowed = helpers
+        .getUser(req)
+        .Followings.map(d => d.id)
+        .includes(user.id)
+      user.Followers = user.Followers.map(r => ({
+        ...r.dataValues,
+        introduction: r.dataValues.introduction
+          ? r.dataValues.introduction.substring(0, 50)
+          : r.dataValues.introduction,
+        isFollowed: helpers
+          .getUser(req)
+          .Followings.map(r => r.id)
+          .includes(r.dataValues.id)
+      })).sort((a, b) => b.Followship.createdAt - a.Followship.createdAt)
+      return res.render(
+        'follower',
+        JSON.parse(
+          JSON.stringify({
+            profile: user,
+            isFollowed
+          })
+        )
+      )
+    })
+  },
+  getFollowing: (req, res) => {
+    return User.findByPk(req.params.id, {
+      include: [
+        Tweet,
+        { model: Tweet, as: 'LikedTweets' },
+        { model: User, as: 'Followers' },
+        { model: User, as: 'Followings' }
+      ]
+    }).then(user => {
+      console.log(user)
+      const isFollowed = helpers
+        .getUser(req)
+        .Followings.map(d => d.id)
+        .includes(user.id)
+      user.Followings = user.Followings.map(r => ({
+        ...r.dataValues,
+        introduction: r.dataValues.introduction
+          ? r.dataValues.introduction.substring(0, 50)
+          : r.dataValues.introduction,
+        isFollowed: helpers
+          .getUser(req)
+          .Followings.map(d => d.id)
+          .includes(r.dataValues.id)
+      })).sort((a, b) => b.Followship.createdAt - a.Followship.createdAt)
+      return res.render(
+        'following',
+        JSON.parse(
+          JSON.stringify({
+            profile: user,
+            isFollowed
+          })
+        )
+      )
     })
   }
 }

@@ -1,0 +1,52 @@
+<div class="row">
+  <div class="col-md-4 display-flex justify-content-center">
+    {{#if profile.avatar}}
+    <img class="my-5" src="{{profile.avatar}}" alt="{{profile.name}}" width="200px" height="200px">
+    {{else}}
+    <img class="my-5" src="https://lighthouse-cdn.alphacamp.co/default/medium_user_photo.jpg" width="200px" height="200px" />
+    {{/if}}
+		<h2>{{profile.name}}</h2>
+  
+    <div class="mb-4">
+      <a href="/users/{{profile.id}}/tweets">Tweets {{profile.Tweets.length}}</a><br/>
+      <a href="/users/{{profile.id}}/followings">Following {{profile.Followings.length}}</a><br/>
+      <a href="/users/{{profile.id}}/followers">Follower {{profile.Followers.length}}</a><br/>
+      <a href="/users/{profile.id}}/likes">Like {{profile.LikedTweets.length}}</a><br/>
+    </div>
+    
+    {{#ifCond profile.id user.id}}
+    <a href="/users/{{user.id}}/edit"><button class="btn btn-primary">Edit Profile</button></a>
+    {{else}}
+    {{#if profile.isFollowed}}
+    <form action="/followships/{{profile.id}}/?_method=DELETE" method="POST" style="display: contents;">
+      <button type="submit" class="btn btn-danger" name="id" value={{profile.id}}>Unfollow</button>
+    </form>
+    {{else}}
+    <form action="/followships" method="POST" style="display: contents;">
+      <button type="submit" class="btn btn-primary" name="id" value={{profile.id}}>Follow</button>
+    </form>
+    {{/if}}
+    {{/ifCond}}
+  </div>
+  
+  <div class="col-md-8">
+    {{#if tweets}}
+      {{#each tweets}}
+          <div class="row">
+            <div class="col-md-4 mt-4">
+              <img src="{{../profile.avatar}}" alt="{{../profile.name}}">
+            </div>
+            <div class="col-md-8 ">
+                <p><a href="/users/{{../profile.id}}/tweets">@{{../profile.name}}</a> {{moment this.createdAt}}</p>
+                <p>{{this.description}}</p>
+            </div>
+            <a href="/tweets/{{this.id}}/replies" class="btn btn-link">Reply({{this.Replies.length}})</a>
+            <a href="/users/:id/likes" class="btn btn-link text-danger">like({{this.Likes.length}}</a>
+
+          </div>
+      {{/each}}
+    {{else}}
+    <h3>尚未建立資料</h3>
+    {{/if}}
+  </div>
+</div>

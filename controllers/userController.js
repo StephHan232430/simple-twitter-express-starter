@@ -175,6 +175,37 @@ const userController = {
         return res.redirect('back')
       })
     })
+  },
+  getLike: (req, res) => {
+    return User.findByPk(req.params.id, {
+      include: [
+        Tweet,
+        { model: User, as: 'Followers' },
+        { model: User, as: 'Followings' },
+        { model: Tweet, as: 'LikedTweets', include: [User, Reply, Like] }
+      ]
+    }).then(user => {
+      const isFollowed = helpers
+        .getUser(req)
+        .Followings.map(d => d.id)
+        .includes(user.id)
+      user.LikedTweets = user.LikedTweets.map(tweet => ({
+        ...tweet.dataValues,
+        isLiked: helpers
+          .getUser(req)
+          .LikedTweets.map(d => d.id)
+          .includes(tweet.id)
+      })).sort((a, b) => b.likeCreatedAt - a.likeCreatedAt)
+      return res.render(
+        'like',
+        JSON.parse(
+          JSON.stringify({
+            profile: user,
+            isFollowed
+          })
+        )
+      )
+    })
   }
 }
 

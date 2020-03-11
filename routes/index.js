@@ -27,6 +27,7 @@ module.exports = (app, passport) => {
 
   app.get('/users/:id/tweets', userController.getUser)
   app.get('/users/:id/followings', authenticated, userController.getFollowing)
+  app.get('/users/:id/edit', userController.editUser)
 
   app.get('/signup', userController.signUpPage)
   app.post('/signup', userController.signUp)

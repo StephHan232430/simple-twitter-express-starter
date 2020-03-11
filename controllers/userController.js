@@ -101,23 +101,45 @@ const userController = {
       })
     })
   },
-  editUser: (req, res) => {
-    if (Number(req.params.id) !== helpers.getUser(req).id) {
-      return res.redirect('/')
-    }
-    User.findByPk(req.params.id, { raw: true }).then(user => {
-      res.render('edit', { user })
+  addFollowing: (req, res) => {
+    return Followship.create({
+      followerId: helpers.getUser(req).id,
+      followingId: req.body.userId
+    }).then(followship => {
+      return res.redirect('back')
     })
   },
-  putUser: (req, res) => {
-    if (Number(req.params.id) !== Number(req.user.id)) {
-      return res.redirect(`/users/${req.params.id}`)
+  removeFollowing: (req, res) => {
+    return Followship.findOne({
+      where: {
+        followerId: helpers.getUser(req).id,
+        followingId: req.params.follwingId
+      }
+    }).then(followship => {
+      followship.destroy().then(followship => {
+        return res.redirect('back')
+      })
+    })
+  },
+  editUser: (req, res) => {
+    if (Number(req.params.id) !== helpers.getUser(req).id) {
+      req.flash('error_messages', '無權編輯')
+      return res.redirect(`/users/${req.params.id}/tweets`)
+    } else {
+      return User.findByPk(req.params.id).then(user => {
+        return res.render('edit')
+      })
     }
-    if (!req.user.name) {
-      req.flash('error_messages', '姓名必填寫')
+  },
+  putUser: (req, res) => {
+    if (Number(req.params.id) !== Number(helpers.getUser(req).id)) {
+      req.flash('error_messages', '您無權編輯他人檔案')
+      return res.redirect(`/users/${req.params.id}/tweets`)
+    }
+    if (!req.body.name) {
+      req.flash('error_messages', "name didn't exist")
       return res.redirect('back')
     }
-
     const { file } = req
     if (file) {
       imgur.setClientID(IMGUR_CLIENT_ID)
@@ -127,31 +149,25 @@ const userController = {
             .update({
               name: req.body.name,
               introduction: req.body.introduction,
-              avatar: file ? img.data.link : user.image
+              avatar: file ? img.data.link : user.avatar
             })
             .then(user => {
-              req.flash(
-                'success_messages',
-                `${user.name}'s profile was successfully to update`
-              )
-              res.redirect(`/users/${req.params.id}`)
+              req.flash('success_messages', 'user was successfully to update')
+              res.redirect(`/users/${req.params.id}/tweets`)
             })
         })
       })
-    } else {
+    } else
       return User.findByPk(req.params.id).then(user => {
         user
           .update({
             name: req.body.name,
             introduction: req.body.introduction,
-            avatar: user.image
+            avatar: user.avatar
           })
           .then(user => {
-            req.flash(
-              'success_messages',
-              `${user.name}'s profile was successfully to update`
-            )
-            res.redirect(`/users/${req.params.id}`)
+            req.flash('success_messages', 'user was successfully to update')
+            res.redirect(`/users/${req.params.id}/tweets`)
           })
       })
     }

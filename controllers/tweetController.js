@@ -17,7 +17,8 @@ const tweetController = {
       const data = tweets.map(tweet => ({
         ...tweet.dataValues,
         description: tweet.dataValues.description.substring(0, 50),
-        isLiked: tweet.LikedUsers.map(d => d.id).includes(req.user.id)
+        isLiked: tweet.LikedUsers.map(d => d.id).includes(req.user.id),
+        likeCount: tweet.LikedUsers.length
       }))
       User.findAll({
         limit: 10,

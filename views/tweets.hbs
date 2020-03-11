@@ -30,12 +30,15 @@
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   {{#if this.isLiked }}
                     <form action="/tweets/{{ this.id }}/unlike" method="POST" style="display: contents;">
-                      <button type="submit" class="btn btn-danger">unlike</button>
+                      <button type="submit" class="btn btn-danger">
+                        unlike ({{ this.likeCount }})</button>
                     </form>
                   {{else}}
                     <form action="/tweets/{{ this.id }}/like" method="POST" style="display: contents;">
                       <input type="hidden" name="userId" value="{{this.id}}">
-                      <button type="submit" class="btn btn-primary">like</button>
+                      <button type="submit" class="btn btn-primary">
+                        like ({{ this.likeCount }})
+                        </button>
                     </form>
                   {{/if}}
                 </div>
@@ -60,16 +63,21 @@
                   <a href="#">{{ this.name }}</a>
                 </h5>
                 <p class="card-text">{{ this.introduction}}.</p>
-                {{#if this.isFollowed }}
-                  <form action="/followships/{{this.id}}?_method=DELETE" method="POST" style="display: contents;">
-                    <button type="submit" class="btn btn-danger">unfollow</button>
-                  </form>
-                {{else}}
-                  <form action="/followships" method="POST" style="display: contents;">
-                    <input type="hidden" name="userId" value="{{this.id}}">
-                    <button type="submit" class="btn btn-primary">follow</button>
-                  </form>
-                {{/if}}
+          
+                <div style="margin-left: 80px;">
+                  {{#ifNotCond this.id ../user.id}}
+                    {{#if this.isFollowed }}
+                      <form action="/followships/{{this.id}}?_method=DELETE" method="POST" style="display: contents;">
+                        <button type="submit" class="btn btn-danger">unfollow</button>
+                      </form>
+                    {{else}}
+                      <form action="/followships" method="POST" style="display: contents;">
+                        <input type="hidden" name="userId" value="{{this.id}}">
+                        <button type="submit" class="btn btn-primary">follow</button>
+                      </form>
+                    {{/if}}
+                  {{/ifNotCond}}
+                </div>
               </div>
             </div>
           </div>

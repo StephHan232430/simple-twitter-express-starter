@@ -1,6 +1,6 @@
-
 const helpers = require('../_helpers')
 const userController = require('../controllers/userController')
+const tweetController = require('../controllers/tweetController')
 const passport = require('../config/passport')
 
 module.exports = (app, passport) => {
@@ -11,18 +11,20 @@ module.exports = (app, passport) => {
     res.redirect('/signin')
   }
 
-  // 註冊
   app.get('/signup', userController.signUpPage)
   app.post('/signup', userController.signUp)
-  // 登入
   app.get('/signin', userController.signInPage)
   app.post('/signin', passport.authenticate('local', { failureRedirect: '/signin', failureFlash: true }), userController.signIn)
-  // 登出
   app.get('/logout', userController.logout)
 
-  // Like/Unlike
-  app.post('/tweets/:id/like', authenticated, userController.addLike)
-  app.post('/tweets/:id/unlike', authenticated, userController.removeLike)
+  app.post('/tweets/:id/like', authenticated, tweetController.addLike)
+  app.post('/tweets/:id/unlike', authenticated, tweetController.removeLike)
+
+  app.post('/followships', authenticated, userController.addFollowing)
+  app.delete(
+    '/followships/:follwingId',
+    authenticated, userController.removeFollowing
+  )
 
   app.get('/users/:id/tweets', userController.getUser)
 

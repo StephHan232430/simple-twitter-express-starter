@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 module.exports = (sequelize, DataTypes) => {
   const Tweet = sequelize.define(
     'Tweet',
@@ -8,7 +8,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   )
-
   Tweet.associate = function(models) {
     // eslint-disable-line
     Tweet.belongsTo(models.User)
@@ -23,3 +22,4 @@ module.exports = (sequelize, DataTypes) => {
   }
   return Tweet
 }
+

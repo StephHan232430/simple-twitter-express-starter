@@ -1,4 +1,4 @@
-.DS_Store
+  .DS_Store
 *.DS_Store
 
 # Logs
@@ -85,3 +85,6 @@ typings/
 
 # DynamoDB Local files
 .dynamodb/
+
+temp/
+upload/

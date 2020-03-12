@@ -1,8 +1,8 @@
 const helpers = require('../_helpers')
 const userController = require('../controllers/userController')
 const tweetController = require('../controllers/tweetController')
+const adminController = require('../controllers/adminController')
 const passport = require('../config/passport')
-const helpers = require('../_helpers')
 
 
 module.exports = (app, passport) => {
@@ -12,6 +12,16 @@ module.exports = (app, passport) => {
     }
     res.redirect('/signin')
   }
+
+  const authenticatedAdmin = (req, res, next) => {
+    if (req.isAuthenticated()) {
+      if (req.user.role === 'admin') {
+        return next()
+      }
+      return res.redirect('/')
+    }
+    res.redirect('/signin')
+  } 
    
   app.get('/', (req, res) => res.redirect('/tweets'))
   
@@ -36,4 +46,8 @@ module.exports = (app, passport) => {
   
   app.get('/logout', userController.logout)
 
+  app.get('/admin/users', authenticated, authenticatedAdmin, adminController.getUsers)
+  app.get('/admin/tweets', authenticated, authenticatedAdmin, adminController.getTweets)
+  app.delete('/admin/tweets/:id', authenticated, authenticatedAdmin, adminController.deleteTweet)
+  app.put('/admin/users/:id', authenticated, authenticatedAdmin, adminController.setUser)
 }

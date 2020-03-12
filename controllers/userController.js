@@ -113,11 +113,10 @@ const userController = {
     if (Number(req.params.id) !== helpers.getUser(req).id) {
       req.flash('error_messages', '無權編輯')
       return res.redirect(`/users/${req.params.id}/tweets`)
-    } else {
-      return User.findByPk(req.params.id).then(user => {
-        return res.render('edit')
-      })
     }
+    return User.findByPk(req.params.id, { raw: true }).then(user => {
+      return res.render('edit', { user })
+    })
   },
   putUser: (req, res) => {
     if (Number(req.params.id) !== Number(helpers.getUser(req).id)) {

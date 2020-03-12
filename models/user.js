@@ -6,14 +6,17 @@ module.exports = (sequelize, DataTypes) => {
       email: DataTypes.STRING,
       password: DataTypes.STRING,
       name: DataTypes.STRING,
-      avatar: DataTypes.STRING,
+      avatar: {
+        type: DataTypes.STRING,
+        defaultValue:
+          'https://lighthouse-cdn.alphacamp.co/default/medium_user_photo.jpg'
+      },
       introduction: DataTypes.TEXT,
       role: DataTypes.STRING
     },
     {}
   )
   User.associate = function(models) {
-
     User.hasMany(models.Tweet)
     User.hasMany(models.Reply)
     User.hasMany(models.Like)
@@ -36,4 +39,3 @@ module.exports = (sequelize, DataTypes) => {
   }
   return User
 }
-

@@ -66,10 +66,9 @@ const userController = {
         { model: Tweet, as: 'LikedTweets' }
       ]
     }).then(user => {
-      console.log(user)
       const isFollowed = helpers
         .getUser(req)
-        .Followings.map(following => following.id)
+        .Followings.map(d => d.id)
         .includes(user.id)
       const tweets = user.Tweets.map(tweet => ({
         ...tweet.dataValues,
@@ -114,11 +113,10 @@ const userController = {
     if (Number(req.params.id) !== helpers.getUser(req).id) {
       req.flash('error_messages', '無權編輯')
       return res.redirect(`/users/${req.params.id}/tweets`)
-    } else {
-      return User.findByPk(req.params.id).then(user => {
-        return res.render('edit')
-      })
     }
+    return User.findByPk(req.params.id, { raw: true }).then(user => {
+      return res.render('edit', { user })
+    })
   },
   putUser: (req, res) => {
     if (Number(req.params.id) !== Number(helpers.getUser(req).id)) {
@@ -173,21 +171,18 @@ const userController = {
         .getUser(req)
         .Followings.map(d => d.id)
         .includes(user.id)
-      user.Followers = user.Followers.map(r => ({
+      const FollowerList = user.Followers.map(r => ({
         ...r.dataValues,
         introduction: r.dataValues.introduction
           ? r.dataValues.introduction.substring(0, 50)
-          : r.dataValues.introduction,
-        isFollowed: helpers
-          .getUser(req)
-          .Followings.map(r => r.id)
-          .includes(r.dataValues.id)
+          : r.dataValues.introduction
       })).sort((a, b) => b.Followship.createdAt - a.Followship.createdAt)
       return res.render(
         'follower',
         JSON.parse(
           JSON.stringify({
             profile: user,
+            FollowerList,
             isFollowed
           })
         )
@@ -207,11 +202,6 @@ const userController = {
         }
       ]
     }).then(user => {
-      console.log(user)
-      const isFollowed = helpers
-        .getUser(req)
-        .Followings.map(d => d.id)
-        .includes(user.id)
       const followingList = user.Followings.map(r => ({
         ...r.dataValues,
         introduction: r.dataValues.introduction
@@ -227,7 +217,6 @@ const userController = {
         JSON.parse(
           JSON.stringify({
             profile: user,
-            isFollowed,
             followingList
           })
         )
@@ -247,7 +236,7 @@ const userController = {
         .getUser(req)
         .Followings.map(d => d.id)
         .includes(user.id)
-      user.LikedTweets = user.LikedTweets.map(tweet => ({
+      const LikedTweetList = user.LikedTweets.map(tweet => ({
         ...tweet.dataValues,
         isLiked: helpers
           .getUser(req)
@@ -259,7 +248,8 @@ const userController = {
         JSON.parse(
           JSON.stringify({
             profile: user,
-            isFollowed
+            isFollowed,
+            LikedTweetList
           })
         )
       )

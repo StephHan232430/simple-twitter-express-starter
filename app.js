@@ -11,6 +11,9 @@ const app = express()
 const http = require('http').createServer(app)
 const io = require('socket.io')(http)
 const port = process.env.PORT || 3000
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
 
 app.engine(
   'hbs',

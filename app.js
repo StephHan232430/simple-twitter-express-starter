@@ -6,7 +6,7 @@ const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
 const flash = require('connect-flash')
 const session = require('express-session')
-const passport = require('passport')
+const passport = require('./config/passport')
 const app = express()
 const port = 3000
 
@@ -41,7 +41,6 @@ app.use((req, res, next) => {
   res.locals.warning_msg = req.flash('warning_msg')
   res.locals.error_msg = req.flash('error_msg')
   res.locals.user = helpers.getUser(req)
-  res.locals.isAuthenticated = helpers.ensureAuthenticated(req)
   next()
 })
 app.use('/upload', express.static(__dirname + '/upload'))

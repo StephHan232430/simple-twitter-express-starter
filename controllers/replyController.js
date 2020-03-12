@@ -45,7 +45,7 @@ const replyController = {
 
         return res.render('tweetReplies', {
           tweet: JSON.parse(JSON.stringify(tweet)),
-          user: JSON.parse(JSON.stringify(user)),
+          targetUser: JSON.parse(JSON.stringify(user)),
           currentUserId
         })
       })

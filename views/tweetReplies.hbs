@@ -1,32 +1,32 @@
 <div class="row">
   <div class="col-md-4">
-    <img class="img-responsive center-block" src="{{user.avatar}}" style="width: 250px;margin-bottom: 25px;">
-    <h1>{{user.name}}</h1>
-    <p>{{user.introduction}}</p>
+    <img class="img-responsive center-block" src="{{targetUser.avatar}}" style="width: 250px;margin-bottom: 25px;">
+    <h1>{{targetUser.name}}</h1>
+    <p>{{targetUser.introduction}}</p>
     <div class="well">
       <ul class="list-unstyled">
-        <li><strong><a href="/users/{{user.id}}/tweets">Tweets</a> </strong>
-          {{#if user.Tweets}} {{user.TweetsCount}} {{else}} 0 {{/if}}
+        <li><strong><a href="/users/{{targetUser.id}}/tweets">Tweets</a> </strong>
+          {{#if targetUser.Tweets}} {{targetUser.TweetsCount}} {{else}} 0 {{/if}}
         </li>
         <li><strong><a href="/users/{{user.id}}/followings">Following</a> </strong>
-          {{#if user.Followings}} {{user.FollowingCount}} {{else}} 0 {{/if}}
+          {{#if targetUser.Followings}} {{targetUser.FollowingCount}} {{else}} 0 {{/if}}
         </li>
-        <li><strong><a href="/users/{{user.id}}/followers">Follower</a> </strong>
-          {{#if user.Followers}} {{user.FollowerCount}} {{else}} 0 {{/if}}
+        <li><strong><a href="/users/{{targetUser.id}}/followers">Follower</a> </strong>
+          {{#if targetUser.Followers}} {{targetUser.FollowerCount}} {{else}} 0 {{/if}}
         </li>
-        <li><strong><a href="/users/{{user.id}}/likes">Like</a> </strong>
-          {{#if user.LikedTweets}} {{user.LikedTweetsCount}} {{else}} 0 {{/if}}
+        <li><strong><a href="/users/{{targetUser.id}}/likes">Like</a> </strong>
+          {{#if targetUser.LikedTweets}} {{targetUser.LikedTweetsCount}} {{else}} 0 {{/if}}
         </li>
       </ul>
 
-      {{#unless user.isLogged}}
-      {{#if user.isFollowed}}
-      <form action="/followships/{{user.id}}?_method=DELETE" method="POST">
+      {{#unless targetUser.isLogged}}
+      {{#if targetUser.isFollowed}}
+      <form action="/followships/{{targetUser.id}}?_method=DELETE" method="POST">
         <button type="submit" class="btn btn-danger">Unfollow</button>
       </form>
       {{else}}
       <form action="/followships" method="POST">
-        <input type="hidden" name="userId" value="{{user.id}}" />
+        <input type="hidden" name="userId" value="{{targetUser.id}}" />
         <button type="submit" class="btn btn-primary">Follow</button>
       </form>
       {{/if}}
@@ -42,10 +42,10 @@
         <div class="card-body">
           <div class="row">
             <div class="col-4">
-              <img src="{{user.avatar}}">
+              <img src="{{targetUser.avatar}}">
             </div>
             <div class="col-8 justify-content-around">
-              <a href="/users/{{user.id}}/tweets"><h6>@{{user.name}}</h6></a>
+              <a href="/users/{{targetUser.id}}/tweets"><h6>@{{targetUser.name}}</h6></a>
               <p>{{tweet.description}}</p>
               <div class="wrapper mt-5">
                 <form class="d-inline-block">

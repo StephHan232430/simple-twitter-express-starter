@@ -200,7 +200,11 @@ const userController = {
         Tweet,
         { model: Tweet, as: 'LikedTweets' },
         { model: User, as: 'Followers' },
-        { model: User, as: 'Followings' }
+        {
+          model: User,
+          as: 'Followings',
+          include: [{ model: User, as: 'Followers' }]
+        }
       ]
     }).then(user => {
       console.log(user)
@@ -208,7 +212,7 @@ const userController = {
         .getUser(req)
         .Followings.map(d => d.id)
         .includes(user.id)
-      user.Followings = user.Followings.map(r => ({
+      const followingList = user.Followings.map(r => ({
         ...r.dataValues,
         introduction: r.dataValues.introduction
           ? r.dataValues.introduction.substring(0, 50)
@@ -223,7 +227,8 @@ const userController = {
         JSON.parse(
           JSON.stringify({
             profile: user,
-            isFollowed
+            isFollowed,
+            followingList
           })
         )
       )

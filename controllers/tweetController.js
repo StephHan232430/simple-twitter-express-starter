@@ -66,7 +66,6 @@ const tweetController = {
       TweetId: req.params.id
     }).then(like => {
       return res.redirect('back')
-
     })
   },
   removeLike: (req, res) => {

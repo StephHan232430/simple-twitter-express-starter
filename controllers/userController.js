@@ -66,10 +66,9 @@ const userController = {
         { model: Tweet, as: 'LikedTweets' }
       ]
     }).then(user => {
-      console.log(user)
       const isFollowed = helpers
         .getUser(req)
-        .Followings.map(following => following.id)
+        .Followings.map(d => d.id)
         .includes(user.id)
       const tweets = user.Tweets.map(tweet => ({
         ...tweet.dataValues,
@@ -173,21 +172,18 @@ const userController = {
         .getUser(req)
         .Followings.map(d => d.id)
         .includes(user.id)
-      user.Followers = user.Followers.map(r => ({
+      const FollowerList = user.Followers.map(r => ({
         ...r.dataValues,
         introduction: r.dataValues.introduction
           ? r.dataValues.introduction.substring(0, 50)
-          : r.dataValues.introduction,
-        isFollowed: helpers
-          .getUser(req)
-          .Followings.map(r => r.id)
-          .includes(r.dataValues.id)
+          : r.dataValues.introduction
       })).sort((a, b) => b.Followship.createdAt - a.Followship.createdAt)
       return res.render(
         'follower',
         JSON.parse(
           JSON.stringify({
             profile: user,
+            FollowerList,
             isFollowed
           })
         )
@@ -207,11 +203,6 @@ const userController = {
         }
       ]
     }).then(user => {
-      console.log(user)
-      const isFollowed = helpers
-        .getUser(req)
-        .Followings.map(d => d.id)
-        .includes(user.id)
       const followingList = user.Followings.map(r => ({
         ...r.dataValues,
         introduction: r.dataValues.introduction
@@ -227,7 +218,6 @@ const userController = {
         JSON.parse(
           JSON.stringify({
             profile: user,
-            isFollowed,
             followingList
           })
         )
@@ -247,7 +237,7 @@ const userController = {
         .getUser(req)
         .Followings.map(d => d.id)
         .includes(user.id)
-      user.LikedTweets = user.LikedTweets.map(tweet => ({
+      const LikedTweetList = user.LikedTweets.map(tweet => ({
         ...tweet.dataValues,
         isLiked: helpers
           .getUser(req)
@@ -259,7 +249,8 @@ const userController = {
         JSON.parse(
           JSON.stringify({
             profile: user,
-            isFollowed
+            isFollowed,
+            LikedTweetList
           })
         )
       )

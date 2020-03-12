@@ -61,7 +61,7 @@
 				{{#if isFollowed }}
 					<form action="/followships/{{profile.id}}?_method=DELETE" method="POST" style="display: contents;">
 						<button type="submit" class="btn btn-danger">
-							<i class="fa fa-user-plus" aria-hidden="true"></i>
+							<i class="fa fa-user" aria-hidden="true"></i>
 						</button>
 					</form>
 				{{else}}
@@ -102,7 +102,7 @@
 											</form>
 										{{else}}
 											<form class="text-right" action="/followships" method="POST">
-												<button type="submit" class="btn btn-outline-secondary" name="id" value={{this.id}}><i class="fa fa-user" aria-hidden="true"></i>>
+												<button type="submit" class="btn btn-outline-secondary" name="id" value={{this.id}}><i class="fa fa-user-plus" aria-hidden="true"></i>
 												</button>
 											</form>
 										{{/if}}

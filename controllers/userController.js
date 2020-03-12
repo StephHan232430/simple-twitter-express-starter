@@ -66,6 +66,7 @@ const userController = {
         { model: Tweet, as: 'LikedTweets' }
       ]
     }).then(user => {
+      console.log(user)
       const isFollowed = helpers
         .getUser(req)
         .Followings.map(following => following.id)
@@ -75,13 +76,18 @@ const userController = {
         isLiked: helpers
           .getUser(req)
           .LikedTweets.map(d => d.id)
-          .include(user.id)
+          .includes(tweet.id)
       })).sort((a, b) => b.createdAt - a.createdAt)
-      res.render('profile', {
-        profile: user,
-        tweets,
-        isFollowed
-      })
+      res.render(
+        'profile',
+        JSON.parse(
+          JSON.stringify({
+            profile: user,
+            tweets,
+            isFollowed
+          })
+        )
+      )
     })
   },
   addFollowing: (req, res) => {
@@ -194,7 +200,11 @@ const userController = {
         Tweet,
         { model: Tweet, as: 'LikedTweets' },
         { model: User, as: 'Followers' },
-        { model: User, as: 'Followings' }
+        {
+          model: User,
+          as: 'Followings',
+          include: [{ model: User, as: 'Followers' }]
+        }
       ]
     }).then(user => {
       console.log(user)
@@ -202,7 +212,7 @@ const userController = {
         .getUser(req)
         .Followings.map(d => d.id)
         .includes(user.id)
-      user.Followings = user.Followings.map(r => ({
+      const followingList = user.Followings.map(r => ({
         ...r.dataValues,
         introduction: r.dataValues.introduction
           ? r.dataValues.introduction.substring(0, 50)
@@ -217,7 +227,8 @@ const userController = {
         JSON.parse(
           JSON.stringify({
             profile: user,
-            isFollowed
+            isFollowed,
+            followingList
           })
         )
       )

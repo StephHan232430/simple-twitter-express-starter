@@ -16,6 +16,10 @@ module.exports = (app, passport) => {
     res.redirect('/signin')
   }
 
+  app.get('/chat/:id', (req, res) => {
+    res.sendFile(__dirname + '/chat/chat.html')
+  })
+
   app.get('/', (req, res) => res.redirect('/tweets'))
 
   app.get('/tweets', authenticated, tweetController.getTweets)

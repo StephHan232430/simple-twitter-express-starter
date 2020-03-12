@@ -66,6 +66,7 @@ const userController = {
         { model: Tweet, as: 'LikedTweets' }
       ]
     }).then(user => {
+      console.log(user)
       const isFollowed = helpers
         .getUser(req)
         .Followings.map(following => following.id)
@@ -75,13 +76,18 @@ const userController = {
         isLiked: helpers
           .getUser(req)
           .LikedTweets.map(d => d.id)
-          .include(user.id)
+          .includes(tweet.id)
       })).sort((a, b) => b.createdAt - a.createdAt)
-      res.render('profile', {
-        profile: user,
-        tweets,
-        isFollowed
-      })
+      res.render(
+        'profile',
+        JSON.parse(
+          JSON.stringify({
+            profile: user,
+            tweets,
+            isFollowed
+          })
+        )
+      )
     })
   },
   addFollowing: (req, res) => {

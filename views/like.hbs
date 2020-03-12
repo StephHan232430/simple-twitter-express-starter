@@ -12,7 +12,7 @@
 			<a href="/users/{{profile.id}}/tweets">Tweets {{profile.Tweets.length}}</a><br />
 			<a href="/users/{{profile.id}}/followings">Following {{profile.Followings.length}}</a><br />
 			<a href="/users/{{profile.id}}/followers">Follower {{profile.Followers.length}}</a><br />
-			<a href="/users/{{profile.id}}/likes">Like {{profile.LikedTweets.length}}</a><br />
+			<a href="/users/{profile.id}}/likes">Like {{profile.LikedTweets.length}}</a><br />
 		</div>
 
 		{{#ifCond profile.id user.id}}
@@ -32,18 +32,31 @@
 	</div>
 
 	<div class="col-md-8">
-		{{#if tweets}}
-			{{#each tweets}}
+    <h1>Like</h1>
+		{{#if profile.LikedTweets}}
+			{{#each profile.LikedTweets}}
 				<div class="row">
 					<div class="col-md-4 mt-4">
-						<img src="{{../profile.avatar}}" alt="{{../profile.name}}">
+						<img src="{{this.avatar}}" alt="{{this.name}}">
 					</div>
 					<div class="col-md-8 ">
-						<p><a href="/users/{{../profile.id}}/tweets">@{{../profile.name}}</a> {{moment this.createdAt}}</p>
+						<p><a href="/users/{{this.id}}/tweets">@{{this.name}}</a> {{moment this.createdAt}}</p>
 						<p>{{this.description}}</p>
 					</div>
 					<a href="/tweets/{{this.id}}/replies" class="btn btn-link">Reply({{this.Replies.length}})</a>
-					<a href="/users/:id/likes" class="btn btn-link text-danger">like({{this.Likes.length}}</a>
+				 {{#if this.isLiked }}
+            <form action="/tweets/{{ this.id }}/unlike" method="POST" style="display: contents;">
+              <button type="submit" class="btn btn-danger">
+                unlike ({{ this.likeCount }})</button>
+            </form>
+          {{else}}
+            <form action="/tweets/{{ this.id }}/like" method="POST" style="display: contents;">
+              <input type="hidden" name="userId" value="{{this.id}}">
+              <button type="submit" class="btn btn-primary">
+                like ({{ this.likeCount }})
+                </button>
+            </form>
+          {{/if}}
 
 				</div>
 			{{/each}}
@@ -52,3 +65,4 @@
 		{{/if}}
 	</div>
 </div>
+

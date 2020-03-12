@@ -6,7 +6,10 @@ const Tweet = db.Tweet
 const Reply = db.Reply
 const Like = db.Like
 const Followship = db.Followship
-
+const multer = require('multer')
+const upload = multer({
+  dest: 'temp/'
+})
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 

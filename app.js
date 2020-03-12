@@ -44,6 +44,7 @@ app.use((req, res, next) => {
   res.locals.isAuthenticated = helpers.ensureAuthenticated(req)
   next()
 })
+app.use('/upload', express.static(__dirname + '/upload'))
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 

@@ -44,7 +44,7 @@
             <div class="col-4">
               <img src="{{user.avatar}}">
             </div>
-            <div class="col-8 justifu-content-around">
+            <div class="col-8 justify-content-around">
               <a href="/users/{{user.id}}/tweets"><h6>@{{user.name}}</h6></a>
               <p>{{tweet.description}}</p>
               <div class="wrapper mt-5">
@@ -87,7 +87,7 @@
       {{/each}}
     </div>
 
-    <form action="/comments" method="POST">
+    <form action="/tweets/{{tweet.id}}/replies" method="POST">
       <div class="form-group">
         <textarea class="form-control" id="text" name="text" rows="3"></textarea>
       </div>

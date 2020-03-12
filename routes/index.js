@@ -3,6 +3,10 @@ const userController = require('../controllers/userController')
 const tweetController = require('../controllers/tweetController')
 const replyController = require('../controllers/replyController')
 const passport = require('../config/passport')
+const multer = require('multer')
+const upload = multer({
+  dest: 'temp/'
+})
 
 module.exports = (app, passport) => {
   const authenticated = (req, res, next) => {
@@ -19,6 +23,7 @@ module.exports = (app, passport) => {
   app.post('/tweets/:id/like', authenticated, tweetController.addLike)
   app.post('/tweets/:id/unlike', authenticated, tweetController.removeLike)
   app.get('/tweets/:tweet_id/replies', authenticated, replyController.getReplies)
+  app.post('/tweets/:tweet_id/replies', authenticated, replyController.postReply)
 
   app.post('/followships', authenticated, userController.addFollowing)
   app.delete(

@@ -1,0 +1,54 @@
+<h1>Tweet 後台</h1>
+<h4>
+  <a href="/admin/tweets">tweets</a> |
+  <a href="/admin/users">users</a>
+</h4>
+<br/>
+<br/>
+
+<table class="table">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">User</th>
+      <th scope="col">Tweet</th>
+      <th scope="col">Follower</th>
+      <th scope="col">Following</th>
+      <th scope="col">Like</th>
+      <th scope="col">role</th>
+      <th scope="col">#</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each users}}
+    <tr>
+      <td>{{ this.name }}</td>
+      <td>{{ this.Tweets.length }} tweets</td>
+      <td>{{ this.Followers.length }} followings</td>
+      <td>{{ this.Followings.length }} followers</td>
+      <td>{{ this.likeCount }} likes</td>
+
+      {{#ifCond this.role 'user'}}
+        <td> user </td>
+      {{else}}
+        <td> admin </td>
+      {{/ifCond}}
+
+      {{#if this.showLink }}
+        {{#ifCond this.role 'admin'}}
+          <td>
+            <form action="/admin/users/{{this.id}}?_method=PUT" method="POST" style="display: inline;">
+              <button type="submit" class="btn btn-link">set as user</button>
+            </form>
+          </td>
+        {{else}}
+          <td>
+            <form action="/admin/users/{{this.id}}?_method=PUT" method="POST" style="display: inline;">
+              <button type="submit" class="btn btn-link">set as admin</button>
+            </form>
+          </td>
+        {{/ifCond}}
+      {{/if}}
+    </tr>
+    {{/each}}
+  </tbody>
+</table>

@@ -34,6 +34,7 @@
       <a class="btn btn-primary" href="/users/{{currentUserId}}/edit" role="button">Edit</a>
       {{/unless}}
     </div>
+    <a class="btn btn-primary" role="button" href="/chat/{{targetUser.id}}">Chat With {{targetUser.name}}</a>
   </div>
   <div class="col-md-8">
     <div>
@@ -76,7 +77,7 @@
               <div class="col-4">
                 <img src="{{this.User.avatar}}">
               </div>
-              <div class="col-8 justifu-content-around">
+              <div class="col-8 justify-content-around">
                 <a href="/users/{{this.User.id}}/tweets" class="d-inline-block"><h6>@{{this.User.name}}</h6></a>
                 <p class="d-inline-block">,&nbsp;{{moment this.createdAt}}</p>
                 <p>{{this.comment}}</p>

@@ -8,6 +8,8 @@ const flash = require('connect-flash')
 const session = require('express-session')
 const passport = require('./config/passport')
 const app = express()
+const http = require('http').createServer(app)
+const io = require('socket.io')(http)
 const port = process.env.PORT || 3000
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
@@ -48,6 +50,15 @@ app.use((req, res, next) => {
 })
 app.use('/upload', express.static(__dirname + '/upload'))
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+http.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
 require('./routes')(app, passport)
+
+io.on('connection', function(socket) {
+  socket.on('chat message', function(msg) {
+    io.emit('chat message', msg)
+  })
+  socket.on('disconnect', function() {
+    console.log('user disconnected')
+  })
+})

@@ -1,148 +1,149 @@
 <div class="row">
-	<div class="col-md-4 display-flex justify-content-center">
-  {{#if profile.avatar}}
+  <div class="col-md-4 display-flex justify-content-center">
+    {{#if profile.avatar}}
     <img
       class="my-5"
       src="{{profile.avatar}}"
       alt="{{profile.name}}"
       width="200px"
       height="200px"
-    />
-  {{else}}
+      />
+    {{else}}
     <img
       class="my-5"
       src="https://lighthouse-cdn.alphacamp.co/default/medium_user_photo.jpg"
       width="200px"
       height="200px"
-    />
-  {{/if}}
-  <h2 class="mb-4" style="text-transform:capitalize;">
-    <strong>
-      {{profile.name}}
-    </strong>
-  </h2>
-  <div class="mb-4 ml-2">
-    <h5>
-      <a href="/users/{{profile.id}}/tweets">
-        <strong>
-          Tweets
-        </strong>
-        <span class="text-light badge badge-primary">
-          {{profile.Tweets.length}}
-        </span>
-      </a>
-    </h5>
-    <br />
-    <h5>
-      <a href="/users/{{profile.id}}/followings">
-        <strong class="text-muted">
-          Following
-        </strong>
-        <span class="text-light badge badge-secondary">
-          {{profile.Followings.length}}
-        </span>
-      </a>
-    </h5>
-    <br />
-    <h5>
-      <a href="/users/{{profile.id}}/followers">
-        <strong class="text-muted">
-          Follower
-        </strong>
-        <span class="text-light badge badge-secondary">
-          {{profile.Followers.length}}
-        </span>
-      </a>
-    </h5>
-    <br />
-    <h5 class="text-muted">
-      <a href="/users/{{profile.id}}/likes">
-        <strong class="text-muted">
-          Like
-        </strong>
-        <span class="text-light badge badge-secondary">
-          {{profile.LikedTweets.length}}
-        </span>
-      </a>
-    </h5>
-    <br />
-  </div>
-  {{#ifCond profile.id user.id}}
+      />
+    {{/if}}
+    <h2 class="mb-4" style="text-transform:capitalize;">
+      <strong>
+        {{profile.name}}
+      </strong>
+    </h2>
+    <div class="mb-4 ml-2">
+      <h5>
+        <a href="/users/{{profile.id}}/tweets">
+          <strong>
+            Tweets
+          </strong>
+          <span class="text-light badge badge-primary">
+            {{profile.Tweets.length}}
+          </span>
+        </a>
+      </h5>
+      <br />
+      <h5>
+        <a href="/users/{{profile.id}}/followings">
+          <strong class="text-muted">
+            Following
+          </strong>
+          <span class="text-light badge badge-secondary">
+            {{profile.Followings.length}}
+          </span>
+        </a>
+      </h5>
+      <br />
+      <h5>
+        <a href="/users/{{profile.id}}/followers">
+          <strong class="text-muted">
+            Follower
+          </strong>
+          <span class="text-light badge badge-secondary">
+            {{profile.Followers.length}}
+          </span>
+        </a>
+      </h5>
+      <br />
+      <h5 class="text-muted">
+        <a href="/users/{{profile.id}}/likes">
+          <strong class="text-muted">
+            Like
+          </strong>
+          <span class="text-light badge badge-secondary">
+            {{profile.LikedTweets.length}}
+          </span>
+        </a>
+      </h5>
+      <br />
+    </div>
+    {{#ifCond profile.id user.id}}
     <a href="/users/{{profile.id}}/edit">
       <button class="btn btn-primary">
         Edit Profile
       </button>
     </a>
-  {{else if isFollowed}}
+    {{else}}
+    {{#if isFollowed}}
     <form
       action="/followships/{{profile.id}}?_method=DELETE"
       method="POST"
-      style="display: contents;"
-    >
+      style="display: contents;">
       <button type="submit" class="btn btn-danger">
-        <i class="fa fa-user" aria-hidden="true"></i>
+        <i class="fa fa-user px-2" aria-hidden="true"></i>
       </button>
     </form>
-  {{else}}
+    {{else}}
     <form action="/followships" method="POST" style="display: contents;">
       <input type="hidden" name="userId" value="{{profile.id}}" />
       <button type="submit" class="btn btn-outline-secondary">
-        <i class="fa fa-user-plus" aria-hidden="true"></i>
+        <i class="fa fa-user-plus px-2" aria-hidden="true"></i>
       </button>
     </form>
-  {{/ifCond}}
-</div>
+    {{/if}}
+    {{/ifCond}}
+  </div>
 
-	<div class="col-md-8">
-		{{#if tweets}}
-		{{#each tweets}}
-		<div class="card mb-3">
-			<div class="row">
-				<div class="col-md-4 my-4">
-					<img src="{{../profile.avatar}}" alt="{{../profile.name}}" width="170px"
-              height="170px" class="rounded pl-2">
-				</div>
-				<div class="col-md-8 pt-2">
-					<div class="card-body">
-						<h5 class="card-title">
-							<a href="/users/{{../profile.id}}/tweets">@{{../profile.name}}</a> 
-							<small class="pl-2">{{moment this.createdAt}}</small></h5>
-					<p class="card-text pl-1">{{this.description}}</p>
-					</div>
-					<div class="card-body text-right inline-block mt-1">
-						<a href="/tweets/{{this.id}}/replies" class="btn btn-outline-info mr-2">
-						Reply({{this.Replies.length}} )</a>
-						{{#if this.isLiked}}
-							<form
-								action="/tweets/{{this.id}}/unlike"
-								method="POST"
-								style="display: contents;"
-							>
-								<button type="submit" class="btn btn-danger">
-									<i class="fa fa-heart" aria-hidden="true"></i> 
-									({{this.Likes.length}})
-								</button>
-							</form>
-						{{else}}
-							<form
-								action="/tweets/{{this.id}}/like"
-								method="POST"
-								style="display: contents;"
-							>
-								<input type="hidden" name="userId" value="{{this.id}}" />
-								<button type="submit" class="btn btn-outline-secondary">
-									<i class="fa fa-user-plus" aria-hidden="true"></i>
-									({{this.Likes.length}})
-								</button>
-							</form>
-						{{/if}}
-					</div>
-				</div>
-			</div>
-		</div>
-		{{/each}}
-		{{else}}
-			<h3>尚未建立資料</h3>
-		{{/if}}
-	</div>
+  <div class="col-md-8">
+    {{#if tweets}}
+    {{#each tweets}}
+    <div class="card mb-3">
+      <div class="row">
+        <div class="col-md-4 my-4">
+          <img src="{{../profile.avatar}}" alt="{{../profile.name}}"
+            width="170px"
+            height="170px" class="rounded pl-2">
+        </div>
+        <div class="col-md-8 pt-2">
+          <div class="card-body">
+            <h5 class="card-title">
+              <a href="/users/{{../profile.id}}/tweets">@{{../profile.name}}</a>
+              <small class="pl-2">{{moment this.createdAt}}</small></h5>
+            <p class="card-text pl-1">{{this.description}}</p>
+          </div>
+          <div class="card-body text-right inline-block mt-1">
+            <a href="/tweets/{{this.id}}/replies" class="btn btn-outline-info
+              mr-2">
+              Reply({{this.Replies.length}} )</a>
+            {{#if this.isLiked}}
+            <form
+              action="/tweets/{{this.id}}/unlike"
+              method="POST"
+              style="display: contents;">
+              <button type="submit" class="btn btn-danger">
+                <i class="fa fa-heart" aria-hidden="true"></i>
+                ({{this.Likes.length}})
+              </button>
+            </form>
+            {{else}}
+            <form
+              action="/tweets/{{this.id}}/like"
+              method="POST"
+              style="display: contents;">
+              <input type="hidden" name="userId" value="{{this.id}}" />
+              <button type="submit" class="btn btn-outline-secondary">
+                <i class="fa fa-heart" aria-hidden="true"></i>
+                ({{this.Likes.length}})
+              </button>
+            </form>
+            {{/if}}
+          </div>
+        </div>
+      </div>
+    </div>
+    {{/each}}
+    {{else}}
+    <h3>尚未建立資料</h3>
+    {{/if}}
+  </div>
 </div>

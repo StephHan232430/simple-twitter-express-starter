@@ -17,9 +17,6 @@ module.exports = (app, passport) => {
     res.redirect('/signin')
   }
 
-  app.get('/chat/:id', (req, res) => {
-    res.sendFile(__dirname + '/chat/chat.html')
-  })
   const authenticatedAdmin = (req, res, next) => {
     if (req.isAuthenticated()) {
       if (req.user.role === 'admin') {

@@ -54,11 +54,26 @@ http.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
 require('./routes')(app, passport)
 
-io.on('connection', function(socket) {
-  socket.on('chat message', function(msg) {
-    io.emit('chat message', msg)
-  })
-  socket.on('disconnect', function() {
-    console.log('user disconnected')
-  })
-})
+
+// 加入線上人數計數
+let onlineCount = 0;
+// 修改 connection 事件
+io.on('connection', (socket) => {
+    // 有連線發生時增加人數
+    onlineCount++;
+    // 發送人數給網頁
+    io.emit("online", onlineCount);
+ 
+    socket.on("greet", () => {
+      socket.emit("greet", onlineCount);
+    });
+    socket.on('send', msg => {
+      if (Object.keys(msg).length < 2) return;
+      io.emit('msg', msg)
+    });
+    socket.on('disconnect', () => {
+        // 有人離線了，扣人
+        onlineCount = (onlineCount < 0) ? 0 : onlineCount-=1;
+        io.emit("online", onlineCount);
+    });
+});

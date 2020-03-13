@@ -1,97 +1,190 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Simple-twitter-express-Socket.IO-chat</title>
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
+<html lang="zh-tw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Chatroom</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io();
+    </script>
     <style>
-      * {
-        margin: 0;
+      html, body {
         padding: 0;
-        box-sizing: border-box;
+        margin: 0;
       }
-      body {
-        font: 13px Helvetica, Arial;
+
+      #container {
+        top: 50px;
+        width: 700px;
+        margin: 0 auto;
+        display: block;
+        position: relative;
       }
-      form {
-        background: #000;
-        padding: 3px;
-        position: fixed;
-        bottom: 0;
+
+      #status-box {
+        text-align: right;
+        font-size: .6em;
+      }
+
+      #content {
         width: 100%;
+        height: 350px;
+        border: 1px solid darkolivegreen;
+        border-radius: 5px;
+        overflow: auto;
       }
-      form input {
-        border: 0;
-        padding: 10px;
-        width: 90%;
-        margin-right: 0.5%;
+
+      #send-box {
+        width: 100%;
+        text-align: center;
       }
-      form button {
-        width: 9%;
-        background: rgb(130, 224, 255);
-        border: none;
-        padding: 10px;
+
+      #send-box input {
+        display: inline-block;
       }
-      #messages {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
+
+      input[name="name"] {
+        width: 15%;
       }
-      #messages li {
-        padding: 5px 10px;
+
+      input[name="msg"] {
+        width: 70%;
       }
-      #messages li:nth-child(odd) {
-        background: #eee;
+
+      input[type="button"] {
+        width: 10%;
+      }
+
+      .msg {
+        width: 73%;
+        display: inline-block;
+        padding: 5px 0 5px 10px;
+      }
+
+      .msg > span {
+        width: 25%;
+        display: inline-block;
+      }
+
+      .msg > span::before {
+        color: darkred;
+      } 
+
+      .msg > span::after {
+        color: darkred;
+        content: " : ";
+      }        
+      #send-box input.error {
+        border: 1px solid red;
       }
     </style>
-  </head>
-  <body>
-    <ul id="messages"></ul>
 
-    <form class="form" action="">
-      <input id="m" autocomplete="off" /><button>Send</button>
-    </form>
+</head>
+<body>
+  <div id="container">
+    <div id="status-box">Server: <span id="status">-</span> / <span id="online">0</span> online.</div>
+    <div id="content">
+    </div>
+    <div id="send-box">
+        <form id="send-form">
+            <input type="text" class="form-control" name="name" id="name" placeholder="暱稱">
+            <input type="text" class="form-control" name="msg" id="msg" placeholder="說點什麼？">
+            <input class="btn btn-secondary btn-sm" type="submit" value="送出">
+        </form>
+    </div>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
 
-    <script
-      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-      crossorigin="anonymous"
-    ></script>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-    <script>
-      $(function() {
-        var socket = io()
-        $('form').submit(function(e) {
-          e.preventDefault() // prevents page reloading
-          socket.emit('chat message', $('#m').val())
-          $('#m').val('')
-          return false
-        })
-        socket.on('chat message', function(msg) {
-          $('#messages').append($('<li>').text(msg))
-        })
-      })
+      var status = document.getElementById("status");
+      var online = document.getElementById("online");
+      var sendForm = document.getElementById("send-form");
+      var content = document.getElementById("content");
+      var nameInputBox = document.getElementById("name");
+      var name = getCookie("name");
+
+      if (name) {
+        nameInputBox.value = name;
+      }
+
+      function setCookie(cname, cvalue, exdays) {
+        var d = new Date();
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        var expires = "expires="+d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+      };
+
+      function getCookie(cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for(var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+      };
+
+      socket.on("connect", function () {
+        status.innerText = "Connected.";
+      });
+
+      socket.on("disconnect", function () {
+        status.innerText = "Disconnected.";
+      });
+
+      socket.on("online", function (amount) {
+          online.innerText = amount;
+      });
+
+      sendForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        var ok = true;
+        var formData = {};
+        var formChild = sendForm.children;
+ 
+        for (var i=0; i< sendForm.childElementCount; i++) {
+          var child = formChild[i];
+          if (child.name !== "") {
+            var val = child.value;
+            if (val === "" || !val) {    // 如果值為空或不存在
+              ok = false;
+              child.classList.add("error");
+            } else {
+              child.classList.remove("error");
+              formData[child.name] = val;
+            }
+          }
+        }
+        if (ok) {
+          socket.emit("send", formData);
+          document.getElementById("msg").value = ""
+          setCookie("name", nameInputBox.value);
+        }
+      });
+      
+
+      socket.on("msg", function (d) {
+        var msgBox = document.createElement("div")
+            msgBox.className = "msg";
+        var nameBox = document.createElement("span");
+            nameBox.className = "name";
+        var name = document.createTextNode(d.name);
+        var msg = document.createTextNode(d.msg);
+ 
+        nameBox.appendChild(name);
+        msgBox.appendChild(nameBox);
+        msgBox.appendChild(msg);
+        content.appendChild(msgBox);
+      });
+    });
     </script>
-  </body>
+</body>
 </html>
+ 

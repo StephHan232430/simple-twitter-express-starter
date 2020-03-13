@@ -49,16 +49,18 @@ app.use((req, res, next) => {
   next()
 })
 app.use('/upload', express.static(__dirname + '/upload'))
+app.use(express.static('public'))
 
 http.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
 require('./routes')(app, passport)
 
 io.on('connection', function(socket) {
-  socket.on('chat message', function(msg) {
-    io.emit('chat message', msg)
+  socket.on('chatMessage', data => {
+    io.emit('chatMessage', data)
   })
-  socket.on('disconnect', function() {
-    console.log('user disconnected')
+
+  socket.on('typing', data => {
+    socket.broadcast.emit('typing', data)
   })
 })

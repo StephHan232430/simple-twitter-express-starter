@@ -49,7 +49,7 @@ module.exports = (app, passport) => {
 
   app.post('/followships', authenticated, userController.addFollowing)
   app.delete(
-    '/followships/:follwingId',
+    '/followships/:followingId',
     authenticated,
     userController.removeFollowing
   )

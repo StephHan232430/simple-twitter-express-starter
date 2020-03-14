@@ -27,14 +27,14 @@
       <td>{{ this.Followings.length }} followers</td>
       <td>{{ this.likeCount }} likes</td>
 
-      {{#ifCond this.role 'user'}}
-        <td> user </td>
-      {{else}}
+      {{#if this.isAdmin }}
         <td> admin </td>
-      {{/ifCond}}
+      {{else}}
+        <td> user </td>
+      {{/if}}
 
       {{#if this.showLink }}
-        {{#ifCond this.role 'admin'}}
+        {{#if this.isAdmin}}
           <td>
             <form action="/admin/users/{{this.id}}?_method=PUT" method="POST" style="display: inline;">
               <button type="submit" class="btn btn-link">set as user</button>
@@ -46,7 +46,7 @@
               <button type="submit" class="btn btn-link">set as admin</button>
             </form>
           </td>
-        {{/ifCond}}
+        {{/if}}
       {{/if}}
     </tr>
     {{/each}}

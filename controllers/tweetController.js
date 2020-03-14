@@ -44,8 +44,8 @@ const tweetController = {
             })
           )
         )
-      })
-    })
+      }).catch(error => console.error(error))
+    }).ca
   },
   postTweets: (req, res) => {
     if (req.body.text) {

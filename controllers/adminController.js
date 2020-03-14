@@ -1,4 +1,5 @@
 const db = require('../models')
+const helpers = require('../_helpers')
 const User = db.User
 const Tweet = db.Tweet
 
@@ -12,7 +13,7 @@ const adminController = {
       ]
     }).then(users => {
       // 登入中使用者不顯示權限變換選項
-      let loggedUserId = req.user.id
+      let loggedUserId = helpers.getUser(req).id
       for (user of users) {
         if (user.id === loggedUserId) {
           user.dataValues.showLink = false

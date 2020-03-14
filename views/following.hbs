@@ -1,12 +1,20 @@
 <div class="row">
 	<div class="col-md-4 display-flex justify-content-center">
 		{{#if profile.avatar}}
-		<img class="my-5" src="{{profile.avatar}}" alt="{{profile.name}}"
-			width="200px" height="200px" />
+		<img
+			class="my-5"
+			src="{{profile.avatar}}"
+			alt="{{profile.name}}"
+			width="200px"
+			height="200px"
+			/>
 		{{else}}
-		<img class="my-5"
+		<img
+			class="my-5"
 			src="https://lighthouse-cdn.alphacamp.co/default/medium_user_photo.jpg"
-			width="200px" height="200px" />
+			width="200px"
+			height="200px"
+			/>
 		{{/if}}
 		<h2 class="mb-4" style="text-transform:capitalize;">
 			<strong>
@@ -16,77 +24,81 @@
 		<p class="text-muted mb-3 ml-1" style="font-size:12px">{{profile.introduction}}</p>
 		<br />
 		<div class="mb-4 ml-2">
-			<h5>
-				<a href="/users/{{profile.id}}/tweets">
-					<strong class="text-muted">
-						Tweets
-					</strong>
-					<span class="text-light badge badge-secondary">
-						{{profile.Tweets.length}}
-					</span>
-				</a>
-			</h5>
-			<br />
-			<h5>
-				<a href="/users/{{profile.id}}/followings">
-					<strong>
-						Following
-					</strong>
-					<span class="text-light badge badge-primary">
-						{{profile.Followings.length}}
-					</span>
-				</a>
-			</h5>
-			<br />
-			<h5>
-				<a href="/users/{{profile.id}}/followers">
-					<strong class="text-muted">
-						Follower
-					</strong>
-					<span class="text-light badge badge-secondary">
-						{{profile.Followers.length}}
-					</span>
-				</a>
-			</h5>
-			<br />
-			<h5 class="text-muted">
-				<a href="/users/{{profile.id}}/likes">
-					<strong class="text-muted">
-						Like
-					</strong>
-					<span class="text-light badge badge-secondary">
-						{{profile.LikedTweets.length}}
-					</span>
-				</a>
-			</h5>
+			<ul class="list-group">
+				<li class="list-group-item"> <h5>
+						<a href="/users/{{profile.id}}/tweets">
+							<strong class="text-muted">
+								Tweets
+							</strong>
+							<span class="text-light badge badge-secondary">
+								{{profile.Tweets.length}}
+							</span>
+						</a>
+					</h5></li>
+				<li class="list-group-item"> <h5>
+						<a href="/users/{{profile.id}}/followings">
+							<strong>
+								Following
+							</strong>
+							<span class="text-light badge badge-primary">
+								{{profile.Followings.length}}
+							</span>
+						</a>
+					</h5></li>
+				<li class="list-group-item"> <h5>
+						<a href="/users/{{profile.id}}/followers">
+							<strong class="text-muted">
+								Follower
+							</strong>
+							<span class="text-light badge badge-secondary">
+								{{profile.Followers.length}}
+							</span>
+						</a>
+					</h5></li>
+				<li class="list-group-item"> <h5 class="text-muted">
+						<a href="/users/{{profile.id}}/likes">
+							<strong class="text-muted">
+								Like
+							</strong>
+							<span class="text-light badge badge-secondary">
+								{{profile.LikedTweets.length}}
+							</span>
+						</a>
+					</h5></li>
+			</ul>
+
 			<br />
 		</div>
-		{{#ifCond profile.id user.id}}
-		<a href="/users/{{profile.id}}/edit">
-			<button class="btn btn-primary">
-				Edit Profile
-			</button>
-		</a>
-		{{else}}
-		{{#if isFollowed}}
-		<form action="/followships/{{profile.id}}?_method=DELETE" method="POST"
-			style="display: contents;">
-			<button type="submit" class="btn btn-danger">
-				<i class="fa fa-user px-2" aria-hidden="true"></i>
-			</button>
-		</form>
-		{{else}}
-		<form action="/followships" method="POST" style="display: contents;">
-			<input type="hidden" name="userId" value="{{profile.id}}" />
-			<button type="submit" class="btn btn-outline-secondary">
-				<i class="fa fa-user-plus px-2" aria-hidden="true"></i>
-			</button>
-		</form>
-		{{/if}}
-		{{/ifCond}}
+		<div class="text-right">
+			{{#ifCond profile.id user.id}}
+			<a href="/users/{{profile.id}}/edit">
+				<button class="btn btn-primary">
+					Edit Profile
+				</button>
+			</a>
+			{{else}}
+			{{#if isFollowed}}
+			<form
+				action="/followships/{{profile.id}}?_method=DELETE"
+				method="POST"
+				style="display: contents;">
+				<button type="submit" class="btn btn-danger">
+					<i class="fa fa-user px-2" aria-hidden="true"></i>
+				</button>
+			</form>
+			{{else}}
+			<form action="/followships" method="POST" style="display: contents;">
+				<input type="hidden" name="userId" value="{{profile.id}}" />
+				<button type="submit" class="btn btn-outline-secondary">
+					<i class="fa fa-user-plus px-2" aria-hidden="true"></i>
+				</button>
+			</form>
+			{{/if}}
+			{{/ifCond}}
+		</div>
 	</div>
 	<div class="col-md-8">
-		<h1>Followings</h1>
+		<h1 class="mb-5">Followings</h1>
 		{{#if followingList}}
 		<div class="row">
 			{{#each followingList}}
@@ -94,7 +106,7 @@
 				<div class="row">
 					<div class="col-md-4 my-4">
 						<img src="{{this.avatar}}" alt="{{this.name}}" width="100px"
-							height="100px" class="rounded pl-2">
+							height="100px" class="rounded ml-2">
 					</div>
 
 					<div class="col-md-8">
@@ -102,22 +114,22 @@
 							<h5><a href="/users/{{this.id}}/tweets">{{this.name}}</a></h5>
 							<p>{{this.introduction}}</p>
 						</div>
-						<div class="card-body">
-							{{#ifCond this.id ../user.id}}
-							<a href="/users/{{../user.id}}/edit"><button class="btn btn-primary">Edit
-									Profile</button></a>
-							{{else}}
-							<form
-								class="text-right"
-								action="/followships/{{this.id}}?_method=DELETE"
-								method="POST">
-								<button type="submit" class="btn btn-danger" name="id"
-									value={{this.id}}>
-									<i class="fa fa-user px-2" aria-hidden="true"></i>
-								</button>
-							</form>
-							{{/ifCond}}
-						</div>
+					</div>
+					<div class="card-body">
+						{{#ifCond this.id ../user.id}}
+						<a href="/users/{{../user.id}}/edit"><button class="btn btn-primary">Edit
+								Profile</button></a>
+						{{else}}
+						<form
+							class="text-right"
+							action="/followships/{{this.id}}?_method=DELETE"
+							method="POST">
+							<button type="submit" class="btn btn-danger" name="id"
+								value={{this.id}}>
+								<i class="fa fa-user px-2" aria-hidden="true"></i>
+							</button>
+						</form>
+						{{/ifCond}}
 					</div>
 				</div>
 			</div>

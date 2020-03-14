@@ -1,0 +1,246 @@
+<div class='row'>
+  <div class='col-md-4 display-flex justify-content-center'>
+    <img
+      class='my-5'
+      src="{{targetUser.avatar}}"
+      alt="{{targetUser.name}}"
+      width='200px'
+      height='200px'
+    />
+    <h2 class='mb-4' style='text-transform:capitalize;'>
+      <strong>
+        {{targetUser.name}}
+      </strong>
+    </h2>
+    <a
+      class='btn btn-outline-success mb-3'
+      role='button'
+      href="/chat/{{targetUser.id}}"
+    >
+      Chat With {{targetUser.name}}
+    </a>
+    <p class='text-muted mb-3 ml-1' style='font-size:12px'>
+      {{targetUser.introduction}}
+    </p>
+    <br />
+    <div class='mb-4 ml-2'>
+      <ul class='list-group'>
+        <li class='list-group-item'>
+          <h5>
+            <a href="/users/{{targetUser.id}}/tweets">
+              <strong class='text-muted'>
+                Tweets
+              </strong>
+              <span class='text-light badge badge-secondary'>
+                {{#if targetUser.Tweets}}
+                  {{targetUser.TweetsCount}}
+                {{else}}
+                  0
+                {{/if}}
+              </span>
+            </a>
+          </h5>
+        </li>
+        <li class='list-group-item'>
+          <h5>
+            <a href="/users/{{user.id}}/followings">
+              <strong class='text-muted'>
+                Following
+              </strong>
+              <span class='text-light badge badge-secondary'>
+                {{#if targetUser.Followings}}
+                  {{targetUser.FollowingCount}}
+                {{else}}
+                  0
+                {{/if}}
+              </span>
+            </a>
+          </h5>
+        </li>
+        <li class='list-group-item'>
+          <h5>
+            <a href="/users/{{targetUser.id}}/followers">
+              <strong class='text-muted'>
+                Follower
+              </strong>
+              <span class='text-light badge badge-secondary'>
+                {{#if targetUser.Followers}}
+                  {{targetUser.FollowerCount}}
+                {{else}}
+                  0
+                {{/if}}
+              </span>
+            </a>
+          </h5>
+        </li>
+        <li class='list-group-item'>
+          <h5 class='text-muted'>
+            <a href="/users/{{targetUser.id}}/likes">
+              <strong class='text-muted'>
+                Like
+              </strong>
+              <span class='text-light badge badge-secondary'>
+                {{#if targetUser.LikedTweets}}
+                  {{targetUser.LikedTweetsCount}}
+                {{else}}
+                  0
+                {{/if}}
+              </span>
+            </a>
+          </h5>
+        </li>
+      </ul>
+
+      <br />
+    </div>
+    <div class='text-right'>
+      {{#unless targetUser.isLogged}}
+        {{#if targetUser.isFollowed}}
+          <form
+            action="/followships/{{targetUser.id}}?_method=DELETE"
+            method='POST'
+          >
+            <button type='submit' class='btn btn-danger'>
+              <i class='fa fa-user px-2' aria-hidden='true'></i>
+            </button>
+          </form>
+        {{else}}
+          <form action='/followships' method='POST'>
+            <input type='hidden' name='userId' value="{{targetUser.id}}" />
+            <button type='submit' class='btn btn-outline-secondary'>
+              <i class='fa fa-user-plus px-2' aria-hidden='true'></i>
+            </button>
+          </form>
+        {{/if}}
+      {{else}}
+        <a
+          class='btn btn-primary'
+          href="/users/{{currentUserId}}/edit"
+          role='button'
+        >
+          Edit Profile
+        </a>
+      {{/unless}}
+    </div>
+  </div>
+  <div class='col-md-8'>
+    <div>
+      <h1>
+        Tweets
+      </h1>
+      <div class='card'>
+        <div class='card-body'>
+          <div class='row'>
+            <div class='col-4'>
+              <img
+                src="{{targetUser.avatar}}"
+                width='170px'
+                height='170px'
+                class='rounded ml-3'
+              />
+            </div>
+            <div class='col-8 justify-content-around'>
+              <div class='card-body'>
+                <h5 class='card-title'>
+                  <a href="/users/{{targetUser.id}}/tweets">
+                    @{{targetUser.name}}
+                  </a>
+                  <small class='pl-2'>
+                    ,&nbsp;{{moment this.createdAt}}
+                  </small>
+                </h5>
+                <p class='card-text pl-1'>
+                  {{tweet.description}}
+                </p>
+              </div>
+              <div class='card-body text-right inline-block mt-1'>
+                <a
+                  href="/tweets/{{tweet.id}}/replies"
+                  class='btn btn-outline-info
+              mr-2'
+                >
+                  Reply({{tweet.Replies.length}})
+                </a>
+                {{#if tweet.isLiked}}
+                  <form
+                    action="/tweets/{{tweet.id}}/unlike"
+                    method='POST'
+                    style='display: contents;'
+                  >
+                    <button type='submit' class='btn btn-danger'>
+                      <i class='fa fa-heart' aria-hidden='true'></i>
+                      ({{tweet.LikesCount}})
+                    </button>
+                  </form>
+                {{else}}
+                  <form
+                    action="/tweets/{{tweet.id}}/like"
+                    method='POST'
+                    style='display: contents;'
+                  >
+                    <input type='hidden' name='userId' value="{{this.id}}" />
+                    <button type='submit' class='btn btn-outline-secondary'>
+                      <i class='fa fa-heart' aria-hidden='true'></i>
+                      ({{tweet.LikesCount}})
+                    </button>
+                  </form>
+                {{/if}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class='pt-4'>
+      <h1>
+        Replies
+      </h1>
+      {{#each tweet.Replies}}
+        <div class='card mb-3'>
+          <div class='card-body'>
+            <div class='row'>
+              <div class='col-4'>
+                <img
+                  src="{{this.User.avatar}}"
+                  width='170px'
+                  height='170px'
+                  class='rounded ml-3'
+                />
+              </div>
+              <div class='col-8 justify-content-around'>
+                <div class='card-body'>
+                  <h5 class='card-title'>
+                    <a href="/users/{{this.User.id}}/tweets">
+                      @{{this.User.name}}
+                    </a>
+                    <small class='pl-2'>
+                      ,&nbsp;{{moment this.createdAt}}
+                    </small>
+                  </h5>
+                  <p class='card-text pl-1'>
+                    {{this.comment}}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {{/each}}
+    </div>
+
+    <form action="/tweets/{{tweet.id}}/replies" method='POST'>
+      <div class='form-group'>
+        <textarea
+          class='form-control'
+          id='text'
+          name='text'
+          rows='3'
+        ></textarea>
+      </div>
+      <button type='submit' class='btn btn-primary float-right'>
+        Reply
+      </button>
+    </form>
+  </div>
+</div>

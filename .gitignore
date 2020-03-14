@@ -42,6 +42,8 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
+temp/
+upload/
 
 # TypeScript v1 declaration files
 typings/
@@ -85,3 +87,9 @@ typings/
 
 # DynamoDB Local files
 .dynamodb/
+
+#vscode
+.vscode
+
+temp/
+upload/

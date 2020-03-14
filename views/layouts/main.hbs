@@ -7,8 +7,8 @@
   <title>Simple-twitter-express</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-
 <body>
   {{!-- Navbar --}}
     <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
@@ -17,33 +17,38 @@
         <ul class="navbar-nav mr-auto">
         </ul>
         <div>
-          {{#if user.isAdmin}}
-            <a href="/admin" style="color: white;margin-right: 10px;">Admin 後台</a>
-          {{/if}}
+          {{#ifCond user.role 'admin'}}
+            <a href="/admin/tweets" style="color: white;margin-right: 10px;">Admin 後台</a>
+          {{/ifCond}}
           {{#if user}}
             <span style="color: white;margin-right: 10px;">Hi, {{user.email}}</span>
-            <a href="/users/{{user.id}}" style="color: white;margin-right: 10px;">Profile</a>
-            <a href="/logout"><button class="btn btn-outline-success my-2 my-sm-0">LogOut</button></a>
+            <a href="/users/{{user.id}}/tweets" style="color: white;margin-right: 10px;">Profile</a>
+            <a href="/logout"><button class="btn btn btn-light my-2 my-sm-0">LogOut</button></a>
           {{/if}}
         </div>
       </div>
     </nav>
+    
     <br/>
 
   <main role="main">
     <div class="album py-5 bg-light">
       <div class="container">
-        {{#if success_msg}}
-          <div class="alert alert-success" role="alert" style="margin: 30px 0 ;">
-            {{success_msg}}
-          </div>
+        {{#if success_messages}}
+        <div class="alert alert-success" role="alert" style="margin: 30px 0 ;">
+          {{success_messages}}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </div>
         {{/if}}
-        {{#if error_msg}}
-          <div class="alert alert-danger" role="alert" style="margin: 30px 0 ;">
-            {{error_msg}}
-          </div>
+        {{#if error_messages}}
+        <div class="alert alert-danger" role="alert" style="margin: 30px 0 ;">
+          {{error_messages}}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </div>
         {{/if}}
-        
+
         {{{body}}}
       </div>
     </div>

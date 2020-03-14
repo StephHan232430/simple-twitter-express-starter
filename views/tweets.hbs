@@ -19,14 +19,14 @@
             <div class="col-md-8">
               <div class="card-body">
                 <h5 class="card-title">
-                  <a href="#">{{ this.User.name }},&nbsp;{{ moment this.createdAt }}</a>
+                  <a href="/users/{{this.User.id}}/tweets">{{ this.User.name }},&nbsp;{{ moment this.createdAt }}</a>
                 </h5>
                 <p class="card-text">{{ this.description }}</p>
                 <div class="row">
                   &nbsp;&nbsp;
-                  <form action="">
+                  <a href="/tweets/{{this.id}}/replies"
                     <button class="btn btn-outline-primary">reply</button>
-                  </form>
+                  </a>
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   {{#if this.isLiked }}
                     <form action="/tweets/{{ this.id }}/unlike" method="POST" style="display: contents;">

@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
     'User',
@@ -6,8 +6,15 @@ module.exports = (sequelize, DataTypes) => {
       email: DataTypes.STRING,
       password: DataTypes.STRING,
       name: DataTypes.STRING,
-      avatar: DataTypes.STRING,
-      introduction: DataTypes.TEXT,
+      avatar: {
+        type: DataTypes.STRING,
+        defaultValue:
+          'https://lighthouse-cdn.alphacamp.co/default/medium_user_photo.jpg'
+      },
+      introduction: {
+        type: DataTypes.TEXT,
+        defaultValue: ''
+      },
       role: DataTypes.STRING
     },
     {}

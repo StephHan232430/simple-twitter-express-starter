@@ -11,7 +11,10 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue:
           'https://lighthouse-cdn.alphacamp.co/default/medium_user_photo.jpg'
       },
-      introduction: DataTypes.TEXT,
+      introduction: {
+        type: DataTypes.TEXT,
+        defaultValue: ''
+      },
       role: DataTypes.STRING
     },
     {}

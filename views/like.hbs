@@ -24,76 +24,78 @@
     <p class="text-muted mb-3 ml-1" style="font-size:12px">{{profile.introduction}}</p>
     <br />
     <div class="mb-4 ml-2">
-      <h5>
-        <a href="/users/{{profile.id}}/tweets">
-          <strong class="text-muted">
-            Tweets
-          </strong>
-          <span class="text-light badge badge-secondary">
-            {{profile.Tweets.length}}
-          </span>
-        </a>
-      </h5>
-      <br />
-      <h5>
-        <a href="/users/{{profile.id}}/followings">
-          <strong class="text-muted">
-            Following
-          </strong>
-          <span class="text-light badge badge-secondary">
-            {{profile.Followings.length}}
-          </span>
-        </a>
-      </h5>
-      <br />
-      <h5>
-        <a href="/users/{{profile.id}}/followers">
-          <strong class="text-muted">
-            Follower
-          </strong>
-          <span class="text-light badge badge-secondary">
-            {{profile.Followers.length}}
-          </span>
-        </a>
-      </h5>
-      <br />
-      <h5 class="text-muted">
-        <a href="/users/{{profile.id}}/likes">
-          <strong>
-            Like
-          </strong>
-          <span class="text-light badge badge-primary">
-            {{profile.LikedTweets.length}}
-          </span>
-        </a>
-      </h5>
+      <ul class="list-group">
+        <li class="list-group-item"> <h5>
+            <a href="/users/{{profile.id}}/tweets">
+              <strong class="text-muted">
+                Tweets
+              </strong>
+              <span class="text-light badge badge-secondary">
+                {{profile.Tweets.length}}
+              </span>
+            </a>
+          </h5></li>
+        <li class="list-group-item"> <h5>
+            <a href="/users/{{profile.id}}/followings">
+              <strong class="text-muted">
+                Following
+              </strong>
+              <span class="text-light badge badge-secondary">
+                {{profile.Followings.length}}
+              </span>
+            </a>
+          </h5></li>
+        <li class="list-group-item"> <h5>
+            <a href="/users/{{profile.id}}/followers">
+              <strong class="text-muted">
+                Follower
+              </strong>
+              <span class="text-light badge badge-secondary">
+                {{profile.Followers.length}}
+              </span>
+            </a>
+          </h5></li>
+        <li class="list-group-item"> <h5 class="text-muted">
+            <a href="/users/{{profile.id}}/likes">
+              <strong >
+                Like
+              </strong>
+              <span class="text-light badge badge-primary">
+                {{profile.LikedTweets.length}}
+              </span>
+            </a>
+          </h5></li>
+      </ul>
+
       <br />
     </div>
-    {{#ifCond profile.id user.id}}
-    <a href="/users/{{profile.id}}/edit">
-      <button class="btn btn-primary">
-        Edit Profile
-      </button>
-    </a>
-    {{else}}
-    {{#if isFollowed}}
-    <form
-      action="/followships/{{profile.id}}?_method=DELETE"
-      method="POST"
-      style="display: contents;">
-      <button type="submit" class="btn btn-danger">
-        <i class="fa fa-user px-2" aria-hidden="true"></i>
-      </button>
-    </form>
-    {{else}}
-    <form action="/followships" method="POST" style="display: contents;">
-      <input type="hidden" name="userId" value="{{profile.id}}" />
-      <button type="submit" class="btn btn-outline-secondary">
-        <i class="fa fa-user-plus px-2" aria-hidden="true"></i>
-      </button>
-    </form>
-    {{/if}}
-    {{/ifCond}}
+    <div class="text-right">
+      {{#ifCond profile.id user.id}}
+      <a href="/users/{{profile.id}}/edit">
+        <button class="btn btn-primary">
+          Edit Profile
+        </button>
+      </a>
+      {{else}}
+      {{#if isFollowed}}
+      <form
+        action="/followships/{{profile.id}}?_method=DELETE"
+        method="POST"
+        style="display: contents;">
+        <button type="submit" class="btn btn-danger">
+          <i class="fa fa-user px-2" aria-hidden="true"></i>
+        </button>
+      </form>
+      {{else}}
+      <form action="/followships" method="POST" style="display: contents;">
+        <input type="hidden" name="userId" value="{{profile.id}}" />
+        <button type="submit" class="btn btn-outline-secondary">
+          <i class="fa fa-user-plus px-2" aria-hidden="true"></i>
+        </button>
+      </form>
+      {{/if}}
+      {{/ifCond}}
+    </div>
   </div>
   <div class="col-md-8">
     <h1>
@@ -106,13 +108,13 @@
         <div class="col-md-4 my-4">
           <img src="{{../profile.avatar}}" alt="{{../profile.name}}"
             width="170px"
-            height="170px" class="rounded pl-2">
+            height="170px" class="rounded ml-2">
         </div>
         <div class="col-md-8 pt-2">
           <div class="card-body">
             <h5 class="card-title">
               <a href="/users/{{../profile.id}}/tweets">@{{../profile.name}}</a>
-              <small class="pl-2">{{moment this.createdAt}}</small></h5>
+              <small class="pl-2">,&nbsp;{{moment this.createdAt}}</small></h5>
             <p class="card-text pl-1">{{this.description}}</p>
           </div>
           <div class="card-body text-right inline-block mt-1">

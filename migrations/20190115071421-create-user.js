@@ -23,7 +23,8 @@ module.exports = {
           'https://lighthouse-cdn.alphacamp.co/default/medium_user_photo.jpg'
       },
       introduction: {
-        type: Sequelize.TEXT
+        type: DataTypes.TEXT,
+        defaultValue: ''
       },
       role: {
         type: Sequelize.STRING

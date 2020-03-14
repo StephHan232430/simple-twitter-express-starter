@@ -49,6 +49,7 @@ const userController = {
     return res.render('signin')
   },
   signIn: (req, res) => {
+    req.session.username = helpers.getUser(req).name
     req.flash('success_msg', '登入成功！')
     res.redirect('/tweets')
   },

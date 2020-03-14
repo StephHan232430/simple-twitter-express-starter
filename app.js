@@ -76,3 +76,5 @@ io.on('connection', socket => {
     socket.disconnect(true)
   })
 })
+
+module.exports = app

@@ -54,12 +54,17 @@ module.exports = (app, passport) => {
     userController.removeFollowing
   )
 
-  app.get('/users/:id/tweets', userController.getUser)
+  app.get('/users/:id/tweets', authenticated, userController.getUser)
   app.get('/users/:id/likes', authenticated, userController.getLike)
   app.get('/users/:id/followers', authenticated, userController.getFollower)
   app.get('/users/:id/followings', authenticated, userController.getFollowing)
-  app.get('/users/:id/edit', userController.editUser)
-  app.post('/users/:id/edit', upload.single('avatar'), userController.putUser)
+  app.get('/users/:id/edit', authenticated, userController.editUser)
+  app.post(
+    '/users/:id/edit',
+    authenticated,
+    upload.single('avatar'),
+    userController.putUser
+  )
 
   app.get(
     '/admin/users',

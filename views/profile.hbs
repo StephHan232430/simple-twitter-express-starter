@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-md-4 display-flex justify-content-center">
+  <div class="col-md-4 pr-5 display-flex justify-content-center">
     {{#if profile.avatar}}
     <img
       class="my-5"
@@ -26,7 +26,7 @@
     <div class="mb-4 ml-2">
       <ul class="list-group">
         <li class="list-group-item"> <h5>
-            <a href="/users/{{profile.id}}/tweets">
+            <a href="/users/{{profile.id}}/tweets" style="text-decoration:none;">
               <strong>
                 Tweets
               </strong>
@@ -36,9 +36,9 @@
             </a>
           </h5></li>
         <li class="list-group-item"> <h5>
-            <a href="/users/{{profile.id}}/followings">
+            <a href="/users/{{profile.id}}/followings" style="text-decoration:none;">
               <strong class="text-muted">
-                Following
+                Followings
               </strong>
               <span class="text-light badge badge-secondary">
                 {{profile.Followings.length}}
@@ -46,9 +46,9 @@
             </a>
           </h5></li>
         <li class="list-group-item"> <h5>
-            <a href="/users/{{profile.id}}/followers">
+            <a href="/users/{{profile.id}}/followers" style="text-decoration:none;">
               <strong class="text-muted">
-                Follower
+                Followers
               </strong>
               <span class="text-light badge badge-secondary">
                 {{profile.Followers.length}}
@@ -56,9 +56,9 @@
             </a>
           </h5></li>
         <li class="list-group-item"> <h5 class="text-muted">
-            <a href="/users/{{profile.id}}/likes">
+            <a href="/users/{{profile.id}}/likes" style="text-decoration:none;">
               <strong class="text-muted">
-                Like
+                Likes
               </strong>
               <span class="text-light badge badge-secondary">
                 {{profile.LikedTweets.length}}
@@ -89,7 +89,7 @@
       {{else}}
       <form action="/followships" method="POST" style="display: contents;">
         <input type="hidden" name="userId" value="{{profile.id}}" />
-        <button type="submit" class="btn btn-outline-secondary">
+        <button type="submit" class="btn btn-secondary">
           <i class="fa fa-user-plus px-2" aria-hidden="true"></i>
         </button>
       </form>
@@ -98,7 +98,7 @@
     </div>
   </div>
 
-  <div class="col-md-8">
+  <div class="col-md-8 mt-5">
     {{#if tweets}}
     {{#each tweets}}
     <div class="card mb-3">
@@ -111,8 +111,8 @@
         <div class="col-md-8 pt-2">
           <div class="card-body">
             <h5 class="card-title">
-              <a href="/users/{{../profile.id}}/tweets">@{{../profile.name}}</a>
-              <small class="pl-2">,&nbsp;{{moment this.createdAt}}</small></h5>
+              <a href="/users/{{../profile.id}}/tweets" style="text-decoration:none;">@{{../profile.name}}</a>
+              <small class="pl-2">&nbsp;{{moment this.createdAt}}</small></h5>
             <p class="card-text pl-1">{{this.description}}</p>
           </div>
           <div class="card-body text-right inline-block mt-1">
@@ -135,7 +135,7 @@
               method="POST"
               style="display: contents;">
               <input type="hidden" name="userId" value="{{this.id}}" />
-              <button type="submit" class="btn btn-outline-secondary">
+              <button type="submit" class="btn btn-secondary">
                 <i class="fa fa-heart" aria-hidden="true"></i>
                 ({{this.Likes.length}})
               </button>
@@ -147,7 +147,7 @@
     </div>
     {{/each}}
     {{else}}
-    <h3 class="mt-5 text-center">尚未建立資料</h3>
+    <h3 class="mt-5 text-center ">尚未建立資料</h3>
     {{/if}}
   </div>
 </div>

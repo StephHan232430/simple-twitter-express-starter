@@ -1,5 +1,5 @@
 <div class='row'>
-  <div class='col-md-4 display-flex justify-content-center'>
+  <div class='col-md-4 pr-5 display-flex justify-content-center'>
     <img
       class='my-5'
       src="{{targetUser.avatar}}"
@@ -27,7 +27,7 @@
       <ul class='list-group'>
         <li class='list-group-item'>
           <h5>
-            <a href="/users/{{targetUser.id}}/tweets">
+            <a href="/users/{{targetUser.id}}/tweets" style="text-decoration:none;">
               <strong class='text-muted'>
                 Tweets
               </strong>
@@ -43,9 +43,9 @@
         </li>
         <li class='list-group-item'>
           <h5>
-            <a href="/users/{{user.id}}/followings">
+            <a href="/users/{{targetUser.id}}/followings" style="text-decoration:none;">
               <strong class='text-muted'>
-                Following
+                Followings
               </strong>
               <span class='text-light badge badge-secondary'>
                 {{#if targetUser.Followings}}
@@ -59,9 +59,9 @@
         </li>
         <li class='list-group-item'>
           <h5>
-            <a href="/users/{{targetUser.id}}/followers">
+            <a href="/users/{{targetUser.id}}/followers" style="text-decoration:none;">
               <strong class='text-muted'>
-                Follower
+                Followers
               </strong>
               <span class='text-light badge badge-secondary'>
                 {{#if targetUser.Followers}}
@@ -75,9 +75,9 @@
         </li>
         <li class='list-group-item'>
           <h5 class='text-muted'>
-            <a href="/users/{{targetUser.id}}/likes">
+            <a href="/users/{{targetUser.id}}/likes" style="text-decoration:none;">
               <strong class='text-muted'>
-                Like
+                Likes
               </strong>
               <span class='text-light badge badge-secondary'>
                 {{#if targetUser.LikedTweets}}
@@ -107,7 +107,7 @@
         {{else}}
           <form action='/followships' method='POST'>
             <input type='hidden' name='userId' value="{{targetUser.id}}" />
-            <button type='submit' class='btn btn-outline-secondary'>
+            <button type='submit' class='btn btn-secondary'>
               <i class='fa fa-user-plus px-2' aria-hidden='true'></i>
             </button>
           </form>
@@ -123,9 +123,9 @@
       {{/unless}}
     </div>
   </div>
-  <div class='col-md-8'>
+  <div class='col-md-8 mt-5'>
     <div>
-      <h1>
+      <h1 class="text-info mb-3">
         Tweets
       </h1>
       <div class='card'>
@@ -142,11 +142,11 @@
             <div class='col-8 justify-content-around'>
               <div class='card-body'>
                 <h5 class='card-title'>
-                  <a href="/users/{{targetUser.id}}/tweets">
+                  <a href="/users/{{targetUser.id}}/tweets" style="text-decoration:none;">
                     @{{targetUser.name}}
                   </a>
                   <small class='pl-2'>
-                    ,&nbsp;{{moment this.createdAt}}
+                    &nbsp;{{moment this.createdAt}}
                   </small>
                 </h5>
                 <p class='card-text pl-1'>
@@ -179,7 +179,7 @@
                     style='display: contents;'
                   >
                     <input type='hidden' name='userId' value="{{this.id}}" />
-                    <button type='submit' class='btn btn-outline-secondary'>
+                    <button type='submit' class='btn btn-secondary'>
                       <i class='fa fa-heart' aria-hidden='true'></i>
                       ({{tweet.LikesCount}})
                     </button>
@@ -193,7 +193,7 @@
     </div>
 
     <div class='pt-4'>
-      <h1>
+      <h1 class="text-info mb-3">
         Replies
       </h1>
       {{#each tweet.Replies}}
@@ -211,11 +211,11 @@
               <div class='col-8 justify-content-around'>
                 <div class='card-body'>
                   <h5 class='card-title'>
-                    <a href="/users/{{this.User.id}}/tweets">
+                    <a href="/users/{{this.User.id}}/tweets" style="text-decoration:none;">
                       @{{this.User.name}}
                     </a>
                     <small class='pl-2'>
-                      ,&nbsp;{{moment this.createdAt}}
+                      &nbsp;{{moment this.createdAt}}
                     </small>
                   </h5>
                   <p class='card-text pl-1'>

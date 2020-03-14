@@ -1,5 +1,5 @@
 <div class="row">
-	<div class="col-md-4 display-flex justify-content-center">
+	<div class="col-md-4 pr-5 display-flex justify-content-center">
 		{{#if profile.avatar}}
 		<img
 			class="my-5"
@@ -26,7 +26,7 @@
 		<div class="mb-4 ml-2">
 			<ul class="list-group">
 				<li class="list-group-item"> <h5>
-						<a href="/users/{{profile.id}}/tweets">
+						<a href="/users/{{profile.id}}/tweets" style="text-decoration:none;">
 							<strong class="text-muted">
 								Tweets
 							</strong>
@@ -36,9 +36,9 @@
 						</a>
 					</h5></li>
 				<li class="list-group-item"> <h5>
-						<a href="/users/{{profile.id}}/followings">
+						<a href="/users/{{profile.id}}/followings" style="text-decoration:none;">
 							<strong>
-								Following
+								Followings
 							</strong>
 							<span class="text-light badge badge-primary">
 								{{profile.Followings.length}}
@@ -46,9 +46,9 @@
 						</a>
 					</h5></li>
 				<li class="list-group-item"> <h5>
-						<a href="/users/{{profile.id}}/followers">
+						<a href="/users/{{profile.id}}/followers" style="text-decoration:none;">
 							<strong class="text-muted">
-								Follower
+								Followers
 							</strong>
 							<span class="text-light badge badge-secondary">
 								{{profile.Followers.length}}
@@ -56,9 +56,9 @@
 						</a>
 					</h5></li>
 				<li class="list-group-item"> <h5 class="text-muted">
-						<a href="/users/{{profile.id}}/likes">
+						<a href="/users/{{profile.id}}/likes" style="text-decoration:none;">
 							<strong class="text-muted">
-								Like
+								Likes
 							</strong>
 							<span class="text-light badge badge-secondary">
 								{{profile.LikedTweets.length}}
@@ -89,7 +89,7 @@
 			{{else}}
 			<form action="/followships" method="POST" style="display: contents;">
 				<input type="hidden" name="userId" value="{{profile.id}}" />
-				<button type="submit" class="btn btn-outline-secondary">
+				<button type="submit" class="btn btn-secondary">
 					<i class="fa fa-user-plus px-2" aria-hidden="true"></i>
 				</button>
 			</form>
@@ -97,8 +97,8 @@
 			{{/ifCond}}
 		</div>
 	</div>
-	<div class="col-md-8">
-		<h1 class="mb-5">Followings</h1>
+	<div class="col-md-8 mt-5">
+		<h1 class="mb-5 text-info">Followings</h1>
 		{{#if followingList}}
 		<div class="row">
 			{{#each followingList}}
@@ -106,7 +106,7 @@
 				<div class="row">
 					<div class="col-md-4 my-4">
 						<img src="{{this.avatar}}" alt="{{this.name}}" width="100px"
-							height="100px" class="rounded ml-2">
+							height="100px" class="rounded ml-2" style="text-decoration:none;">
 					</div>
 
 					<div class="col-md-8">
@@ -135,7 +135,7 @@
 			</div>
 			{{/each}}
 			{{else}}
-			<h3 class="mt-5 text-center">沒有資料</h3>
+			<h3 class="mt-5 text-center text-info">沒有資料</h3>
 			{{/if}}
 		</div>
 	</div>

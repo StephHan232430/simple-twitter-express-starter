@@ -1,30 +1,33 @@
-<h1>Tweet 後台</h1>
+<h1 class="my-5">Tweet 後台</h1>
 <h4>
-    <a href="/admin/tweets">tweets</a> |
-  <a href="/admin/users">users</a>
+  <a href="/admin/tweets" class="text-dark">Tweets</a> |
+  <a href="/admin/users" class="text-secondary">Users</a>
 </h4>
 <br/>
 <br/>
 
-<table class="table">
-  <thead class="thead-light">
+<table class="table table-hover" id="myTable">
+  <thead class="thead-dark">
     <tr>
       
-      <th scope="col">User</th>
-      <th scope="col">Description</th>
-      <th scope="col">CreateAt</th>
+      <th scope="col" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(1)')">
+        User <i class="fa fa-sort" style="font-size:13px;"></i></th>
+      <th scope="col" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(2)')">
+        Description <i class="fa fa-sort" style="font-size:13px;"></i></th>
+      <th scope="col" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(3)')">
+        CreateAt <i class="fa fa-sort" style="font-size:13px;"></i></th>
       <th scope="col">#</th>
     </tr>
   </thead>
   <tbody>
     {{#each tweets}}
-    <tr>
+    <tr class="item">
       <td>{{ this.User.name }}</td>
       <td>{{ this.description }}</td>
       <td>{{ moment this.createdAt }}</td>
       <td>
         <form action="/admin/tweets/{{this.id}}?_method=DELETE" method="POST" style="display: inline;">
-          <button type="submit" class="btn btn-link">Delete</button>
+          <button type="submit" class="btn btn-danger">Delete</button>
         </form>
       </td>
     </tr>

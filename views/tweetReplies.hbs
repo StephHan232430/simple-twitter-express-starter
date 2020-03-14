@@ -28,10 +28,10 @@
         <li class='list-group-item'>
           <h5>
             <a href="/users/{{targetUser.id}}/tweets" style="text-decoration:none;">
-              <strong class='text-muted'>
+              <strong class='text-dark'>
                 Tweets
               </strong>
-              <span class='text-light badge badge-secondary'>
+              <span class='text-light badge badge-dark'>
                 {{#if targetUser.Tweets}}
                   {{targetUser.TweetsCount}}
                 {{else}}
@@ -44,10 +44,10 @@
         <li class='list-group-item'>
           <h5>
             <a href="/users/{{targetUser.id}}/followings" style="text-decoration:none;">
-              <strong class='text-muted'>
+              <strong class='text-dark'>
                 Followings
               </strong>
-              <span class='text-light badge badge-secondary'>
+              <span class='text-light badge badge-dark'>
                 {{#if targetUser.Followings}}
                   {{targetUser.FollowingCount}}
                 {{else}}
@@ -60,10 +60,10 @@
         <li class='list-group-item'>
           <h5>
             <a href="/users/{{targetUser.id}}/followers" style="text-decoration:none;">
-              <strong class='text-muted'>
+              <strong class='text-dark'>
                 Followers
               </strong>
-              <span class='text-light badge badge-secondary'>
+              <span class='text-light badge badge-dark'>
                 {{#if targetUser.Followers}}
                   {{targetUser.FollowerCount}}
                 {{else}}
@@ -76,10 +76,10 @@
         <li class='list-group-item'>
           <h5 class='text-muted'>
             <a href="/users/{{targetUser.id}}/likes" style="text-decoration:none;">
-              <strong class='text-muted'>
+              <strong class='text-dark'>
                 Likes
               </strong>
-              <span class='text-light badge badge-secondary'>
+              <span class='text-light badge badge-dark'>
                 {{#if targetUser.LikedTweets}}
                   {{targetUser.LikedTweetsCount}}
                 {{else}}

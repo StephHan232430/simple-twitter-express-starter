@@ -19,7 +19,7 @@ module.exports = (app, passport) => {
 
   const authenticatedAdmin = (req, res, next) => {
     if (req.isAuthenticated()) {
-      if (req.user.role === 'admin') {
+      if (helpers.getUser(req).role === 'admin') {
         return next()
       }
       return res.redirect('/')

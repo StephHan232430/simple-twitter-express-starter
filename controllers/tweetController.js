@@ -17,7 +17,7 @@ const tweetController = {
       const data = tweets.map(tweet => ({
         ...tweet.dataValues,
         description: tweet.dataValues.description.substring(0, 50),
-        isLiked: tweet.LikedUsers.map(d => d.id).includes(req.user.id),
+        isLiked: tweet.LikedUsers.map(d => d.id).includes(helpers.getUser(req).id),
         likeCount: tweet.LikedUsers.length
       }))
       User.findAll({
@@ -31,7 +31,7 @@ const tweetController = {
           // 計算追蹤者人數
           followerCount: user.Followers.length,
           // 判斷目前登入使用者是否已追蹤該 User 物件
-          isFollowed: req.user.Followings.map(d => d.id).includes(user.id)
+          isFollowed: helpers.getUser(req).Followings.map(d => d.id).includes(user.id)
         }))
         // 依追蹤者人數排序清單
         users = users.sort((a, b) => b.followerCount - a.followerCount)
@@ -51,7 +51,7 @@ const tweetController = {
     if (req.body.text) {
       return Tweet.create({
         description: req.body.text,
-        UserId: req.user.id
+        UserId: helpers.getUser(req).id
       }).then(tweet => {
         res.redirect('/tweets')
       })

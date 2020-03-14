@@ -58,7 +58,8 @@ module.exports = (app, passport) => {
   app.get('/users/:id/edit', authenticated, userController.editUser)
   app.post(
     '/users/:id/edit',
-    authenticated, upload.single('avatar'),
+    authenticated,
+    upload.single('avatar'),
     userController.putUser
   )
 

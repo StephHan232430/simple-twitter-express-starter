@@ -61,7 +61,7 @@ const userController = {
   getUser: (req, res) => {
     User.findByPk(req.params.id, {
       include: [
-        { model: Tweet, include: [User, Reply, Like] },
+        { model: Tweet, include: [User, Reply, Like], raw: true, nest: true },
         { model: User, as: 'Followers' },
         { model: User, as: 'Followings' },
         { model: Tweet, as: 'LikedTweets' }
@@ -73,20 +73,10 @@ const userController = {
         .includes(user.id)
       const tweets = user.Tweets.map(tweet => ({
         ...tweet.dataValues,
-        isLiked: helpers
-          .getUser(req)
-          .LikedTweets.map(d => d.id)
-          .includes(tweet.id)
+        isLiked: helpers.getUser(req).LikedTweets.map(d => d.id).includes(tweet.id)
       })).sort((a, b) => b.createdAt - a.createdAt)
       res.render(
-        'profile',
-        JSON.parse(
-          JSON.stringify({
-            profile: user,
-            tweets,
-            isFollowed
-          })
-        )
+        'profile',{ profile: user, tweets, isFollowed }
       )
     })
   },

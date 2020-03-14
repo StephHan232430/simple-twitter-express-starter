@@ -19,13 +19,14 @@
             <div class="col-md-8">
               <div class="card-body">
                 <h5 class="card-title">
-                  <a href="/users/{{this.User.id}}/tweets">{{ this.User.name }},&nbsp;{{ moment this.createdAt }}</a>
+                  <a href="/users/{{this.User.id}}/tweets">@{{ this.User.name }}&nbsp;</a>
+                  {{ moment this.createdAt }}
                 </h5>
                 <p class="card-text">{{ this.description }}</p>
                 <div class="row">
                   &nbsp;&nbsp;
                   <a href="/tweets/{{this.id}}/replies"
-                    <button class="btn btn-outline-primary">reply</button>
+                    <button class="btn btn-outline-primary">reply ({{ this.replyCount }})</button>
                   </a>
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   {{#if this.isLiked }}
@@ -60,9 +61,9 @@
             <div class="col-md-8">
               <div class="card-body">
                 <h5 class="card-title">
-                  <a href="#">{{ this.name }}</a>
+                  <a href="/users/{{this.id}}/tweets">@{{ this.name }}</a>
                 </h5>
-                <p class="card-text">{{ this.introduction}}.</p>
+                <p class="card-text">{{ this.introduction}}</p>
           
                 <div style="margin-left: 80px;">
                   {{#ifNotCond this.id ../user.id}}

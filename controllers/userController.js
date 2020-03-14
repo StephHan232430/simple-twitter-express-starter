@@ -49,6 +49,7 @@ const userController = {
     return res.render('signin')
   },
   signIn: (req, res) => {
+    req.session.username = helpers.getUser(req).name
     req.flash('success_msg', '登入成功！')
     res.redirect('/tweets')
   },
@@ -72,20 +73,10 @@ const userController = {
         .includes(user.id)
       const tweets = user.Tweets.map(tweet => ({
         ...tweet.dataValues,
-        isLiked: helpers
-          .getUser(req)
-          .LikedTweets.map(d => d.id)
-          .includes(tweet.id)
+        isLiked: helpers.getUser(req).LikedTweets.map(d => d.id).includes(tweet.id)
       })).sort((a, b) => b.createdAt - a.createdAt)
       res.render(
-        'profile',
-        JSON.parse(
-          JSON.stringify({
-            profile: user,
-            tweets,
-            isFollowed
-          })
-        )
+        'profile',{ profile: user, tweets, isFollowed }
       )
     })
   },

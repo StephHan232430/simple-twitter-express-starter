@@ -10,6 +10,7 @@ const passport = require('./config/passport')
 const app = express()
 const http = require('http').createServer(app)
 const io = require('socket.io')(http)
+const currentUser = {}
 const port = process.env.PORT || 3000
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
@@ -28,13 +29,17 @@ app.set('view engine', 'hbs')
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 
-app.use(
-  session({
-    secret: 'secret',
-    resave: false,
-    saveUninitialized: false
-  })
-)
+const sessionMiddleware = session({
+  secret: 'secret',
+  resave: false,
+  saveUninitialized: false
+})
+
+io.use((socket, next) => {
+  sessionMiddleware(socket.request, socket.request.res, next)
+})
+
+app.use(sessionMiddleware)
 
 app.use(passport.initialize())
 app.use(passport.session())
@@ -49,16 +54,27 @@ app.use((req, res, next) => {
   next()
 })
 app.use('/upload', express.static(__dirname + '/upload'))
+app.use(express.static('public'))
 
 http.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
 require('./routes')(app, passport)
 
-io.on('connection', function(socket) {
-  socket.on('chat message', function(msg) {
-    io.emit('chat message', msg)
+io.on('connection', socket => {
+  const currentUser = socket.request.session.username
+  socket.emit('getCurrentUser', currentUser)
+
+  socket.on('chatMessage', data => {
+    io.emit('chatMessage', data)
   })
-  socket.on('disconnect', function() {
-    console.log('user disconnected')
+
+  socket.on('typing', data => {
+    socket.broadcast.emit('typing', data)
+  })
+
+  socket.on('disconnect', () => {
+    socket.disconnect(true)
   })
 })
+
+module.exports = app

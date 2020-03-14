@@ -1,4 +1,5 @@
 const db = require('../models')
+const helpers = require('../_helpers')
 const User = db.User
 const Tweet = db.Tweet
 
@@ -12,7 +13,7 @@ const adminController = {
       ]
     }).then(users => {
       // 登入中使用者不顯示權限變換選項
-      let loggedUserId = req.user.id
+      let loggedUserId = helpers.getUser(req).id
       for (user of users) {
         if (user.id === loggedUserId) {
           user.dataValues.showLink = false
@@ -20,8 +21,13 @@ const adminController = {
           user.dataValues.showLink = true
         }
       }
-      console.log(users[0])
       users = users.map(user => {
+        var isAdmin = ""
+        if (user.role === "admin") {
+          isAdmin = true
+        } else {
+          isAdmin = false
+        }
         // 計算使用者推播被 like 的數量
         var likeCount = 0
         // 如果推播數量為零，則 like = 0
@@ -35,7 +41,8 @@ const adminController = {
         }
         return user = {
           ...user.dataValues,
-          likeCount: likeCount
+          likeCount: likeCount,
+          isAdmin :isAdmin
         }
       })
       users = users.sort((a, b) => b.Tweets.length - a.Tweets.length)

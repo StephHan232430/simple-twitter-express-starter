@@ -17,12 +17,9 @@ module.exports = (app, passport) => {
     res.redirect('/signin')
   }
 
-  app.get('/chat/:id', (req, res) => {
-    res.sendFile(__dirname + '/chat/chat.html')
-  })
   const authenticatedAdmin = (req, res, next) => {
     if (req.isAuthenticated()) {
-      if (req.user.role === 'admin') {
+      if (helpers.getUser(req).role === 'admin') {
         return next()
       }
       return res.redirect('/')
@@ -90,6 +87,10 @@ module.exports = (app, passport) => {
     authenticatedAdmin,
     adminController.setUser
   )
+
+  app.get('/chat/:id', authenticated, (req, res) => {
+    res.sendFile(process.cwd() + '/public/chat.html')
+  })
 
   app.get('/signup', userController.signUpPage)
   app.post('/signup', userController.signUp)

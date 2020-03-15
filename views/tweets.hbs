@@ -19,13 +19,13 @@
             <div class="col-md-8">
               <div class="card-body">
                 <h5 class="card-title">
-                  <a href="/users/{{this.User.id}}/tweets">@{{ this.User.name }}&nbsp;</a>
+                  <a href="/users/{{this.User.id}}/tweets" class="text-decoration-none">@{{ this.User.name }}&nbsp;</a>
                   {{ moment this.createdAt }}
                 </h5>
                 <p class="card-text">{{ this.description }}</p>
                 <div class="row">
                   &nbsp;&nbsp;
-                  <a href="/tweets/{{this.id}}/replies"
+                  <a href="/tweets/{{this.id}}/replies">
                     <button class="btn btn-outline-primary">reply ({{ this.replyCount }})</button>
                   </a>
                   &nbsp;&nbsp;&nbsp;&nbsp;
@@ -61,7 +61,7 @@
             <div class="col-md-8">
               <div class="card-body">
                 <h5 class="card-title">
-                  <a href="/users/{{this.id}}/tweets">@{{ this.name }}</a>
+                  <a href="/users/{{this.id}}/tweets" class="text-decoration-none">@{{ this.name }}</a>
                 </h5>
                 <p class="card-text">{{ this.introduction}}</p>
           

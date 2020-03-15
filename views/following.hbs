@@ -21,7 +21,7 @@
 				{{profile.name}}
 			</strong>
 		</h2>
-		<p class="text-muted mb-3 ml-1" style="font-size:12px">{{profile.introduction}}</p>
+		<p class="text-dark mb-3 ml-1" style="font-size:12px">{{profile.introduction}}</p>
 		<br />
 		<div class="mb-4 ml-2">
 			<ul class="list-group">
@@ -98,7 +98,10 @@
 		</div>
 	</div>
 	<div class="col-md-8 mt-5">
-		<h1 class="mb-5 text-info">Followings</h1>
+		
+		<h1 class="mb-5 text-info">
+			 <strong style="font-family:serif;">Followings</strong>
+		</h1>
 		{{#if followingList}}
 		<div class="row">
 			{{#each followingList}}

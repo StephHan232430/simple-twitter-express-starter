@@ -2,8 +2,10 @@
   <div class="col-md-7">
     <form action="/tweets" method="POST">
       <div class="input-group">
-        <textarea class="form-control" name="text" placeholder="what's on your mind?" required  style="border-radius: 8px; height: 150px" maxlength="140"></textarea>
+        <textarea id="tweet" class="form-control" name="text" placeholder="what's on your mind?" required  style="border-radius: 8px; height: 150px" maxlength="140" oninput="countCharacters()"></textarea>
       </div>
+       <div class="text-muted"><small>characters left:</small>
+        <span id="charactersLeft"><small>140</small></span></div>
       <br>  
       <button class="btn btn-info float-right" type="submit">Tweet</button>
     </form>    
@@ -87,5 +89,18 @@
   </div>
 </div>
 
-
+<script>
+  function countCharacters() {
+    let textEntered, countRemaining, counter;
+    textEntered = document.getElementById('tweet').value;
+    counter = (140 - (textEntered.length))
+    countRemaining = document.getElementById('charactersLeft');
+    if (counter === 0) {
+      countRemaining.className = "text-danger"
+    } else {
+      countRemaining.className = "text-muted"
+    }
+    countRemaining.textContent = counter;
+  }
+</script>
 

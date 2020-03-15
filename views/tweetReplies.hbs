@@ -19,7 +19,7 @@
     >
       Chat With {{targetUser.name}}
     </a>
-    <p class='text-muted mb-3 ml-1' style='font-size:12px'>
+    <p class='text-dark mb-3 ml-1' style='font-size:12px'>
       {{targetUser.introduction}}
     </p>
     <br />
@@ -126,7 +126,7 @@
   <div class='col-md-8 mt-5'>
     <div>
       <h1 class="text-info mb-3">
-        Tweets
+        <strong style="font-family:serif;">Tweets</strong> 
       </h1>
       <div class='card'>
         <div class='card-body'>
@@ -194,7 +194,8 @@
 
     <div class='pt-4'>
       <h1 class="text-info mb-3">
-        Replies
+        <strong style="font-family:serif;">Replies</strong>
+        
       </h1>
       {{#each tweet.Replies}}
         <div class='card mb-3'>

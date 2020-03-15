@@ -1,26 +1,32 @@
-<h1>Tweet 後台</h1>
+<h1 class="my-5 text-info"><strong>Tweet 後台</strong></h1>
 <h4>
-  <a href="/admin/tweets">tweets</a> |
-  <a href="/admin/users">users</a>
+  <a href="/admin/tweets" class="text-secondary">Tweets</a> |
+  <a href="/admin/users" class="text-dark">Users</a>
 </h4>
 <br/>
 <br/>
 
-<table class="table">
-  <thead class="thead-light">
+<table class="table table-hover" id="myTable">
+  <thead class="thead-dark">
     <tr>
-      <th scope="col">User</th>
-      <th scope="col">Tweet</th>
-      <th scope="col">Follower</th>
-      <th scope="col">Following</th>
-      <th scope="col">Like</th>
-      <th scope="col">role</th>
+      <th scope="col" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(1)')">
+        User <i class="fa fa-sort" style="font-size:13px;"></i></th>
+      <th scope="col" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(2)')">
+        Tweet <i class="fa fa-sort" style="font-size:13px;"></i></th>
+      <th scope="col" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(3)')">
+        Follower <i class="fa fa-sort" style="font-size:13px;"></i></th>
+      <th scope="col" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(4)')">
+        Following <i class="fa fa-sort" style="font-size:13px;"></i></th>
+      <th scope="col" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(5)')">
+        Like <i class="fa fa-sort" style="font-size:13px;"></i></th>
+      <th scope="col" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(6)')">
+        Role <i class="fa fa-sort" style="font-size:13px;"></i></th>
       <th scope="col">#</th>
     </tr>
   </thead>
   <tbody>
     {{#each users}}
-    <tr>
+    <tr class="item">
       <td>{{ this.name }}</td>
       <td>{{ this.Tweets.length }} tweets</td>
       <td>{{ this.Followers.length }} followings</td>

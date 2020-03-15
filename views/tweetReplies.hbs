@@ -1,7 +1,7 @@
 <div class='row'>
   <div class='col-md-4 pr-5 display-flex justify-content-center'>
     <img
-      class='my-5'
+      class='my-5 img-thumbnail'
       src="{{targetUser.avatar}}"
       alt="{{targetUser.name}}"
       width='200px'
@@ -19,7 +19,7 @@
     >
       Chat With {{targetUser.name}}
     </a>
-    <p class='text-muted mb-3 ml-1' style='font-size:12px'>
+    <p class='text-dark mb-3 ml-1' style='font-size:12px'>
       {{targetUser.introduction}}
     </p>
     <br />
@@ -28,10 +28,10 @@
         <li class='list-group-item'>
           <h5>
             <a href="/users/{{targetUser.id}}/tweets" style="text-decoration:none;">
-              <strong class='text-muted'>
+              <strong class='text-dark'>
                 Tweets
               </strong>
-              <span class='text-light badge badge-secondary'>
+              <span class='text-light badge badge-dark'>
                 {{#if targetUser.Tweets}}
                   {{targetUser.TweetsCount}}
                 {{else}}
@@ -44,10 +44,10 @@
         <li class='list-group-item'>
           <h5>
             <a href="/users/{{targetUser.id}}/followings" style="text-decoration:none;">
-              <strong class='text-muted'>
+              <strong class='text-dark'>
                 Followings
               </strong>
-              <span class='text-light badge badge-secondary'>
+              <span class='text-light badge badge-dark'>
                 {{#if targetUser.Followings}}
                   {{targetUser.FollowingCount}}
                 {{else}}
@@ -60,10 +60,10 @@
         <li class='list-group-item'>
           <h5>
             <a href="/users/{{targetUser.id}}/followers" style="text-decoration:none;">
-              <strong class='text-muted'>
+              <strong class='text-dark'>
                 Followers
               </strong>
-              <span class='text-light badge badge-secondary'>
+              <span class='text-light badge badge-dark'>
                 {{#if targetUser.Followers}}
                   {{targetUser.FollowerCount}}
                 {{else}}
@@ -76,10 +76,10 @@
         <li class='list-group-item'>
           <h5 class='text-muted'>
             <a href="/users/{{targetUser.id}}/likes" style="text-decoration:none;">
-              <strong class='text-muted'>
+              <strong class='text-dark'>
                 Likes
               </strong>
-              <span class='text-light badge badge-secondary'>
+              <span class='text-light badge badge-dark'>
                 {{#if targetUser.LikedTweets}}
                   {{targetUser.LikedTweetsCount}}
                 {{else}}
@@ -126,7 +126,7 @@
   <div class='col-md-8 mt-5'>
     <div>
       <h1 class="text-info mb-3">
-        Tweets
+        <strong style="font-family:serif;">Tweets</strong> 
       </h1>
       <div class='card'>
         <div class='card-body'>
@@ -194,7 +194,8 @@
 
     <div class='pt-4'>
       <h1 class="text-info mb-3">
-        Replies
+        <strong style="font-family:serif;">Replies</strong>
+        
       </h1>
       {{#each tweet.Replies}}
         <div class='card mb-3'>

@@ -35,16 +35,16 @@
   <main role="main">
     <div class="album py-5">
       <div class="container">
-        {{#if success_messages}}
+        {{#if success_msg}}
         <div class="alert alert-success" role="alert" style="margin: 30px 0 ;">
-          {{success_messages}}
+          {{success_msg}}
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">×</span>
         </div>
         {{/if}}
-        {{#if error_messages}}
+        {{#if error_msg}}
         <div class="alert alert-danger" role="alert" style="margin: 30px 0 ;">
-          {{error_messages}}
+          {{error_msg}}
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">×</span>
         </div>

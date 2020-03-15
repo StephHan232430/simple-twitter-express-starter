@@ -13,6 +13,6 @@ module.exports = {
     return options.inverse(this)
   },
   moment: function(a) {
-    return moment(a).format('YYYY-MM-DD hh:mm')
+    return moment(a).format('YYYY-MM-DD hh:mm a')
   }
 }

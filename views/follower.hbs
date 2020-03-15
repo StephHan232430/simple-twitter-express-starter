@@ -2,11 +2,12 @@
 	<div class="col-md-4 pr-5 display-flex justify-content-center">
 		{{#if profile.avatar}}
 		<img
-			class="my-5 img-thumbnail"
+			class="my-5 rounded"
 			src="{{profile.avatar}}"
 			alt="{{profile.name}}"
 			width="200px"
 			height="200px"
+			style="border: solid 7px white"
 			/>
 		{{else}}
 		<img
@@ -14,6 +15,7 @@
 			src="https://lighthouse-cdn.alphacamp.co/default/medium_user_photo.jpg"
 			width="200px"
 			height="200px"
+			style="border: solid 7px white"
 			/>
 		{{/if}}
 		<h2 class="mb-4" style="text-transform:capitalize;">

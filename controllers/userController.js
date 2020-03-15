@@ -102,7 +102,7 @@ const userController = {
   },
   editUser: (req, res) => {
     if (Number(req.params.id) !== helpers.getUser(req).id) {
-      req.flash('error_messages', '無權編輯')
+      req.flash('error_msg', '無權編輯')
       return res.redirect(`/users/${req.params.id}/tweets`)
     }
     return User.findByPk(req.params.id, { raw: true }).then(user => {
@@ -111,11 +111,11 @@ const userController = {
   },
   putUser: (req, res) => {
     if (Number(req.params.id) !== Number(helpers.getUser(req).id)) {
-      req.flash('error_messages', '您無權編輯他人檔案')
+      req.flash('error_msg', '無權編輯')
       return res.redirect(`/users/${req.params.id}/tweets`)
     }
     if (!req.body.name) {
-      req.flash('error_messages', "name didn't exist")
+      req.flash('error_msg', "Name didn't exist")
       return res.redirect('back')
     }
     const { file } = req
@@ -130,7 +130,7 @@ const userController = {
               avatar: file ? img.data.link : user.avatar
             })
             .then(user => {
-              req.flash('success_messages', 'user was successfully to update')
+              req.flash('success_msg', 'user was successfully to update')
               res.redirect(`/users/${req.params.id}/tweets`)
             })
         })
@@ -144,7 +144,10 @@ const userController = {
             avatar: user.avatar
           })
           .then(user => {
-            req.flash('success_messages', 'user was successfully to update')
+            req.flash(
+              'success_msg',
+              `${user.name}'s profile was successfully to update`
+            )
             res.redirect(`/users/${req.params.id}/tweets`)
           })
       })

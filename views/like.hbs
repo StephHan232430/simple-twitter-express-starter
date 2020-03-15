@@ -21,36 +21,36 @@
         {{profile.name}}
       </strong>
     </h2>
-    <p class="text-muted mb-3 ml-1" style="font-size:12px">{{profile.introduction}}</p>
+    <p class="text-dark mb-3 ml-1" style="font-size:12px">{{profile.introduction}}</p>
     <br />
     <div class="mb-4 ml-2">
       <ul class="list-group">
         <li class="list-group-item"> <h5>
             <a href="/users/{{profile.id}}/tweets" style="text-decoration:none;">
-              <strong class="text-muted">
+              <strong class="text-dark">
                 Tweets
               </strong>
-              <span class="text-light badge badge-secondary">
+              <span class="text-light badge badge-dark">
                 {{profile.Tweets.length}}
               </span>
             </a>
           </h5></li>
         <li class="list-group-item"> <h5>
             <a href="/users/{{profile.id}}/followings" style="text-decoration:none;">
-              <strong class="text-muted">
+              <strong class="text-dark">
                 Followings
               </strong>
-              <span class="text-light badge badge-secondary">
+              <span class="text-light badge badge-dark">
                 {{profile.Followings.length}}
               </span>
             </a>
           </h5></li>
         <li class="list-group-item"> <h5>
             <a href="/users/{{profile.id}}/followers" style="text-decoration:none;">
-              <strong class="text-muted">
+              <strong class="text-dark">
                 Followers
               </strong>
-              <span class="text-light badge badge-secondary">
+              <span class="text-light badge badge-dark">
                 {{profile.Followers.length}}
               </span>
             </a>
@@ -99,7 +99,7 @@
   </div>
   <div class="col-md-8 mt-5">
     <h1 class="text-info mb-5">
-      Likes
+      <strong style="font-family:serif;">Likes</strong>
     </h1>
     {{#if LikedTweetList}}
     {{#each LikedTweetList}}

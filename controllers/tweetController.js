@@ -50,7 +50,14 @@ const tweetController = {
     })
   },
   postTweets: (req, res) => {
-    if (req.body.text) {
+    function isNull(str) {
+      if (str == '') return true
+      var regu = '^[ ]+$'
+      var re = new RegExp(regu)
+      return re.test(str)
+    }
+    if ( !isNull(req.body.text) ) {
+      console.log("text",req.body.text)
       return Tweet.create({
         description: req.body.text,
         UserId: helpers.getUser(req).id

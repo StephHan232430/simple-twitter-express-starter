@@ -107,7 +107,7 @@
           </form>
         {{else}}
           <form action='/followships' method='POST'>
-            <input type='hidden' name='userId' value="{{targetUser.id}}" />
+            <input type='hidden' name='id' value="{{targetUser.id}}" />
             <button type='submit' class='btn btn-secondary'>
               <i class='fa fa-user-plus px-2' aria-hidden='true'></i>
             </button>

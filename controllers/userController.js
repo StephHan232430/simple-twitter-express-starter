@@ -73,11 +73,14 @@ const userController = {
         .includes(user.id)
       const tweets = user.Tweets.map(tweet => ({
         ...tweet.dataValues,
-        isLiked: helpers.getUser(req).LikedTweets.map(d => d.id).includes(tweet.id)
+        isLiked: helpers.getUser(req).LikedTweets
+          ? helpers
+              .getUser(req)
+              .LikedTweets.map(d => d.id)
+              .includes(tweet.id)
+          : helpers.getUser(req).LikedTweets
       })).sort((a, b) => b.createdAt - a.createdAt)
-      res.render(
-        'profile',{ profile: user, tweets, isFollowed }
-      )
+      res.render('profile', { profile: user, tweets, isFollowed })
     })
   },
   addFollowing: (req, res) => {
@@ -165,7 +168,6 @@ const userController = {
         { model: Tweet, as: 'LikedTweets' }
       ]
     }).then(user => {
-      console.log(user.dataValues)
       const isFollowed = helpers
         .getUser(req)
         .Followings.map(d => d.id)
@@ -242,10 +244,12 @@ const userController = {
         .includes(user.id)
       const LikedTweetList = user.LikedTweets.map(tweet => ({
         ...tweet.dataValues,
-        isLiked: helpers
-          .getUser(req)
-          .LikedTweets.map(d => d.id)
-          .includes(tweet.id)
+        isLiked: helpers.getUser(req).LikedTweets
+          ? helpers
+              .getUser(req)
+              .LikedTweets.map(d => d.id)
+              .includes(tweet.id)
+          : helpers.getUser(req).LikedTweets
       })).sort((a, b) => b.likeCreatedAt - a.likeCreatedAt)
       return res.render(
         'like',

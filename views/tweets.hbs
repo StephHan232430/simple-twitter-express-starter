@@ -22,7 +22,15 @@
                   <a href="/users/{{this.User.id}}/tweets" class="text-decoration-none">@{{ this.User.name }}&nbsp;</a>
                   {{ moment this.createdAt }}
                 </h5>
-                <p class="card-text">{{ this.description }}</p>
+                  <p class="card-text" style="overflow:hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    display: -webkit-box; 
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                    white-space: normal;">
+                  {{ this.description }}
+                  </p>
                 <div class="row">
                   &nbsp;&nbsp;
                   <a href="/tweets/{{this.id}}/replies">
@@ -53,7 +61,7 @@
       <p class="h1">popular</p>
       <br>
       {{#each users}}
-        <div class="card mb-3" style="max-width: 400px;">
+        <div class="card mb-3" style="max-width: 540px;">
           <div class="row no-gutters">
             <div class="col-md-4">
               <img src="https://loremflickr.com/320/240/food,dessert,restaurant/" class="card-img">
@@ -63,7 +71,15 @@
                 <h5 class="card-title">
                   <a href="/users/{{this.id}}/tweets" class="text-decoration-none">@{{ this.name }}</a>
                 </h5>
-                <p class="card-text">{{ this.introduction}}</p>
+                <p class="card-text" style="overflow:hidden;
+                  white-space: nowrap;
+                  text-overflow: ellipsis;
+                  display: -webkit-box;
+                  -webkit-line-clamp: 1;
+                  -webkit-box-orient: vertical;
+                  white-space: normal;">
+                {{ this.introduction }}
+                </p>
           
                 <div style="margin-left: 80px;">
                   {{#ifNotCond this.id ../user.id}}

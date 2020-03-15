@@ -54,10 +54,19 @@ const adminController = {
       order: [['createdAt', 'DESC']],
       include: [User]
     }).then(tweets => {
-      tweets = tweets.map(tweet => ({
-        ...tweet.dataValues,
-        description: tweet.description.substring(0, 50)
-      }))
+      tweets = tweets.map(tweet => {
+        //判斷內文長度，過長顯示...
+        if (tweet.description.length > 50) {
+          return {
+            ...tweet.dataValues,
+            description: tweet.description.substring(0, 50) + '.....'
+          }
+        } else {
+          return {
+            ...tweet.dataValues
+          }
+        }
+      })
       return res.render('admin/tweets', JSON.parse(JSON.stringify({
         tweets: tweets
       })))

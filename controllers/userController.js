@@ -91,7 +91,7 @@ const userController = {
       followerId: helpers.getUser(req).id,
       followingId: Number(req.body.id)
     }).then(followship => {
-      res.redirect(200, 'back')
+      res.redirect('back')
     })
   },
   removeFollowing: (req, res) => {
@@ -210,7 +210,6 @@ const userController = {
         { model: Tweet, as: 'LikedTweets' }
       ]
     }).then(user => {
-      // console.log(user)
       const isFollowed = helpers
         .getUser(req)
         .Followings.map(d => d.id)

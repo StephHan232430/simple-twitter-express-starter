@@ -3,19 +3,31 @@
   <a href="/admin/tweets" class="text-dark">Tweets</a> |
   <a href="/admin/users" class="text-secondary">Users</a>
 </h4>
-<br/>
-<br/>
+<br />
+<br />
 
 <table class="table table-hover" id="myTable">
   <thead class="thead-dark">
     <tr>
-      
-      <th scope="col" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(1)')">
-        User <i class="fa fa-sort" style="font-size:13px;"></i></th>
-      <th scope="col" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(2)')">
-        Description <i class="fa fa-sort" style="font-size:13px;"></i></th>
-      <th scope="col" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(3)')">
-        CreateAt <i class="fa fa-sort" style="font-size:13px;"></i></th>
+      <th
+        scope="col"
+        onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(1)')"
+      >
+        User <i class="fa fa-sort" style="font-size:13px;"></i>
+      </th>
+      <th
+        scope="col"
+        onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(2)')"
+      >
+        Description <i class="fa fa-sort" style="font-size:13px;"></i>
+      </th>
+      <th>Reply</th>
+      <th
+        scope="col"
+        onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(4)')"
+      >
+        CreateAt <i class="fa fa-sort" style="font-size:13px;"></i>
+      </th>
       <th scope="col">#</th>
     </tr>
   </thead>
@@ -24,9 +36,22 @@
     <tr class="item">
       <td>{{ this.User.name }}</td>
       <td>{{ this.description }}</td>
+      <td>
+        <button
+          class="btn btn-secondary"
+          data-toggle="modal"
+          data-target="#show-replies-{{ this.id }}"
+        >
+          {{ this.Replies.length }}
+        </button>
+      </td>
       <td>{{ moment this.createdAt }}</td>
       <td>
-        <form action="/admin/tweets/{{this.id}}?_method=DELETE" method="POST" style="display: inline;">
+        <form
+          action="/admin/tweets/{{ this.id }}?_method=DELETE"
+          method="POST"
+          style="display: inline;"
+        >
           <button type="submit" class="btn btn-danger">Delete</button>
         </form>
       </td>
@@ -34,3 +59,54 @@
     {{/each}}
   </tbody>
 </table>
+
+{{#each tweets}}
+<div
+  id="show-replies-{{ this.id }}"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+>
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-info">{{ this.description }}</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <table
+          id="table-replies{{ this.id }}"
+          class="table table-hover"
+          class="text-center"
+        >
+          <thead class="thead-dark">
+            <tr id="thead-row-replies{{ this.id }}">
+              <th scope="col">User</th>
+              <th scope="col">Reply</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {{#each this.Replies}}
+            <tr>
+              <td>{{../this.User.name}}</td>
+              <td>
+                {{ this.comment }}
+              </td>
+            </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{{/each}}

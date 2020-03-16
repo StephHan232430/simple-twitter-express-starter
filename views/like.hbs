@@ -90,7 +90,7 @@
       </form>
       {{else}}
       <form action="/followships" method="POST" style="display: contents;">
-        <input type="hidden" name="userId" value="{{profile.id}}" />
+        <input type="hidden" name="id" value="{{profile.id}}" />
         <button type="submit" class="btn btn-secondary">
           <i class="fa fa-user-plus px-2" aria-hidden="true"></i>
         </button>
@@ -108,14 +108,14 @@
     <div class="card mb-3">
       <div class="row">
         <div class="col-md-4 my-4">
-          <img src="{{../profile.avatar}}" alt="{{../profile.name}}"
+          <img src="{{this.User.avatar}}" alt="{{this.User.name}}"
             width="170px"
             height="170px" class="rounded ml-2">
         </div>
         <div class="col-md-8 pt-2">
           <div class="card-body">
             <h5 class="card-title">
-              <a href="/users/{{../profile.id}}/tweets" style="text-decoration:none;">@{{../profile.name}}</a>
+              <a href="/users/{{this.User.id}}/tweets" style="text-decoration:none;">@{{this.User.name}}</a>
               <small class="pl-2">&nbsp;{{moment this.createdAt}}</small></h5>
             <p class="card-text pl-1">{{this.description}}</p>
           </div>

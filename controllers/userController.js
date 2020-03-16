@@ -84,11 +84,14 @@ const userController = {
     })
   },
   addFollowing: (req, res) => {
+    if (helpers.getUser(req).id === Number(req.body.id)) {
+      return res.send('can not follow self')
+    }
     return Followship.create({
       followerId: helpers.getUser(req).id,
-      followingId: req.body.userId
+      followingId: Number(req.body.id)
     }).then(followship => {
-      res.redirect(200, 'back')
+      res.redirect('back')
     })
   },
   removeFollowing: (req, res) => {
@@ -207,7 +210,6 @@ const userController = {
         { model: Tweet, as: 'LikedTweets' }
       ]
     }).then(user => {
-      // console.log(user)
       const isFollowed = helpers
         .getUser(req)
         .Followings.map(d => d.id)

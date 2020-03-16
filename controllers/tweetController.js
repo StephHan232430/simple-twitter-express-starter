@@ -50,23 +50,16 @@ const tweetController = {
     })
   },
   postTweets: (req, res) => {
-    function isNull(str) {
-      if (str == '') return true
-      var regu = '^[ ]+$'
-      var re = new RegExp(regu)
-      return re.test(str)
-    }
-    if ( !isNull(req.body.text) ) {
-      console.log("text",req.body.text)
-      return Tweet.create({
-        description: req.body.text,
+    if (req.body.description.trim() !== '' && req.body.description.length <= 140) {
+      Tweet.create({
+        description: req.body.description.trim(),
         UserId: helpers.getUser(req).id
       }).then(tweet => {
-        res.redirect('/tweets')
+        return res.redirect('/tweets')
       })
     } else {
       req.flash('error_msg', '輸入不可為空白！')
-      res.redirect('/tweets')
+      return res.redirect('/tweets')
     }
   },
   addLike: (req, res) => {

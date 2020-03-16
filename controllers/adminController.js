@@ -1,5 +1,6 @@
 const db = require('../models')
 const helpers = require('../_helpers')
+const Reply = db.Reply
 const User = db.User
 const Tweet = db.Tweet
 
@@ -52,7 +53,7 @@ const adminController = {
   getTweets: (req, res) => {
     Tweet.findAll({
       order: [['createdAt', 'DESC']],
-      include: [User]
+      include: [User, Reply]
     }).then(tweets => {
       tweets = tweets.map(tweet => {
         //判斷內文長度，過長顯示...

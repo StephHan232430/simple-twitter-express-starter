@@ -85,8 +85,7 @@ const tweetController = {
         // 假如沒有 hashtag 的情況
         Tweet.create({
           description: req.body.description.trim(),
-          UserId: helpers.getUser(req).id,
-          CategoryId: newcategory.id
+          UserId: helpers.getUser(req).id
         }).then(tweet => {
           return res.redirect('/tweets')
         })

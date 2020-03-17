@@ -50,6 +50,7 @@ const replyController = {
       })
     })
   },
+  // 與ＴＡ討論後，暫時這樣寫，待通知
   postReply: (req, res) => {
     if (req.headers.accept.includes('application/json')) {
       return Reply.create({

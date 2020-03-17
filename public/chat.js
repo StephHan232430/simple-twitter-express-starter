@@ -1,6 +1,7 @@
 const socket =
-  io.connect('https://simple-twitter-demo.herokuapp.com/') ||
-  io.connect('http://localhost:3000')
+  io.connect('https://simple-twitter-demo.herokuapp.com/')
+  //  ||
+  // io.connect('http://localhost:3000')
 
 const message = document.querySelector('#message')
 const sender = document.querySelector('#sender')

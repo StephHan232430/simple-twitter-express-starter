@@ -90,6 +90,7 @@ module.exports = (app, passport) => {
 
   app.get('/chat/:id', authenticated, (req, res) => {
     res.sendFile(process.cwd() + '/public/chat.html')
+    res.redirect('back')
   })
 
   app.get('/signup', userController.signUpPage)

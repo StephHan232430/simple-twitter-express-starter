@@ -1,4 +1,6 @@
-const socket = io.connect('http://localhost:3000')
+const socket =
+  io.connect('https://simple-twitter-demo.herokuapp.com/') ||
+  io.connect('http://localhost:3000')
 
 const message = document.querySelector('#message')
 const sender = document.querySelector('#sender')
@@ -25,7 +27,8 @@ socket.on('chatMessage', data => {
   feedback.innerHTML = ''
   message.value = ''
   output.innerHTML +=
-    '<p><strong>' + data.sender + ':</strong>' + data.message + '</p>'
+    '<pre><p><strong>' + data.sender + ': </strong>' + data.message + '</p><pre>'
+  output.scrollTop = output.scrollHeight
 })
 
 socket.on('typing', data => {

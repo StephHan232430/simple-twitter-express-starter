@@ -4,6 +4,7 @@ const Tweet = db.Tweet
 const Reply = db.Reply
 const User = db.User
 const Like = db.Like
+const Category = db.Category
 
 const tweetController = {
   getTweets: (req, res) => {
@@ -51,12 +52,45 @@ const tweetController = {
   },
   postTweets: (req, res) => {
     if (req.body.description.trim() !== '' && req.body.description.length <= 140) {
-      Tweet.create({
-        description: req.body.description.trim(),
-        UserId: helpers.getUser(req).id
-      }).then(tweet => {
-        return res.redirect('/tweets')
-      })
+      // 假如有 hashtag 的情況
+      if (req.body.category.trim().replace('#', '') !== '') {
+        Category.findOne({
+          where: { name: req.body.category.replace('#', '') }
+        }).then(category => {
+          if (category === null) {
+            // 假如此 hashtag 分類不存在，則新增此分類
+            Category.create({
+              name: req.body.category.replace('#', '')
+            }).then(newcategory => {
+              Tweet.create({
+                description: req.body.description.trim(),
+                UserId: helpers.getUser(req).id,
+                CategoryId: newcategory.id
+              }).then(tweet => {
+                return res.redirect('/tweets')
+              })
+            })
+          } else {
+            // 假如此 hashtag 存在，則直接新增 tweet
+            Tweet.create({
+              description: req.body.description.trim(),
+              UserId: helpers.getUser(req).id,
+              CategoryId: category.id
+            }).then(tweet => {
+              return res.redirect('/tweets')
+            })
+          }
+        })
+      } else {
+        // 假如沒有 hashtag 的情況
+        Tweet.create({
+          description: req.body.description.trim(),
+          UserId: helpers.getUser(req).id,
+          CategoryId: newcategory.id
+        }).then(tweet => {
+          return res.redirect('/tweets')
+        })
+      }
     } else {
       req.flash('error_msg', '輸入不可為空白！')
       return res.redirect('/tweets')

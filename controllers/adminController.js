@@ -8,7 +8,7 @@ const adminController = {
   getUsers: (req, res) => {
     User.findAll({
       include: [
-        { model: Tweet, include: [{model: User, as: 'LikedUsers'}]},
+        { model: Tweet, include: [{ model: User, as: 'LikedUsers' }] },
         { model: User, as: 'Followers' },
         { model: User, as: 'Followings' }
       ]
@@ -23,8 +23,8 @@ const adminController = {
         }
       }
       users = users.map(user => {
-        var isAdmin = ""
-        if (user.role === "admin") {
+        var isAdmin = ''
+        if (user.role === 'admin') {
           isAdmin = true
         } else {
           isAdmin = false
@@ -40,14 +40,17 @@ const adminController = {
             likeCount += user.Tweets[index].LikedUsers.length
           }
         }
-        return user = {
+        return (user = {
           ...user.dataValues,
           likeCount: likeCount,
-          isAdmin :isAdmin
-        }
+          isAdmin: isAdmin
+        })
       })
       users = users.sort((a, b) => b.Tweets.length - a.Tweets.length)
-      return res.render('admin/users',JSON.parse(JSON.stringify({users: users})))
+      return res.render(
+        'admin/users',
+        JSON.parse(JSON.stringify({ users: users }))
+      )
     })
   },
   getTweets: (req, res) => {
@@ -55,22 +58,18 @@ const adminController = {
       order: [['createdAt', 'DESC']],
       include: [User, Reply]
     }).then(tweets => {
-      tweets = tweets.map(tweet => {
-        //判斷內文長度，過長顯示...
-        if (tweet.description.length > 50) {
-          return {
-            ...tweet.dataValues,
-            description: tweet.description.substring(0, 50) + '.....'
-          }
-        } else {
-          return {
-            ...tweet.dataValues
-          }
-        }
-      })
-      return res.render('admin/tweets', JSON.parse(JSON.stringify({
-        tweets: tweets
-      })))
+      tweets = tweets.map(tweet => ({
+        ...tweet.dataValues,
+        description: tweet.description
+      }))
+      return res.render(
+        'admin/tweets',
+        JSON.parse(
+          JSON.stringify({
+            tweets: tweets
+          })
+        )
+      )
     })
   },
   deleteTweet: (req, res) => {
@@ -82,20 +81,24 @@ const adminController = {
   },
   setUser: (req, res) => {
     User.findByPk(req.params.id).then(user => {
-      if (user.role === "user") {
-        user.update({
-          role: 'admin'
-        }).then((user) => {
-          req.flash('success_messages', 'user was successfully to update')
-          res.redirect('/admin/users')
-        })
+      if (user.role === 'user') {
+        user
+          .update({
+            role: 'admin'
+          })
+          .then(user => {
+            req.flash('success_messages', 'user was successfully to update')
+            res.redirect('/admin/users')
+          })
       } else {
-        user.update({
-          role: 'user'
-        }).then((user) => {
-          req.flash('success_messages', 'user was successfully to update')
-          res.redirect('/admin/users')
-        })
+        user
+          .update({
+            role: 'user'
+          })
+          .then(user => {
+            req.flash('success_messages', 'user was successfully to update')
+            res.redirect('/admin/users')
+          })
       }
     })
   }

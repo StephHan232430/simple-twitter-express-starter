@@ -7,93 +7,94 @@
 <br />
 
 <div class="table-responsive bg-white">
-	<table class="table table-hover" id="myTable">
-		<thead class="thead-dark">
-			<tr>
-				<th scope="col" class="text-nowrap" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(1)')">#&nbsp;<i class="fa fa-sort" style="font-size:13px;"></i></th>
-				<th scope="col" class="text-nowrap" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(2)')">User&nbsp;<i class="fa fa-sort" style="font-size:13px;"></i>
-				</th>
-				<th scope="col" class="text-nowrap" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(3)')">Description&nbsp;<i class="fa fa-sort" style="font-size:13px;"></i>
-				</th>
-				<th scope="col" class="text-nowrap">Reply</th>
-				<th scope="col" class="text-nowrap" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(5)')">CreateAt&nbsp;<i class="fa fa-sort" style="font-size:13px;"></i>
-				</th>
-				<th scope="col">#</th>
-			</tr>
-		</thead>
-		<tbody>
-			{{#each tweets}}
-				<tr class="item">
-					<td>{{inc @index}}</td>
-					<td>{{ this.User.name }}</td>
-					<td>{{ this.description }}</td>
-					<td>
-						<button class="btn btn-secondary" data-toggle="modal" data-target="#show-replies-{{ this.id }}">
-							{{ this.Replies.length }}
-						</button>
-					</td>
-					<td>{{ moment this.createdAt }}</td>
-					<td>
-						<button type="submit" class="btn btn-danger" data-toggle="modal" data-target="#delete-{{this.id}}" style="display: inline;">Delete</button>
-					</td>
-				</tr>
-				{{!-- Delete modal --}}
-				<div class="modal fade" id="delete-{{this.id}}" tabindex="-1" role="dialog">
-					<div class="modal-dialog" role="document">
-						<div class="modal-content p-3">
-							<div class="modal-body">
-								<h4 class="mr-auto text-info">確認刪除以下Tweet?</h4>
-								<br />
-								<br />
-								<p> {{ this.description }}</p>
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn btn-secondary" data-dismiss="modal">取消</button>
-								<form action="/admin/tweets/{{ this.id }}?_method=DELETE" method="POST" method="POST">
-									<button type="submit" class="btn btn-danger float-right">Delete</button>
-								</form>
-							</div>
-						</div>
-					</div>
-				</div>
-			{{/each}}
-		</tbody>
-	</table>
+  <table class="table table-hover" id="myTable">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col" class="text-nowrap" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(1)')">#&nbsp;<i class="fa fa-sort" style="font-size:13px;"></i></th>
+        <th scope="col" class="text-nowrap" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(2)')">User&nbsp;<i class="fa fa-sort" style="font-size:13px;"></i>
+        </th>
+        <th scope="col" class="text-nowrap" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(3)')">Description&nbsp;<i class="fa fa-sort" style="font-size:13px;"></i>
+        </th>
+        <th scope="col" class="text-nowrap">Reply</th>
+        <th scope="col" class="text-nowrap" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(5)')">CreateAt&nbsp;<i class="fa fa-sort" style="font-size:13px;"></i>
+        </th>
+        <th scope="col">#</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each tweets}}
+        <tr class="item">
+          <td>{{inc @index}}</td>
+          <td>{{ this.User.name }}</td>
+          <td>{{ this.description }}</td>
+          <td>
+            <button class="btn btn-secondary" data-toggle="modal" data-target="#show-replies-{{ this.id }}">
+              {{ this.Replies.length }}
+            </button>
+          </td>
+          <td>{{ moment this.createdAt }}</td>
+          <td>
+            <button type="submit" class="btn btn-danger" data-toggle="modal" data-target="#delete-{{this.id}}" style="display: inline;">Delete</button>
+          </td>
+        </tr>
+        {{!-- Delete modal --}}
+        <div class="modal fade" id="delete-{{this.id}}" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content p-3">
+              <div class="modal-body">
+                <h4 class="mr-auto text-info">確認刪除以下Tweet?</h4>
+                <br />
+                <br />
+                <p> {{ this.description }}</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn btn-secondary" data-dismiss="modal">取消</button>
+                <form action="/admin/tweets/{{ this.id }}?_method=DELETE" method="POST" method="POST">
+                  <button type="submit" class="btn btn-danger float-right">Delete</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      {{/each}}
+    </tbody>
+  </table>
 </div>
 
+{{!-- 顯示Reply --}}
 {{#each tweets}}
-	<div id="show-replies-{{ this.id }}" class="modal fade" tabindex="-1" role="dialog">
-		<div class="modal-dialog modal-lg" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title text-info">{{inc @index}}. {{ this.description }}</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
+  <div id="show-replies-{{ this.id }}" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-info">{{inc @index}}. {{ this.description }}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
 
-				<div class="modal-body">
-					<table id="table-replies{{ this.id }}" class="table table-hover" class="text-center">
-						<thead class="thead-dark">
-							<tr id="thead-row-replies{{ this.id }}">
-								<th scope="col">User</th>
-								<th scope="col">Reply</th>
-							</tr>
-						</thead>
+        <div class="modal-body">
+          <table id="table-replies{{ this.id }}" class="table table-hover" class="text-center">
+            <thead class="thead-dark">
+              <tr id="thead-row-replies{{ this.id }}">
+                <th scope="col">User</th>
+                <th scope="col">Reply</th>
+              </tr>
+            </thead>
 
-						<tbody>
-							{{#each this.Replies}}
-								<tr>
-									<td>{{../this.User.name}}</td>
-									<td>
-										{{shortComment this.comment}}
-									</td>
-								</tr>
-							{{/each}}
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-	</div>
+            <tbody>
+              {{#each this.Replies}}
+                <tr>
+                  <td>{{../this.User.name}}</td>
+                  <td>
+                    {{shortComment this.comment}}
+                  </td>
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 {{/each}}

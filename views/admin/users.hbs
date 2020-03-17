@@ -7,56 +7,57 @@
 <br />
 
 <div class="table-responsive bg-white">
-	<table class="table table-hover" id="myTable">
-		<thead class="thead-dark">
-			<tr>
-				<th scope="col" class="text-nowrap" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(1)')">#&nbsp;<i class="fa fa-sort" style="font-size:13px;"></i></th>
-				<th scope="col" class="text-nowrap" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(2)')">User&nbsp;<i class="fa fa-sort" style="font-size:13px;"></i></th>
-				<th scope="col" class="text-nowrap" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(3)')">Tweet&nbsp;<i class="fa fa-sort" style="font-size:13px;"></i></th>
-				<th scope="col" class="text-nowrap" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(4)')">Follower&nbsp;<i class="fa fa-sort" style="font-size:13px;"></i></th>
-				<th scope="col" class="text-nowrap" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(5)')">Following&nbsp;<i class="fa fa-sort" style="font-size:13px;"></i></th>
-				<th scope="col" class="text-nowrap">
-					Like</th>
-				<th scope="col" class="text-nowrap" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(7)')">
-					Role&nbsp;<i class="fa fa-sort" style="font-size:13px;"></i></th>
-				<th scope="col">#</th>
-			</tr>
-		</thead>
-		<tbody>
-			{{#each users}}
-				<tr class="item">
-					<td>{{inc @index}}</td>
-					<td>{{ this.name }}</td>
-					<td>{{ this.Tweets.length }} tweets</td>
-					<td>{{ this.Followers.length }} followings</td>
-					<td>{{ this.Followings.length }} followers</td>
-					<td>{{ this.likeCount }} likes</td>
+  <table class="table table-hover" id="myTable">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col" class="text-nowrap" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(1)')">#&nbsp;<i class="fa fa-sort" style="font-size:13px;"></i></th>
+        <th scope="col" class="text-nowrap" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(2)')">User&nbsp;<i class="fa fa-sort" style="font-size:13px;"></i></th>
+        <th scope="col" class="text-nowrap" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(3)')">Tweet&nbsp;<i class="fa fa-sort" style="font-size:13px;"></i></th>
+        <th scope="col" class="text-nowrap" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(4)')">Follower&nbsp;<i class="fa fa-sort" style="font-size:13px;"></i></th>
+        <th scope="col" class="text-nowrap" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(5)')">Following&nbsp;<i class="fa fa-sort" style="font-size:13px;"></i></th>
+        <th scope="col" class="text-nowrap">
+          Like</th>
+        <th scope="col" class="text-nowrap" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(7)')">
+          Role&nbsp;<i class="fa fa-sort" style="font-size:13px;"></i></th>
+        <th scope="col">#</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each users}}
+        <tr class="item">
+          <td>{{inc @index}}</td>
+          <td>{{ this.name }}</td>
+          <td>{{ this.Tweets.length }} tweets</td>
+          <td>{{ this.Followers.length }} followings</td>
+          <td>{{ this.Followings.length }} followers</td>
+          <td>{{ this.likeCount }} likes</td>
 
-					{{#if this.isAdmin }}
-						<td> admin </td>
-					{{else}}
-						<td> user </td>
-					{{/if}}
+          {{#if this.isAdmin }}
+            <td> admin </td>
+          {{else}}
+            <td> user </td>
+          {{/if}}
 
-					{{#if this.showLink }}
-						{{#if this.isAdmin}}
-							<td>
-								<form action="/admin/users/{{this.id}}?_method=PUT" method="POST" style="display: inline;">
-									<button type="submit" class="btn btn-outline-primary">
-										Set as user</button>
-								</form>
-							</td>
-						{{else}}
-							<td>
-								<form action="/admin/users/{{this.id}}?_method=PUT" method="POST" style="display: inline;">
-									<button type="submit" class="btn btn-outline-warning">
-										<i class="fa fa-user-secret" aria-hidden="true">&nbsp;set as admin</i></button>
-								</form>
-							</td>
-						{{/if}}
-					{{/if}}
-				</tr>
-			{{/each}}
-		</tbody>
-	</table>
+          {{#if this.showLink }}
+            {{#if this.isAdmin}}
+              <td>
+                <form action="/admin/users/{{this.id}}?_method=PUT" method="POST" style="display: inline;">
+                  <button type="submit" class="btn btn-outline-primary">
+                    Set as user</button>
+                </form>
+              </td>
+            {{else}}
+            
+              <td>
+                <form action="/admin/users/{{this.id}}?_method=PUT" method="POST" style="display: inline;">
+                  <button type="submit" class="btn btn-outline-warning">
+                    <i class="fa fa-user-secret" aria-hidden="true">&nbsp;set as admin</i></button>
+                </form>
+              </td>
+            {{/if}}
+          {{/if}}
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
 </div>

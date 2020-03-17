@@ -14,5 +14,15 @@ module.exports = {
   },
   moment: function(a) {
     return moment(a).format('YYYY-MM-DD hh:mm a')
+  },
+  shortComment: function(a) {
+    if (a.length > 50) {
+      return a.substring(0, 50) + '.....'
+    } else {
+      return a
+    }
+  },
+  inc: function(value, options) {
+    return parseInt(value) + 1
   }
 }

@@ -6,27 +6,34 @@
 <br />
 <br />
 
-<table class="table table-hover" id="myTable">
+<div class="table-responsive bg-white">
+  <table class="table table-hover" id="myTable">
   <thead class="thead-dark">
     <tr>
+      <th scope="col"
+        class="text-nowrap"
+      >#</th>
       <th
         scope="col"
+        class="text-nowrap"
         onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(1)')"
-      >
-        User <i class="fa fa-sort" style="font-size:13px;"></i>
+      >User <i class="fa fa-sort" style="font-size:13px;"></i>
       </th>
       <th
         scope="col"
+        class="text-nowrap"
         onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(2)')"
-      >
-        Description <i class="fa fa-sort" style="font-size:13px;"></i>
+      >Description <i class="fa fa-sort" style="font-size:13px;"></i>
       </th>
-      <th>Reply</th>
       <th
         scope="col"
+        class="text-nowrap"
+        >Reply</th>
+      <th
+        scope="col"
+        class="text-nowrap"
         onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(4)')"
-      >
-        CreateAt <i class="fa fa-sort" style="font-size:13px;"></i>
+      >CreateAt <i class="fa fa-sort" style="font-size:13px;"></i>
       </th>
       <th scope="col">#</th>
     </tr>
@@ -34,6 +41,7 @@
   <tbody>
     {{#each tweets}}
     <tr class="item">
+      <td>{{inc @index}}</td>
       <td>{{ this.User.name }}</td>
       <td>{{ this.description }}</td>
       <td>
@@ -47,18 +55,32 @@
       </td>
       <td>{{ moment this.createdAt }}</td>
       <td>
-        <form
-          action="/admin/tweets/{{ this.id }}?_method=DELETE"
-          method="POST"
-          style="display: inline;"
-        >
-          <button type="submit" class="btn btn-danger">Delete</button>
-        </form>
+        <button type="submit" class="btn btn-danger" data-toggle="modal" data-target="#delete-1" style="display: inline;">Delete</button>
       </td>
     </tr>
+    {{!-- Delete modal --}}
+    <div class="modal fade" id="delete-1" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content p-3">
+          <div class="modal-body">
+            <h4 class="mr-auto text-info">確認刪除以下Tweet?</h4>
+            <br/>
+            <br/>
+            <p> {{ this.description }}</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary float-right" data-dismiss="modal">取消</button>
+            <form action="/admin/tweets/{{ this.id }}?_method=DELETE" method="POST" method="POST">
+              <button type="submit" class="btn btn-danger float-right">Delete</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
     {{/each}}
   </tbody>
 </table>
+</div>
 
 {{#each tweets}}
 <div
@@ -70,7 +92,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title text-info">{{ this.description }}</h5>
+        <h5 class="modal-title text-info">{{inc @index}}. {{ this.description }}</h5>
         <button
           type="button"
           class="close"
@@ -99,7 +121,7 @@
             <tr>
               <td>{{../this.User.name}}</td>
               <td>
-                {{ this.comment }}
+                 {{shortComment this.comment}}
               </td>
             </tr>
             {{/each}}

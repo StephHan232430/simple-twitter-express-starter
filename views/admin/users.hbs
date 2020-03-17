@@ -6,17 +6,26 @@
 <br/>
 <br/>
 
-<table class="table table-hover" id="myTable">
+<div class="table-responsive bg-white">
+  <table class="table table-hover" id="myTable">
   <thead class="thead-dark">
     <tr>
-      <th scope="col" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(1)')">
-        User <i class="fa fa-sort" style="font-size:13px;"></i></th>
-      <th scope="col" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(2)')">
-        Tweet <i class="fa fa-sort" style="font-size:13px;"></i></th>
-      <th scope="col" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(3)')">
-        Follower <i class="fa fa-sort" style="font-size:13px;"></i></th>
-      <th scope="col" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(4)')">
-        Following <i class="fa fa-sort" style="font-size:13px;"></i></th>
+      <th scope="col"
+      class="text-nowrap"
+      onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(1)')"
+      >User <i class="fa fa-sort" style="font-size:13px;"></i></th>
+      <th scope="col"
+      class="text-nowrap"
+      onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(2)')"
+      >Tweet <i class="fa fa-sort" style="font-size:13px;"></i></th>
+      <th scope="col"
+      class="text-nowrap"
+      onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(3)')"
+      >Follower <i class="fa fa-sort" style="font-size:13px;"></i></th>
+      <th scope="col"
+      class="text-nowrap"
+      onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(4)')"
+      >Following <i class="fa fa-sort" style="font-size:13px;"></i></th>
       <th scope="col" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(5)')">
         Like <i class="fa fa-sort" style="font-size:13px;"></i></th>
       <th scope="col" onclick="w3.sortHTML('#myTable', '.item', 'td:nth-child(6)')">
@@ -58,3 +67,4 @@
     {{/each}}
   </tbody>
 </table>
+</div>

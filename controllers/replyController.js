@@ -8,7 +8,6 @@ const Like = db.Like
 const replyController = {
   getReplies: (req, res) => {
     Tweet.findByPk(req.params.tweet_id, {
-      
       include: [
         User,
         Like,
@@ -52,13 +51,26 @@ const replyController = {
     })
   },
   postReply: (req, res) => {
-    return Reply.create({
+    if (req.headers.accept.includes('application/json')) {
+      return Reply.create({
       comment: req.body.text,
       UserId: helpers.getUser(req).id,
       TweetId: req.params.tweet_id
     }).then(reply => {
       res.redirect(`/tweets/${req.params.tweet_id}/replies`)
     })
+    } else if (req.body.text && req.body.text.trim().length !== 0 ) {
+      return Reply.create({
+        comment: req.body.text.trim(),
+        UserId: helpers.getUser(req).id,
+        TweetId: req.params.tweet_id
+      }).then(reply => {
+        res.redirect(`/tweets/${req.params.tweet_id}/replies`)
+      })
+    } else if (!req.body.text || req.body.text.trim().length === 0) {
+      req.flash('error_msg', '輸入不可為空白')
+      res.redirect(`/tweets/${req.params.tweet_id}/replies`)
+    }
   }
 }
 

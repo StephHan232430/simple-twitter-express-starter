@@ -50,7 +50,7 @@ const tweetController = {
     })
   },
   postTweets: (req, res) => {
-    if (req.body.description.length <= 140) {
+    if (req.body.description.trim() !== '' && req.body.description.length <= 140) {
       Tweet.create({
         description: req.body.description.trim(),
         UserId: helpers.getUser(req).id

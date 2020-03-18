@@ -8,6 +8,7 @@ const sender = document.querySelector('#sender')
 const btn = document.querySelector('#send')
 const output = document.querySelector('#output')
 const feedback = document.querySelector('#feedback')
+const chatWindow = document.querySelector('#chat-window')
 
 btn.addEventListener('click', () => {
   if (message.value === '') {
@@ -29,7 +30,7 @@ socket.on('chatMessage', data => {
   message.value = ''
   output.innerHTML +=
     '<pre><p><strong>' + data.sender + ': </strong>' + data.message + '</p><pre>'
-  output.scrollTop = output.scrollHeight
+  chatWindow.scrollTop = chatWindow.scrollHeight
 })
 
 socket.on('typing', data => {

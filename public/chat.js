@@ -9,6 +9,7 @@ const btn = document.querySelector('#send')
 const output = document.querySelector('#output')
 const feedback = document.querySelector('#feedback')
 const chatWindow = document.querySelector('#chat-window')
+const roomName = document.querySelector('#room-name')
 
 btn.addEventListener('click', () => {
   if (message.value === '') {
@@ -28,9 +29,14 @@ message.addEventListener('keypress', () => {
 socket.on('chatMessage', data => {
   feedback.innerHTML = ''
   message.value = ''
-  output.innerHTML +=
-    '<pre><p><strong>' + data.sender + ': </strong>' + data.message + '</p><pre>'
-  chatWindow.scrollTop = chatWindow.scrollHeight
+  if (data.receiver === sender.value) {
+    output.innerHTML += '<pre><p><strong>' + data.sender + ': </strong>' + data.message + '</p><pre>'
+    chatWindow.scrollTop = chatWindow.scrollHeight
+  } else {
+    roomName.innerText = 'Chatting with ' + data.receiver + '...'
+    output.innerHTML += '<pre><p><strong>' + data.sender + ': </strong>' + data.message + '</p><pre>'
+    chatWindow.scrollTop = chatWindow.scrollHeight
+  }
 })
 
 socket.on('typing', data => {

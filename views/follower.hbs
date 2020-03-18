@@ -24,6 +24,13 @@
 			</strong>
 		</h2>
 		<p class="text-dark mb-3 ml-1" style="font-size:12px">{{profile.introduction}}</p>
+		{{#ifNotCond profile.id user.id}}
+		<a class='btn btn-outline-success mb-3' role='button'
+			onclick="window.open('https://simple-twitter-demo.herokuapp.com/chat/{{profile.id}}', 'Chatroom', config='height=592, width=500')">
+			{{!-- onclick="window.open('http://localhost:3000/chat/{{profile.id}}', 'Chatroom', config='height=592, width=500')"> --}}
+			Chat With {{profile.name}}
+		</a>
+		{{/ifNotCond}}
 		<br />
 		<div class="mb-4 ml-2">
 			<ul class="list-group">
@@ -124,6 +131,7 @@
 						<a href="/users/{{../user.id}}/edit"><button class="btn btn-primary">Edit
 								Profile</button></a>
 						{{else}}
+
 						{{#if this.isFollowed}}
 						<form class="text-right"
 							action="/followships/{{this.id}}?_method=DELETE" method="POST">
@@ -136,12 +144,20 @@
 							<button
 								type="submit"
 								class="btn btn-secondary"
-								name="userId"
+								name="id"
 								value={{this.id}}>
 								<i class="fa fa-user-plus px-2" aria-hidden="true"></i>
 							</button>
 						</form>
 						{{/if}}
+
+						{{#ifNotCond this.id ../user.id}}
+						<a class='btn btn-outline-success mb-3' role='button'
+							onclick="window.open('https://simple-twitter-demo.herokuapp.com/chat/{{this.id}}', 'Chatroom', config='height=592, width=500')">
+							{{!-- onclick="window.open('http://localhost:3000/chat/{{this.id}}', 'Chatroom', config='height=592, width=500')"> --}}
+							Chat With {{this.name}}
+						</a>
+						{{/ifNotCond}}
 						{{/ifCond}}
 					</div>
 				</div>

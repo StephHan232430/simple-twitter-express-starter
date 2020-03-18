@@ -65,7 +65,11 @@ io.on('connection', socket => {
   socket.emit('getCurrentUser', currentUser)
 
   socket.on('chatMessage', data => {
-    io.emit('chatMessage', data)
+    io.emit('chatMessage', {
+      message: data.message,
+      sender: data.sender,
+      receiver: currentUser
+    })
   })
 
   socket.on('typing', data => {

@@ -24,6 +24,13 @@
 			</strong>
 		</h2>
 		<p class="text-dark mb-3 ml-1" style="font-size:12px">{{profile.introduction}}</p>
+		{{#ifNotCond profile.id user.id}}
+		<a class='btn btn-outline-success mb-3' role='button'
+			onclick="window.open('https://simple-twitter-demo.herokuapp.com/chat/{{profile.id}}', 'Chatroom', config='height=592, width=500')">
+			{{!-- onclick="window.open('http://localhost:3000/chat/{{profile.id}}', 'Chatroom', config='height=592, width=500')"> --}}
+			Chat With {{profile.name}}
+		</a>
+		{{/ifNotCond}}
 		<br />
 		<div class="mb-4 ml-2">
 			<ul class="list-group">
@@ -126,7 +133,7 @@
 								Profile</button></a>
 						{{else}}
 						<form
-							class="text-right"
+							class="text-right d-inline-block"
 							action="/followships/{{this.id}}?_method=DELETE"
 							method="POST">
 							<button type="submit" class="btn btn-danger" name="id"
@@ -135,6 +142,14 @@
 							</button>
 						</form>
 						{{/ifCond}}
+
+						{{#ifNotCond this.id ../user.id}}
+						<a class='btn btn-outline-success mb-3' role='button'
+							onclick="window.open('https://simple-twitter-demo.herokuapp.com/chat/{{this.id}}', 'Chatroom', config='height=592, width=500')">
+							{{!-- onclick="window.open('http://localhost:3000/chat/{{this.id}}', 'Chatroom', config='height=592, width=500')"> --}}
+							Chat With {{this.name}}
+						</a>
+						{{/ifNotCond}}
 					</div>
 				</div>
 			</div>

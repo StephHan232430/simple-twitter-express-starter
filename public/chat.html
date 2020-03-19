@@ -16,7 +16,7 @@
 
   <body>
     <div id="chatroom" class="my-0">
-      <h2 id="room-name">Chatroom</h2>
+      <h2 id="room-name">Chat Room</h2>
       <div id="chat-window">
         <div id="output"></div>
         <div id="feedback"></div>
@@ -30,8 +30,16 @@
         style="display: none;"
         disabled
       />
-      <input id="message" type="text" placeholder="Message" required autofocus />
-      <input id="send" class="btn btn-primary" type="submit" value="Send">
+      <div id="interface">
+        <input
+          id="message"
+          type="text"
+          placeholder="Message"
+          required
+          autofocus
+        />
+        <input id="send" class="btn btn-primary" type="submit" value="Send" />
+      </div>
     </div>
 
     <script

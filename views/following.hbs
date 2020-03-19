@@ -114,7 +114,7 @@
 		{{#if followingList}}
 		<div class="row">
 			{{#each followingList}}
-			<div class="card col-md-5 m-2 mb-2" width="250px" height="250px">
+			<div class="card col-md-5 mx-1 mb-2" height="250px">
 				<div class="row">
 					<div class="col-md-4 my-4">
 						<img src="{{this.avatar}}" alt="{{this.name}}" width="100px"
@@ -124,32 +124,32 @@
 					<div class="col-md-8">
 						<div class="card-body">
 							<h5><a href="/users/{{this.id}}/tweets" class="text-decoration-none">{{this.name}}</a></h5>
-							<p>{{this.introduction}}</p>
+							<p>{{shortComment this.introduction}}</p>
 						</div>
-					</div>
-					<div class="card-body">
-						{{#ifCond this.id ../user.id}}
-						<a href="/users/{{../user.id}}/edit"><button class="btn btn-primary">Edit
-								Profile</button></a>
-						{{else}}
-						<form
-							class="text-right d-inline-block"
-							action="/followships/{{this.id}}?_method=DELETE"
-							method="POST">
-							<button type="submit" class="btn btn-danger" name="id"
-								value={{this.id}}>
-								<i class="fa fa-user px-2" aria-hidden="true"></i>
-							</button>
-						</form>
-						{{/ifCond}}
 
-						{{#ifNotCond this.id ../user.id}}
-						<a class='btn btn-outline-success mb-3' role='button'
-							onclick="window.open('https://simple-twitter-demo.herokuapp.com/chat/{{this.id}}', 'Chatroom', config='height=592, width=500')">
-							{{!-- onclick="window.open('http://localhost:3000/chat/{{this.id}}', 'Chatroom', config='height=592, width=500')"> --}}
-							Chat With {{this.name}}
-						</a>
-						{{/ifNotCond}}
+					</div>
+					<div class="card-body row ml-5 mt-1">
+					{{#ifCond this.id ../user.id}}
+					<a href="/users/{{../user.id}}/edit"><button class="btn btn-primary mr-5">Edit
+							Profile</button></a>
+					{{else}}
+					<form
+						action="/followships/{{this.id}}?_method=DELETE"
+						method="POST">
+						<button type="submit" class="btn btn-danger mr-5" name="id"
+							value={{this.id}}>
+							<i class="fa fa-user px-2" aria-hidden="true"></i>
+						</button>
+					</form>
+					{{/ifCond}}
+
+					{{#ifNotCond this.id ../user.id}}
+					<a class='btn btn-outline-success ml-3'
+						onclick="window.open('https://simple-twitter-demo.herokuapp.com/chat/{{this.id}}', 'Chatroom', config='height=592, width=500')">
+						{{!-- onclick="window.open('http://localhost:3000/chat/{{this.id}}', 'Chatroom', config='height=592, width=500')"> --}}
+						<i class="fa fa-comments-o px-2" aria-hidden="true"></i>
+					</a>
+					{{/ifNotCond}}
 					</div>
 				</div>
 			</div>

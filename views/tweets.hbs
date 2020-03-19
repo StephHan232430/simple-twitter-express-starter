@@ -87,8 +87,9 @@
             </p>
           </div>
         </div>
-        <div class="card-body">
+        <div class="card-body row mt-1 ml-5">
           {{#ifNotCond this.id ../user.id}}
+
           {{#if this.isFollowed }}
           <form class="text-right" action="/followships/{{this.id}}?_method=DELETE" method="POST">
             <button type="submit" class="btn btn-danger" name="id" value={{this.id}}><i class="fa fa-user px-2"
@@ -102,13 +103,14 @@
             </button>
           </form>
           {{/if}}
+
           {{/ifNotCond}}
 
           {{#ifNotCond this.id ../user.id}}
-          <a class='btn btn-outline-success mb-3' role='button'
+          <a class="btn btn-outline-success ml-2"
             onclick="window.open('https://simple-twitter-demo.herokuapp.com/chat/{{this.id}}', 'Chatroom', config='height=592, width=500')">
             {{!-- onclick="window.open('http://localhost:3000/chat/{{this.id}}', 'Chatroom', config='height=592, width=500')"> --}}
-            Chat With {{this.name}}
+            <i class="fa fa-comments-o px-2" aria-hidden="true"></i>
           </a>
           {{/ifNotCond}}
         </div>

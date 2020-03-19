@@ -9,7 +9,7 @@ const TweetCategory = db.TweetCategory
 
 const categoryController = {
   getCategory: (req, res) => {
-    Category.findOne({ where: { name: req.body.name }}, {
+    Category.findOne({ where: { id: req.params.categoryId }}, {
       include: [
         { model: TweetCategory, include: [Tweet] }
       ]
@@ -21,3 +21,5 @@ const categoryController = {
     })
   }
 }
+
+module.exports = categoryController

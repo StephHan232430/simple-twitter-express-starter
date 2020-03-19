@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING
   }, {});
   Category.associate = function(models) {
-    Category.hasMany(models.Tweet)
+    Category.hasMany(models.TweetCategory)
   };
   return Category;
 };

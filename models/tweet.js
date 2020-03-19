@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     Tweet.belongsTo(models.User)
     Tweet.hasMany(models.Reply)
     Tweet.hasMany(models.Like)
-    Tweet.belongsTo(models.Category)
+    Tweet.hasMany(models.TweetCategory)
 
     Tweet.belongsToMany(models.User, {
       through: models.Like,

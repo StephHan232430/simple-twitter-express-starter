@@ -62,18 +62,14 @@ const tweetController = {
       req.body.description.trim() !== '' &&
       req.body.description.length <= 140
     ) {
-      var index = req.body.description.search(/\s#\S+/g)
       Tweet.create({
-        description:
-          index > 0
-            ? req.body.description.substr(0, index).trim()
-            : req.body.description.trim(),
+        description:req.body.description.trim(),
         UserId: helpers.getUser(req).id
       }).then(tweet => {
         var hashtag = req.body.description.match(/\s#\S+/g)
         var categoryName = []
         for (var index in hashtag) {
-          categoryName.push(hashtag[index].trim().substr('1'))
+          categoryName.push(hashtag[index].trim())
         }
 
         if (categoryName !== null) {

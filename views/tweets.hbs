@@ -31,11 +31,13 @@
               -webkit-box-orient: vertical;
               white-space: normal;">
               {{this.description}}
-              {{!-- {{#each this.TweetCategories }} --}}
-                {{#ifHashtags this.description '#'}}
-                  <a href="/tweets/{{this.CategoryId}}">{{this.description}}</a>
-                {{/ifHashtags}}
-              {{!-- {{/each}} --}}
+              <p>
+                {{#each this.TweetCategories }}
+                  {{#ifHashtags this.Category.name '#'}}
+                    <a href="/tweets/{{this.CategoryId}}">{{this.Category.name}}</a>
+                  {{/ifHashtags}}
+                {{/each}}
+              </p>
             </p>
           </div>
           <div class="card-body text-right inline-block mt-1">

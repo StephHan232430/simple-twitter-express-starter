@@ -12,7 +12,12 @@ const tweetController = {
     return Tweet.findAll({
       limit: 10,
       order: [['createdAt', 'DESC']],
-      include: [User, Reply, { model: User, as: 'LikedUsers' }]
+      include: [
+        User,
+        Reply,
+        { model: User, as: 'LikedUsers' },
+        { model: TweetCategory, include: [Category] }
+      ]
     }).then(tweets => {
       const data = tweets.map(tweet => ({
         ...tweet.dataValues,
@@ -57,9 +62,13 @@ const tweetController = {
       req.body.description.trim() !== '' &&
       req.body.description.length <= 140
     ) {
+      var index = req.body.description.search(/\s#\S+/g)
       Tweet.create({
-        description: req.body.description.trim(),
-        UserId: helpers.getUser(req).id,
+        description:
+          index > 0
+            ? req.body.description.substr(0, index).trim()
+            : req.body.description.trim(),
+        UserId: helpers.getUser(req).id
       }).then(tweet => {
         var hashtag = req.body.description.match(/\s#\S+/g)
         var categoryName = []

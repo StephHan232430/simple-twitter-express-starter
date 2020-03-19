@@ -3,6 +3,7 @@ const userController = require('../controllers/userController')
 const tweetController = require('../controllers/tweetController')
 const adminController = require('../controllers/adminController')
 const replyController = require('../controllers/replyController')
+const categoryController = require('../controllers/categoryController')
 const passport = require('../config/passport')
 const multer = require('multer')
 const upload = multer({
@@ -43,6 +44,7 @@ module.exports = (app, passport) => {
     authenticated,
     replyController.postReply
   )
+  app.get('/tweets/:categoryId', authenticated, categoryController.getCategory)
 
   app.post('/followships', authenticated, userController.addFollowing)
   app.delete(

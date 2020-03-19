@@ -31,9 +31,11 @@
               -webkit-box-orient: vertical;
               white-space: normal;">
               {{this.description}}
-              {{#ifHashtags this.description '#'}}
-              <a href="/tweets/{{categoryId}}">{{this.description}}</a>
-              {{/ifHashtags}}
+              {{!-- {{#each this.TweetCategories }} --}}
+                {{#ifHashtags this.description '#'}}
+                  <a href="/tweets/{{this.CategoryId}}">{{this.description}}</a>
+                {{/ifHashtags}}
+              {{!-- {{/each}} --}}
             </p>
           </div>
           <div class="card-body text-right inline-block mt-1">

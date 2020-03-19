@@ -152,14 +152,6 @@
               </button>
             </form>
             {{/if}}
-
-            {{#ifNotCond this.User.id ../user.id}}
-            <a class='btn btn-outline-success mb-3' role='button'
-              onclick="window.open('https://simple-twitter-demo.herokuapp.com/chat/{{this.User.id}}', 'Chatroom', config='height=592, width=500')">
-              {{!-- onclick="window.open('http://localhost:3000/chat/{{this.User.id}}', 'Chatroom', config='height=592, width=500')"> --}}
-              Chat With {{this.User.name}}
-            </a>
-            {{/ifNotCond}}
           </div>
         </div>
       </div>

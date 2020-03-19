@@ -177,9 +177,7 @@ const userController = {
         .includes(user.id)
       const followerList = user.Followers.map(r => ({
         ...r.dataValues,
-        introduction: r.dataValues.introduction
-          ? `${r.dataValues.introduction.substring(0, 50)}.....`
-          : r.dataValues.introduction,
+        introduction: r.dataValues.introduction,
         isFollowed: helpers
           .getUser(req)
           .Followings.map(d => d.id)
@@ -217,8 +215,6 @@ const userController = {
       const followingList = user.Followings.map(r => ({
         ...r.dataValues,
         introduction: r.dataValues.introduction
-          ? `${r.dataValues.introduction.substring(0, 50)}.....`
-          : r.dataValues.introduction
       })).sort((a, b) => b.Followship.createdAt - a.Followship.createdAt)
       return res.render(
         'following',

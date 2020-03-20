@@ -18,7 +18,7 @@ module.exports = (app, passport) => {
   }
 
   const authenticatedAdmin = (req, res, next) => {
-    if (req.isAuthenticated()) {
+    if (helpers.ensureAuthenticated(req)) {
       if (helpers.getUser(req).role === 'admin') {
         return next()
       }
@@ -62,6 +62,10 @@ module.exports = (app, passport) => {
     upload.single('avatar'),
     userController.putUser
   )
+
+  app.get('/admin', (req, res) => {
+    res.redirect('/admin/tweets')
+  })
 
   app.get(
     '/admin/users',

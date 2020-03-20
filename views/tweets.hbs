@@ -1,8 +1,15 @@
 <div class="row mt-5">
   <div class="col-md-7">
     <form action="/tweets" method="POST">
-      <div class="input-group">
-        <textarea id="tweet" class="form-control" name="description" placeholder="what's on your mind?" required  style="border-radius: 8px; height: 150px" maxlength="140" oninput="countCharacters()"></textarea>
+      <div class="form-group">
+        <textarea id="tweet" class="form-control" name="description" placeholder="what's on your mind?"  style="border-radius: 8px; height: 150px" maxlength="140" oninput="countCharacters()"></textarea>
+				<a data-toggle="collapse" data-target="#pac-input">
+					<i class="fa fa-map-marker text-danger" aria-hidden="true"></i>
+					打卡
+				</a>
+				<input id="pac-input" class="controls collapse mt-2" type="text" placeholder="Search Box">
+				<input type="hidden" id="url" name="url" value="">
+				<input type="hidden" id="name" name="name" value="">
       </div>
        <div class="text-muted"><small>characters left:</small>
         <span id="charactersLeft"><small>140</small></span></div>
@@ -128,5 +135,29 @@
     }
     countRemaining.textContent = counter;
   }
+function initAutocomplete() {
+	var url = document.getElementById('url');
+	var name = document.getElementById('name');
+	var input = document.getElementById('pac-input');
+
+	var searchBox = new google.maps.places.SearchBox(input);
+	map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+	// Bias the SearchBox results towards current map's viewport.
+	map.addListener('bounds_changed', function() {
+		searchBox.setBounds(map.getBounds());
+	});
+
+	// Listen for the event fired when the user selects a prediction and retrieve
+	// more details for that place.
+	searchBox.addListener('places_changed', function() {
+		var places = searchBox.getPlaces();
+		if (places.length == 0) {
+			return;
+		}
+	url.value = places[0].url
+	name.value = places[0].name
+	});
+}
 </script>
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places&callback=initAutocomplete" async defer></script>
 

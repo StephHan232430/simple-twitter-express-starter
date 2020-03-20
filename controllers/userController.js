@@ -6,6 +6,8 @@ const Tweet = db.Tweet
 const Reply = db.Reply
 const Like = db.Like
 const Followship = db.Followship
+const TweetCategory = db.TweetCategory
+const Category = db.Category
 const multer = require('multer')
 const upload = multer({
   dest: 'temp/'

@@ -9,15 +9,30 @@ const TweetCategory = db.TweetCategory
 
 const categoryController = {
   getCategory: (req, res) => {
-    Category.findOne({ where: { id: req.params.categoryId }}, {
+    Category.findOne({
+      where: { id: req.params.categoryId },
       include: [
-        { model: TweetCategory, include: [Tweet] }
+        { model: TweetCategory, include: [
+          { model: Tweet, include: [
+            User,
+            Reply,
+            { model: User, as: 'LikedUsers' },
+            { model: TweetCategory, include: [Category] }
+          ] }
+        ] }
       ]
-    }).then(category => {
-      return res.render(
-        'category',
-        JSON.parse(JSON.stringify({ category: category }))
-      )
+    }).then(data => {
+      data.TweetCategories.map(i => {
+        i.Tweet = {
+          ...i.Tweet.dataValues,
+          isLiked: i.Tweet.LikedUsers.map(d => d.id).includes(
+            helpers.getUser(req).id
+          ),
+          likeCount: i.Tweet.LikedUsers.length,
+          replyCount: i.Tweet.Replies.length
+        }
+      })
+      return res.render('category', { category: JSON.parse(JSON.stringify(data))})
     })
   }
 }

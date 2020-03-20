@@ -10,14 +10,8 @@
 				<input id="pac-input" class="controls collapse mt-2" type="text" placeholder="Search Box">
 				<input type="hidden" id="url" name="url" value="">
 				<input type="hidden" id="name" name="name" value="">
-      </div>
-			
+      </div>			
        <div class="text-muted"><small>characters left:</small></div>
-      <div class="input-group">
-        <textarea id="tweet" class="form-control" name="description" placeholder="what's on your mind?" required
-          style="border-radius: 8px; height: 150px" maxlength="140" oninput="countCharacters()"></textarea>
-      </div>
-      <div class="text-muted"><small>characters left:</small>
         <span id="charactersLeft"><small>140</small></span></div>
       <br>
       <button class="btn btn-info float-right" type="submit">Tweet</button>
@@ -43,13 +37,11 @@
               -webkit-box-orient: vertical;
               white-space: normal;">
               {{this.description}}
-              <p>
-                {{#each this.TweetCategories }}
-                  {{#ifHashtags this.Category.name '#'}}
-                    <a href="/tweets/{{this.CategoryId}}">{{this.Category.name}}</a>
-                  {{/ifHashtags}}
-                {{/each}}
-              </p>
+              {{!-- {{#each this.TweetCategories }} --}}
+                {{#ifHashtags this.description '#'}}
+                  <a href="/tweets/{{this.CategoryId}}">{{this.description}}</a>
+                {{/ifHashtags}}
+              {{!-- {{/each}} --}}
             </p>
           </div>
           <div class="card-body text-right inline-block mt-1">

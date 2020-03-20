@@ -24,5 +24,12 @@ module.exports = {
   },
   inc: function(value, options) {
     return parseInt(value) + 1
+  },
+  ifHashtags: function(description, symbol, options) {
+    if (description.includes(symbol)) {
+      return options.fn(this)
+    } else {
+      return options.inverse(this)
+    }
   }
 }

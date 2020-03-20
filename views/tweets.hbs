@@ -11,6 +11,7 @@
 				<input type="hidden" id="url" name="url" value="">
 				<input type="hidden" id="name" name="name" value="">
       </div>
+			
        <div class="text-muted"><small>characters left:</small>
         <span id="charactersLeft"><small>140</small></span></div>
       <br>  
@@ -136,28 +137,29 @@
     countRemaining.textContent = counter;
   }
 function initAutocomplete() {
-	var url = document.getElementById('url');
-	var name = document.getElementById('name');
-	var input = document.getElementById('pac-input');
-
-	var searchBox = new google.maps.places.SearchBox(input);
-	map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+  var url = document.getElementById('url')
+  var name = document.getElementById('name')
+  var input = document.getElementById('pac-input')
 	// Bias the SearchBox results towards current map's viewport.
-	map.addListener('bounds_changed', function() {
-		searchBox.setBounds(map.getBounds());
-	});
-
+	var searchBox = new google.maps.places.SearchBox(input);
+		
 	// Listen for the event fired when the user selects a prediction and retrieve
 	// more details for that place.
-	searchBox.addListener('places_changed', function() {
-		var places = searchBox.getPlaces();
-		if (places.length == 0) {
-			return;
-		}
-	url.value = places[0].url
-	name.value = places[0].name
-	});
-}
+  searchBox.addListener('places_changed', function () {
+    var places = searchBox.getPlaces()
+    if (places.length == 0) {
+      return;
+    }
+  places.forEach(function (place) {
+    if (!place.geometry) {
+      console.log("Returned place contains no geometry");
+       return;
+    }
+      });
+      url.value = places[0].url
+      name.value = places[0].name
+    });
+  }
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places&callback=initAutocomplete" async defer></script>
 

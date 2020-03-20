@@ -11,8 +11,9 @@
 				<input type="hidden" id="url" name="url" value="">
 				<input type="hidden" id="name" name="name" value="">
       </div>			
-       <div class="text-muted"><small>characters left:</small></div>
-        <span id="charactersLeft"><small>140</small></span></div>
+      <div class="text-muted"><small>characters left:</small>
+        <span id="charactersLeft"><small>140</small></span>
+      </div>
       <br>
       <button class="btn btn-info float-right" type="submit">Tweet</button>
     </form>
@@ -36,12 +37,11 @@
               -webkit-line-clamp: 2;
               -webkit-box-orient: vertical;
               white-space: normal;">
-              {{this.description}}
-              {{!-- {{#each this.TweetCategories }} --}}
-                {{#ifHashtags this.description '#'}}
-                  <a href="/tweets/{{this.CategoryId}}">{{this.description}}</a>
-                {{/ifHashtags}}
-              {{!-- {{/each}} --}}
+              {{#ifHashtags this.description '#'}}
+                {{ hashtags this.description }}
+              {{else}}
+                {{ this.description }}
+              {{/ifHashtags}}
             </p>
           </div>
           <div class="card-body text-right inline-block mt-1">

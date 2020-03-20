@@ -15,12 +15,15 @@ const tweetController = {
       include: [
         User,
         Reply,
-        { model: User, as: 'LikedUsers' }
+        { model: User, as: 'LikedUsers' },
+        { model: TweetCategory, include: [Category] }
       ]
     }).then(tweets => {
       const data = tweets.map(tweet => ({
         ...tweet.dataValues,
-        isLiked: tweet.LikedUsers.map(d => d.id).includes(helpers.getUser(req).id),
+        isLiked: tweet.LikedUsers.map(d => d.id).includes(
+          helpers.getUser(req).id
+        ),
         likeCount: tweet.LikedUsers.length,
         replyCount: tweet.Replies.length
       }))
@@ -35,7 +38,10 @@ const tweetController = {
           // 計算追蹤者人數
           followerCount: user.Followers.length,
           // 判斷目前登入使用者是否已追蹤該 User 物件
-          isFollowed: helpers.getUser(req).Followings.map(d => d.id).includes(user.id)
+          isFollowed: helpers
+            .getUser(req)
+            .Followings.map(d => d.id)
+            .includes(user.id)
         }))
         // 依追蹤者人數排序清單
         users = users.sort((a, b) => b.followerCount - a.followerCount)
@@ -52,11 +58,17 @@ const tweetController = {
     })
   },
   postTweets: (req, res) => {
-    if (req.body.description.trim() !== '' && req.body.description.length <= 140) {
-      // 內容為不為空白的情況
+    if (
+      req.body.description.trim() !== '' &&
+      req.body.description.length <= 140
+    ) {
+      var index = req.body.description.search(/\s#\S+/g)
       Tweet.create({
-        description: req.body.description.trim(),
-        UserId: helpers.getUser(req).id,
+        description:
+          index > 0
+            ? req.body.description.substr(0, index).trim()
+            : req.body.description.trim(),
+        UserId: helpers.getUser(req).id
       }).then(tweet => {
         var hashtag = req.body.description.match(/\s#\S+/g)
         var categoryName = []

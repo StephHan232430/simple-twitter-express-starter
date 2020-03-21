@@ -63,7 +63,15 @@ const userController = {
   getUser: (req, res) => {
     User.findByPk(req.params.id, {
       include: [
-        { model: Tweet, include: [User, Reply, Like] },
+        {
+          model: Tweet,
+          include: [
+            User,
+            Reply,
+            Like,
+            { model: TweetCategory, include: [Category] }
+          ]
+        },
         { model: User, as: 'Followers' },
         { model: User, as: 'Followings' },
         { model: Tweet, as: 'LikedTweets' }
@@ -236,7 +244,16 @@ const userController = {
         Tweet,
         { model: User, as: 'Followers' },
         { model: User, as: 'Followings' },
-        { model: Tweet, as: 'LikedTweets', include: [User, Reply, Like] }
+        {
+          model: Tweet,
+          as: 'LikedTweets',
+          include: [
+            User,
+            Reply,
+            Like,
+            { model: TweetCategory, include: [Category] }
+          ]
+        }
       ]
     }).then(user => {
       const isFollowed = helpers

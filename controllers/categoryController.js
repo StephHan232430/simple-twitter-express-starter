@@ -20,6 +20,7 @@ const categoryController = {
               include: [
                 User,
                 Reply,
+                Like,
                 { model: User, as: 'LikedUsers' },
                 { model: TweetCategory, include: [Category] }
               ]
@@ -31,13 +32,14 @@ const categoryController = {
       data.TweetCategories.map(i => {
         i.Tweet = {
           ...i.Tweet.dataValues,
+
           isLiked: i.Tweet.LikedUsers.map(d => d.id).includes(
             helpers.getUser(req).id
           ),
           likeCount: i.Tweet.LikedUsers.length,
           replyCount: i.Tweet.Replies.length
         }
-        console.log(data)
+        console.log(data.TweetCategories)
       })
       return res.render('category', {
         category: JSON.parse(JSON.stringify(data))

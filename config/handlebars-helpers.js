@@ -37,7 +37,13 @@ module.exports = {
     const tags = helper.hashtagOf(description)
     const transformedTags = tags.map(tag => {
       for (const category of TweetCategories) {
-        return '<a href="/tweets/' + category.CategoryId + '">' + tag.trim() + '</a>'
+        return (
+          '<a class="text-info" href="/tweets/' +
+          category.CategoryId +
+          '">' +
+          tag.trim() +
+          '</a>'
+        )
       }
     })
     let stringArray = []

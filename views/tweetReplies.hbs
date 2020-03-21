@@ -132,6 +132,11 @@
                     &nbsp;{{moment this.createdAt}}
                   </small>
                 </h5>
+                {{#if tweet.url}}
+                <a href="{{tweet.url}}" class="text-info" target="_blank"><i class="fa fa-map-marker text-danger" aria-hidden="true"></i>&nbsp;{{tweet.location}}</a>
+                </br>
+                <br/>
+                {{/if}}
                 <p class='card-text pl-1'>
                   {{#ifHashtags tweet.description '#'}}
                   {{{ hashtags tweet.description tweet.TweetCategories }}}

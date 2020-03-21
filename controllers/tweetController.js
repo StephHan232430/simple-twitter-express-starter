@@ -62,39 +62,28 @@ const tweetController = {
       req.body.description.trim() !== '' &&
       req.body.description.length <= 140
     ) {
-      const index = req.body.description.search(/\s#\S+/g)
       Tweet.create({
-        description:
-          index > 0
-            ? req.body.description.substr(0, index).trim()
-            : req.body.description.trim(),
+        description: req.body.description.trim(),
         UserId: helpers.getUser(req).id
       }).then(tweet => {
-        const hashtag = req.body.description.match(/\s#\S+/g)
-        let categoryName = []
-        for (let index in hashtag) {
-          categoryName.push(hashtag[index].trim())
-        }
+        const categoryNames = helpers.hashtagOf(req.body.description)
 
-        if (categoryName !== null) {
-          // 有 hashtag 的情況
-          categoryName.map(categoryName => {
+        if (categoryNames) {
+          categoryNames.map(categoryName => {
             Category.findOne({
-              where: { name: categoryName }
+              where: { name: categoryName.trim() }
             }).then(category => {
-              if (category === null) {
-                // 此分類不存在，則新增此分類，在傳入 TweetCategory
+              if (!category) {
                 Category.create({
-                  name: categoryName
-                }).then(newcategory => {
+                  name: categoryName.trim()
+                }).then(newCategory => {
                   TweetCategory.create({
                     TweetId: tweet.id,
-                    CategoryId: newcategory.id
+                    CategoryId: newCategory.id
                   })
                   return res.redirect('/tweets')
                 })
               } else {
-                // 此分類存在，則直接傳入 TweetCategory
                 TweetCategory.create({
                   TweetId: tweet.id,
                   CategoryId: category.id
@@ -107,7 +96,6 @@ const tweetController = {
         return res.redirect('/tweets')
       })
     } else {
-      // 內容為空白的情況
       req.flash('error_msg', '輸入不可為空白！')
       return res.redirect('/tweets')
     }

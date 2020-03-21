@@ -12,14 +12,20 @@ const categoryController = {
     Category.findOne({
       where: { id: req.params.categoryId },
       include: [
-        { model: TweetCategory, include: [
-          { model: Tweet, include: [
-            User,
-            Reply,
-            { model: User, as: 'LikedUsers' },
-            { model: TweetCategory, include: [Category] }
-          ] }
-        ] }
+        {
+          model: TweetCategory,
+          include: [
+            {
+              model: Tweet,
+              include: [
+                User,
+                Reply,
+                { model: User, as: 'LikedUsers' },
+                { model: TweetCategory, include: [Category] }
+              ]
+            }
+          ]
+        }
       ]
     }).then(data => {
       data.TweetCategories.map(i => {
@@ -31,8 +37,11 @@ const categoryController = {
           likeCount: i.Tweet.LikedUsers.length,
           replyCount: i.Tweet.Replies.length
         }
+        console.log(data)
       })
-      return res.render('category', { category: JSON.parse(JSON.stringify(data))})
+      return res.render('category', {
+        category: JSON.parse(JSON.stringify(data))
+      })
     })
   }
 }

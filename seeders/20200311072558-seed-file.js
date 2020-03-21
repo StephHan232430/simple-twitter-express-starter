@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 const bcrypt = require('bcryptjs')
 const faker = require('faker')
 
@@ -45,7 +45,9 @@ module.exports = {
       'Tweets',
       Array.from({ length: 50 }).map(d => ({
         description: faker.lorem.text(),
-        UserId: Math.floor(Math.random() * 3) * 10 + 2,
+        UserId: Math.floor(Math.random() * 3) + 1,
+        // for heroku
+        // UserId: Math.floor(Math.random() * 3) * 10 + 2,
         createdAt: new Date(),
         updatedAt: new Date()
       })),
@@ -56,8 +58,11 @@ module.exports = {
       'Replies',
       Array.from({ length: 200 }).map(d => ({
         comment: faker.lorem.text(),
-        UserId: Math.floor(Math.random() * 3) * 10 + 2,
-        TweetId: Math.floor(Math.random() * 50) * 10 + 2,
+        UserId: Math.floor(Math.random() * 3) + 1,
+        TweetId: Math.floor(Math.random() * 50) + 1,
+        // for heroku
+        // UserId: Math.floor(Math.random() * 3) * 10 + 2,
+        // TweetId: Math.floor(Math.random() * 50) * 10 + 2,
         createdAt: new Date(),
         updatedAt: new Date()
       })),
@@ -70,4 +75,4 @@ module.exports = {
     queryInterface.bulkDelete('Tweets', null, {})
     return queryInterface.bulkDelete('Replies', null, {})
   }
-};
+}

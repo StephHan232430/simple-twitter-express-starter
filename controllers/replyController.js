@@ -4,6 +4,8 @@ const Reply = db.Reply
 const Tweet = db.Tweet
 const User = db.User
 const Like = db.Like
+const TweetCategory = db.TweetCategory
+const Category = db.Category
 
 const replyController = {
   getReplies: (req, res) => {
@@ -12,7 +14,8 @@ const replyController = {
         User,
         Like,
         { model: User, as: 'LikedUsers' },
-        { model: Reply, include: [User] }
+        { model: Reply, include: [User] },
+        { model: TweetCategory, include: [Category] }
       ]
     }).then(tweet => {
       tweet.dataValues.LikesCount = tweet.Likes.length
@@ -54,13 +57,13 @@ const replyController = {
   postReply: (req, res) => {
     if (req.headers.accept.includes('application/json')) {
       return Reply.create({
-      comment: req.body.text,
-      UserId: helpers.getUser(req).id,
-      TweetId: req.params.tweet_id
-    }).then(reply => {
-      res.redirect(`/tweets/${req.params.tweet_id}/replies`)
-    })
-    } else if (req.body.text && req.body.text.trim().length !== 0 ) {
+        comment: req.body.text,
+        UserId: helpers.getUser(req).id,
+        TweetId: req.params.tweet_id
+      }).then(reply => {
+        res.redirect(`/tweets/${req.params.tweet_id}/replies`)
+      })
+    } else if (req.body.text && req.body.text.trim().length !== 0) {
       return Reply.create({
         comment: req.body.text.trim(),
         UserId: helpers.getUser(req).id,

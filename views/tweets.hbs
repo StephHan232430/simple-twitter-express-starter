@@ -38,7 +38,7 @@
               -webkit-box-orient: vertical;
               white-space: normal;">
               {{#ifHashtags this.description '#'}}
-                {{ hashtags this.description }}
+                {{{ hashtags this.description this.TweetCategories }}}
               {{else}}
                 {{ this.description }}
               {{/ifHashtags}}

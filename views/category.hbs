@@ -26,33 +26,8 @@
               -webkit-line-clamp: 2;
               -webkit-box-orient: vertical;
               white-space: normal;">
-               {{#ifHashtags this.Tweet.description '#'}}
-                {{{ hashtags this.Tweet.description this.Tweet.TweetCategories}}}
-              {{else}}
-                {{ this.Tweet.description}}
-              {{/ifHashtags}}
+              {{ this.Tweet.description}}
             </p>
-            </div>
-          <div class="card-body text-right inline-block mt-1">
-            <a href="/tweets/{{this.Tweet.id}}/replies" class="btn btn-outline-info
-              mr-2">
-              Reply({{ this.Tweet.Replies.length }})</a>
-            {{#if this.Tweet.isLiked }}
-            <form action="/tweets/{{this.Tweet.id}}/unlike" method="POST" style="display: contents;">
-              <button type="submit" class="btn btn-danger">
-                <i class="fa fa-heart" aria-hidden="true"></i>
-                ({{this.Tweet.LikedUsers.length}})
-              </button>
-            </form>
-            {{else}}
-            <form action="/tweets/{{this.Tweet.id}}/like" method="POST" style="display: contents;">
-              <input type="hidden" name="userId" value="{{this.Tweet.id}}" />
-              <button type="submit" class="btn btn-secondary">
-                <i class="fa fa-heart" aria-hidden="true"></i>
-                ({{this.Tweet.LikedUsers.length}})
-              </button>
-            </form>
-            {{/if}}
           </div>
         </div>
       </div>

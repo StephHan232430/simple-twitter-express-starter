@@ -122,7 +122,13 @@
             <h5 class="card-title">
               <a href="/users/{{this.User.id}}/tweets" style="text-decoration:none;">@{{this.User.name}}</a>
               <small class="pl-2">&nbsp;{{moment this.createdAt}}</small></h5>
-            <p class="card-text pl-1">{{this.description}}</p>
+            <p class="card-text pl-1">
+                {{#ifHashtags this.description '#'}}
+                {{{ hashtags this.description this.TweetCategories }}}
+                {{else}}
+                {{ this.description }}
+                {{/ifHashtags}}
+              </p>
           </div>
           <div class="card-body text-right inline-block mt-1">
             <a href="/tweets/{{this.id}}/replies" class="btn btn-outline-info

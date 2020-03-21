@@ -3,10 +3,12 @@
     <form action="/tweets" method="POST">
       <div class="form-group">
         <textarea id="tweet" class="form-control" name="description" placeholder="what's on your mind?"  style="border-radius: 8px; height: 150px" maxlength="140" oninput="countCharacters()"></textarea>
-				<a data-toggle="collapse" data-target="#pac-input">
+        <label for="pac-input">
+          <a data-toggle="collapse" data-target="#pac-input">
 					<i class="fa fa-map-marker text-danger" aria-hidden="true"></i>
 					打卡
-				</a>
+			  	</a>
+        </label>
 				<input id="pac-input" class="controls collapse mt-2" type="text" placeholder="Search Box">
 				<input type="hidden" id="url" name="url" value="">
 				<input type="hidden" id="name" name="name" value="">
@@ -29,7 +31,13 @@
           <div class="card-body">
             <h5 class="card-title">
               <a href="/users/{{this.User.id}}/tweets" style="text-decoration:none;">@{{ this.User.name }}</a>
-              <small class="pl-2">&nbsp;{{ moment this.createdAt }}</small></h5>
+              <small class="pl-2">&nbsp;{{ moment this.createdAt }}</small>
+            </h5>
+            {{#if this.url}}
+            <a href="{{this.url}}" class="text-info" target="_blank"> <i class="fa fa-map-marker text-danger" aria-hidden="true"></i>&nbsp;{{this.location}}</a>
+            <br/>
+            <br/>
+            {{/if}}
             <p class="card-text pl-1" style="overflow:hidden;
               white-space: nowrap;
               text-overflow: ellipsis;
@@ -168,5 +176,5 @@ function initAutocomplete() {
     });
   }
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places&callback=initAutocomplete" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfPJrFm5Xfrm8oEQ2KfXIo-GcRkHWe-sc&libraries=places&callback=initAutocomplete" async defer></script>
 

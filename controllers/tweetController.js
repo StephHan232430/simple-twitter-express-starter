@@ -64,7 +64,9 @@ const tweetController = {
     ) {
       Tweet.create({
         description: req.body.description.trim(),
-        UserId: helpers.getUser(req).id
+        UserId: helpers.getUser(req).id,
+        location: req.body.name,
+        url: req.body.url
       }).then(tweet => {
         const categoryNames = helpers.hashtagOf(req.body.description)
 

@@ -4,7 +4,9 @@ module.exports = (sequelize, DataTypes) => {
     'Tweet',
     {
       UserId: DataTypes.INTEGER,
-      description: DataTypes.TEXT
+      description: DataTypes.TEXT,
+      location: DataTypes.STRING,
+      url: DataTypes.STRING
     },
     {}
   )
@@ -23,4 +25,3 @@ module.exports = (sequelize, DataTypes) => {
   }
   return Tweet
 }
-

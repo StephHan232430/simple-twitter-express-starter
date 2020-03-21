@@ -34,18 +34,19 @@ module.exports = {
     }
   },
   hashtags: function(description, TweetCategories) {
-    const tags = helper.hashtagOf(description)
-    const transformedTags = tags.map(tag => {
-      for (const category of TweetCategories) {
-        return (
-          '<a class="text-info" href="/tweets/' +
-          category.CategoryId +
-          '">' +
-          tag.trim() +
-          '</a>'
-        )
-      }
-    })
+    let tags = helper.hashtagOf(description)
+    let transformedTags = []
+
+    for (let i = 0; i < tags.length; i++) {
+      transformedTag =
+        '<a class="text-info" href="/tweets/' +
+        TweetCategories[i].CategoryId +
+        '" style="font-weight:bold;" >' +
+        tags[i].trim() +
+        '</a>'
+      transformedTags.push(transformedTag)
+    }
+
     let stringArray = []
     let result = ''
 
